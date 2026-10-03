@@ -4,15 +4,24 @@ const levels = [
         name: "Qlixsyn",
         difficulty: "Hard Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《1》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "14.8",
         length: "19초",
         objects: "24,657",
         design: "2.1",
-        song: "Classical VIP"
+        song: "Classical VIP",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#1",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     },
 
 
@@ -20,15 +29,24 @@ const levels = [
         name: "EYESwork",
         difficulty: "Hard Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《2》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "14",
         length: "16초",
         objects: "3,408",
         design: "1.9",
-        song: "Society"
+        song: "Society",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#2",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     },
 
 
@@ -36,15 +54,24 @@ const levels = [
         name: "Unnerfed Glamorous",
         difficulty: "Hard Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《3》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "10.3",
         length: "42초",
         objects: "2,077",
         design: "1.3",
-        song: "Eden"
+        song: "Eden",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#3",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     },
 
 
@@ -52,15 +79,24 @@ const levels = [
         name: "DELUSION",
         difficulty: "Medium Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《4》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "10",
         length: "22초",
         objects: "23,863",
         design: "1.9",
-        song: "Turn The Lights Off"
+        song: "Turn The Lights Off",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#4",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     },
 
 
@@ -68,15 +104,24 @@ const levels = [
         name: "D",
         difficulty: "Insane Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《5》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "9",
         length: "3초",
         objects: "27",
         design: "1.6",
-        song: "Creo - Flow"
+        song: "Creo - Flow",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#5",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     },
 
 
@@ -84,26 +129,32 @@ const levels = [
         name: "5",
         difficulty: "Insane Demon",
 
-        date: "미정",
+        date: "2026년 10월 3일",
         number: "《6》",
-        first: "미정",
+        first: "Qlixsyn",
 
         absolute: "5",
         length: "3초",
         objects: "207",
         design: "3",
-        song: ""
+        song: "",
+
+        history: [
+            {
+                date: "2026년 10월 3일",
+                rank: "#6",
+                change: "−",
+                reason: "등재됨"
+            }
+        ]
     }
 
 ];
 
 
 const list = document.getElementById("level-list");
-
 const search = document.getElementById("search");
-
-const difficulty =
-    document.getElementById("difficulty");
+const difficulty = document.getElementById("difficulty");
 
 const rankingPage =
     document.getElementById("ranking-page");
@@ -147,18 +198,15 @@ function displayLevels() {
     list.innerHTML = "";
 
 
-    filtered.forEach((level) => {
+    filtered.forEach(level => {
 
         const originalRank =
             levels.indexOf(level) + 1;
 
-
         const element =
             document.createElement("div");
 
-
         element.className = "level";
-
 
         element.innerHTML = `
 
@@ -176,12 +224,10 @@ function displayLevels() {
 
         `;
 
-
         element.addEventListener(
             "click",
             () => openLevel(level)
         );
-
 
         list.appendChild(element);
 
@@ -263,6 +309,51 @@ function openLevel(level) {
         "detail-song"
     ).textContent =
         level.song;
+
+
+    /* RANK HISTORY */
+
+    const history =
+        document.getElementById(
+            "rank-history"
+        );
+
+    history.innerHTML = "";
+
+
+    level.history.forEach(entry => {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "rank-history-item";
+
+
+        item.innerHTML = `
+
+            <span class="history-date">
+                ${entry.date}
+            </span>
+
+            <span class="history-rank">
+                ${entry.change}
+            </span>
+
+            <span class="history-rank">
+                ${entry.rank}
+            </span>
+
+            <span class="history-reason">
+                ${entry.reason}
+            </span>
+
+        `;
+
+
+        history.appendChild(item);
+
+    });
 
 
     window.scrollTo({
