@@ -279,14 +279,14 @@ main {
 
     grid-template-columns: 1fr;
 
-    gap: 30px;
+    gap: 42px;
 
     /*
-       아우라가 카드 바깥으로 퍼질 공간
+       글로우가 화면 밖으로 퍼질 공간
     */
     padding:
-        12px
-        8px;
+        35px
+        25px;
 }
 
 
@@ -297,10 +297,6 @@ main {
 .level-card {
     position: relative;
 
-    /*
-       아우라가 카드 밖으로 보이도록
-       hidden이 아니라 visible
-    */
     overflow: visible;
 
     width: 100%;
@@ -316,20 +312,15 @@ main {
     cursor: pointer;
 
     transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.35s ease;
+        transform 0.28s ease,
+        border-color 0.3s ease,
+        box-shadow 0.4s ease;
 }
 
 
 /* =========================================================
-   SOFT PURPLE AURA
+   LARGE PURPLE AURA
    ========================================================= */
-
-/*
-   카드 뒤쪽에 존재하는
-   흐릿한 보라색 빛
-*/
 
 .level-card::before {
     content: "";
@@ -338,29 +329,35 @@ main {
 
     z-index: -1;
 
-    left: 4%;
-    right: 4%;
+    /*
+       카드보다 훨씬 넓게
+    */
+    left: -9%;
+    right: -9%;
 
-    top: 7%;
-    bottom: 7%;
+    top: -13%;
+    bottom: -13%;
 
-    border-radius: 25px;
+    border-radius: 45px;
 
     background:
         rgba(137, 43, 255, 0);
 
+    /*
+       넓고 부드러운 안개
+    */
     filter:
-        blur(38px);
+        blur(65px);
 
     opacity: 0;
 
     transform:
-        scale(0.94);
+        scale(0.88);
 
     transition:
-        opacity 0.4s ease,
-        transform 0.4s ease,
-        background 0.4s ease;
+        opacity 0.45s ease,
+        transform 0.45s ease,
+        background 0.45s ease;
 }
 
 
@@ -370,40 +367,33 @@ main {
 
 .level-card:hover {
     transform:
-        translateY(-4px);
+        translateY(-5px);
 
     border-color:
-        rgba(181, 103, 255, 0.52);
+        rgba(190, 115, 255, 0.60);
 
     box-shadow:
 
-        /*
-           카드 바로 밑 그림자
-        */
-        0 12px 35px
-        rgba(0, 0, 0, 0.50),
+        0 15px 40px
+        rgba(0, 0, 0, 0.55),
 
-        /*
-           얇은 보라색 테두리
-        */
-        0 0 18px
-        rgba(151, 58, 255, 0.16);
+        0 0 22px
+        rgba(155, 60, 255, 0.22);
 }
 
 
 /*
-   마우스를 올렸을 때
-   진짜 안개처럼 퍼지는 보라색
+   실제 넓은 보라색 안개
 */
 
 .level-card:hover::before {
     background:
-        rgba(137, 43, 255, 0.42);
+        rgba(132, 37, 255, 0.48);
 
-    opacity: 0.78;
+    opacity: 0.92;
 
     transform:
-        scale(1.04);
+        scale(1.02);
 }
 
 
@@ -420,7 +410,11 @@ main {
 
     overflow: hidden;
 
-    border-radius: 14px 14px 0 0;
+    border-radius:
+        14px
+        14px
+        0
+        0;
 
     background: #08080c;
 }
@@ -437,11 +431,6 @@ main {
         transform 0.45s ease,
         filter 0.35s ease;
 }
-
-
-/*
-   썸네일 살짝 확대
-*/
 
 .level-card:hover .level-thumbnail img {
     transform:
@@ -1016,11 +1005,11 @@ footer {
     .ranking-grid {
         grid-template-columns: 1fr;
 
-        gap: 25px;
+        gap: 32px;
 
         padding:
-            8px
-            4px;
+            25px
+            12px;
     }
 
     .controls {
@@ -1089,5 +1078,11 @@ footer {
 
     .rank-history-item {
         font-size: 10px;
+    }
+
+    .ranking-grid {
+        padding:
+            18px
+            8px;
     }
 }
