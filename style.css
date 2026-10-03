@@ -237,7 +237,11 @@ main {
 
     isolation: isolate;
 
-    overflow: visible;
+    /*
+       카드 내부의 썸네일과 정보 영역을
+       하나의 카드처럼 유지.
+    */
+    overflow: hidden;
 
     background: #111017;
 
@@ -254,55 +258,32 @@ main {
 }
 
 /* =========================================================
-   OUTER GLOW
+   OLD OUTER GLOW
+   기존 pseudo-element 방식 제거
 ========================================================= */
 
 .level-card::before {
-    content: "";
-
-    position: absolute;
-
-    z-index: -1;
-
-    pointer-events: none;
-
-    top: -6%;
-    bottom: -6%;
-    left: -4%;
-    right: -4%;
-
-    border-radius: 28px;
-
-    background: rgba(135, 40, 255, 0.24);
-
-    filter: blur(38px);
-
-    opacity: 0;
-
-    transform: scale(0.96);
-
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
+    content: none;
 }
 
 /* =========================================================
    HOVER
+   카드 자체의 바깥쪽 glow만 사용
 ========================================================= */
 
 .level-card:hover {
     transform: translateY(-4px);
 
-    border-color: rgba(198, 127, 255, 0.42);
+    border-color: rgba(198, 127, 255, 0.48);
 
+    /*
+       카드 바깥쪽에만 보이는 보라색 glow.
+       내부의 level-info에는 깔리지 않는다.
+    */
     box-shadow:
-        0 14px 30px rgba(0, 0, 0, 0.45),
-        0 0 18px rgba(145, 55, 255, 0.08);
-}
-
-.level-card:hover::before {
-    opacity: 0.48;
-    transform: scale(1);
+        0 0 24px rgba(145, 55, 255, 0.16),
+        0 0 48px rgba(145, 55, 255, 0.07),
+        0 14px 30px rgba(0, 0, 0, 0.45);
 }
 
 /* =========================================================
@@ -398,6 +379,10 @@ main {
 
     z-index: 4;
 
+    /*
+       완전 불투명한 카드 표면.
+       이름/난이도 영역 뒤로 glow가 비치지 않는다.
+    */
     background: #111017 !important;
 
     border-radius: 0 0 17px 17px;
@@ -406,6 +391,10 @@ main {
 
     border-top: 1px solid rgba(255, 255, 255, 0.025);
 }
+
+/* =========================
+   MAP NAME
+========================= */
 
 .level-name {
     position: relative;
@@ -420,6 +409,10 @@ main {
 
     letter-spacing: -0.4px;
 }
+
+/* =========================
+   DIFFICULTY
+========================= */
 
 .level-difficulty {
     position: relative;
@@ -779,14 +772,4 @@ footer {
     .rank-history-item {
         min-width: 600px;
     }
-}
-
-/* =========================================================
-   TEST
-   이 부분만 새로 추가됨.
-   CSS가 실제로 적용되는지 확인하기 위한 테스트.
-========================================================= */
-
-.level-card {
-    outline: 10px solid red !important;
 }
