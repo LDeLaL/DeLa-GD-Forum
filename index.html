@@ -26,39 +26,152 @@
 
     <main>
 
-        <section class="hero">
-            <h1>DEMONLIST</h1>
-            <p>DeLa GD Forum Demon Ranking</p>
+        <!-- RANKING PAGE -->
+
+        <section id="ranking-page">
+
+            <section class="hero">
+                <h1>DEMONLIST</h1>
+                <p>DeLa GD Forum Demon Ranking</p>
+            </section>
+
+
+            <section class="controls">
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search levels..."
+                >
+
+                <select id="difficulty">
+                    <option value="all">All Difficulties</option>
+                    <option value="Extreme Demon">Extreme Demon</option>
+                    <option value="Insane Demon">Insane Demon</option>
+                    <option value="Hard Demon">Hard Demon</option>
+                </select>
+
+            </section>
+
+
+            <section class="ranking">
+
+                <div class="table-header">
+                    <div>#</div>
+                    <div>LEVEL</div>
+                    <div>DIFFICULTY</div>
+                </div>
+
+                <div id="level-list"></div>
+
+            </section>
+
         </section>
 
 
-        <section class="controls">
+        <!-- LEVEL DETAIL PAGE -->
 
-            <input
-                type="text"
-                id="search"
-                placeholder="Search levels..."
-            >
+        <section id="detail-page" class="hidden">
 
-            <select id="difficulty">
-                <option value="all">All Difficulties</option>
-                <option value="Extreme Demon">Extreme Demon</option>
-                <option value="Insane Demon">Insane Demon</option>
-                <option value="Hard Demon">Hard Demon</option>
-            </select>
+            <button id="back-button">
+                ← Back to Demonlist
+            </button>
 
-        </section>
+            <div class="detail-header">
 
+                <div>
+                    <div id="detail-rank" class="detail-rank"></div>
 
-        <section class="ranking">
+                    <h1 id="detail-name"></h1>
 
-            <div class="table-header">
-                <div>#</div>
-                <div>LEVEL</div>
-                <div>DIFFICULTY</div>
+                    <div id="detail-difficulty"
+                         class="detail-difficulty">
+                    </div>
+                </div>
+
             </div>
 
-            <div id="level-list"></div>
+
+            <!-- REGISTRATION INFORMATION -->
+
+            <section class="detail-section">
+
+                <h2>Registration Information</h2>
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <span>등재일</span>
+                        <strong id="detail-date"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>등재번호</span>
+                        <strong id="detail-number"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>등재 당시 포럼 1위</span>
+                        <strong id="detail-first"></strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DIFFICULTY INFORMATION -->
+
+            <section class="detail-section">
+
+                <h2>Level Information</h2>
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <span>절대적 난이도</span>
+                        <strong id="detail-absolute"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>맵 길이</span>
+                        <strong id="detail-length"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>오브젝트 수</span>
+                        <strong id="detail-objects"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>예상 프레임 퍼펙트</span>
+                        <strong id="detail-frame"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>디자인 척도</span>
+                        <strong id="detail-design"></strong>
+                    </div>
+
+                    <div class="info-box">
+                        <span>사용된 노래</span>
+                        <strong id="detail-song"></strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RANK HISTORY -->
+
+            <section class="detail-section rank-history">
+
+                <h2>Rank History</h2>
+
+                <div id="rank-history"></div>
+
+            </section>
 
         </section>
 
