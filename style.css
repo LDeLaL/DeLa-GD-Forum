@@ -112,6 +112,92 @@ main {
 }
 
 /* =========================
+   PAGE ENTRANCE / EXIT
+========================= */
+
+.page-entering {
+    animation: soft-page-enter 680ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.page-leaving {
+    pointer-events: none;
+    animation: soft-page-leave 240ms ease-in both;
+}
+
+@keyframes soft-page-enter {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 24px, 0) scale(0.985);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes soft-page-leave {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(0, -12px, 0) scale(0.99);
+        filter: blur(8px);
+    }
+}
+
+/* Stagger the main screen UI so it settles in from the background. */
+#ranking-page.page-entering > .hero {
+    animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 40ms both;
+}
+
+#ranking-page.page-entering > .controls {
+    animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 120ms both;
+}
+
+#ranking-page.page-entering > .ranking-grid {
+    animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 190ms both;
+}
+
+#ranking-page.page-entering .level-card {
+    animation: soft-page-enter 620ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+#ranking-page.page-entering .level-card:nth-child(1) { animation-delay: 190ms; }
+#ranking-page.page-entering .level-card:nth-child(2) { animation-delay: 250ms; }
+#ranking-page.page-entering .level-card:nth-child(3) { animation-delay: 310ms; }
+#ranking-page.page-entering .level-card:nth-child(4) { animation-delay: 370ms; }
+#ranking-page.page-entering .level-card:nth-child(5) { animation-delay: 430ms; }
+#ranking-page.page-entering .level-card:nth-child(6) { animation-delay: 490ms; }
+
+#detail-page.page-entering .detail-container,
+#records-page.page-entering .simple-page-inner,
+#about-page.page-entering .simple-page-inner {
+    animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 60ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-entering,
+    .page-leaving,
+    #ranking-page.page-entering > .hero,
+    #ranking-page.page-entering > .controls,
+    #ranking-page.page-entering > .ranking-grid,
+    #ranking-page.page-entering .level-card,
+    #detail-page.page-entering .detail-container,
+    #records-page.page-entering .simple-page-inner,
+    #about-page.page-entering .simple-page-inner {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+    }
+}
+
+/* =========================
    HERO
 ========================= */
 
