@@ -206,6 +206,102 @@ const rankingGrid = document.getElementById("ranking-grid");
 const searchInput = document.getElementById("search-input");
 const difficultyFilter = document.getElementById("difficulty-filter");
 
+const appPages = [
+    rankingPage,
+    detailPage,
+    recordsPage,
+    aboutPage
+];
+
+const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+).matches;
+
+const PAGE_LEAVE_DURATION = prefersReducedMotion ? 0 : 240;
+const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
+
+let isChangingPage = false;
+
+
+/* =========================================================
+   PAGE TRANSITIONS
+   ========================================================= */
+
+function changePage(targetPage) {
+
+    if (!targetPage || isChangingPage) {
+        return;
+    }
+
+    const currentPage = appPages.find(
+        page => !page.classList.contains("hidden")
+    );
+
+    if (currentPage === targetPage) {
+        return;
+    }
+
+    isChangingPage = true;
+
+    if (currentPage) {
+        currentPage.classList.remove("page-entering");
+        currentPage.classList.add("page-leaving");
+    }
+
+    window.setTimeout(() => {
+
+        if (currentPage) {
+            currentPage.classList.add("hidden");
+            currentPage.classList.remove("page-leaving");
+        }
+
+        targetPage.classList.remove("hidden", "page-leaving", "page-entering");
+
+        // Restart the entrance animation whenever a page is shown again.
+        void targetPage.offsetWidth;
+        targetPage.classList.add("page-entering");
+
+        window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion ? "auto" : "smooth"
+        });
+
+        window.setTimeout(() => {
+            targetPage.classList.remove("page-entering");
+            isChangingPage = false;
+        }, PAGE_ENTER_DURATION);
+
+    }, currentPage ? PAGE_LEAVE_DURATION : 0);
+}
+
+
+function animateInitialPage() {
+
+    if (prefersReducedMotion) {
+        return;
+    }
+
+    const initialElements = [
+        document.querySelector(".site-header"),
+        rankingPage,
+        document.querySelector("footer")
+    ];
+
+    initialElements.forEach(element => {
+        if (element) {
+            element.classList.add("page-entering");
+        }
+    });
+
+    window.setTimeout(() => {
+        initialElements.forEach(element => {
+            if (element) {
+                element.classList.remove("page-entering");
+            }
+        });
+    }, PAGE_ENTER_DURATION);
+}
+
 
 /* =========================================================
    DISPLAY LEVELS
@@ -316,11 +412,7 @@ function openLevel(rank) {
     }
 
 
-    rankingPage.classList.add("hidden");
-    recordsPage.classList.add("hidden");
-    aboutPage.classList.add("hidden");
-
-    detailPage.classList.remove("hidden");
+    changePage(detailPage);
 
 
     /* Image */
@@ -425,18 +517,7 @@ function openLevel(rank) {
    ========================================================= */
 
 function goHome() {
-
-    detailPage.classList.add("hidden");
-    recordsPage.classList.add("hidden");
-    aboutPage.classList.add("hidden");
-
-    rankingPage.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    changePage(rankingPage);
 }
 
 
@@ -445,18 +526,7 @@ function goHome() {
    ========================================================= */
 
 function showRecords() {
-
-    rankingPage.classList.add("hidden");
-    detailPage.classList.add("hidden");
-    aboutPage.classList.add("hidden");
-
-    recordsPage.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    changePage(recordsPage);
 }
 
 
@@ -465,18 +535,7 @@ function showRecords() {
    ========================================================= */
 
 function showAbout() {
-
-    rankingPage.classList.add("hidden");
-    detailPage.classList.add("hidden");
-    recordsPage.classList.add("hidden");
-
-    aboutPage.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    changePage(aboutPage);
 }
 
 
@@ -505,3 +564,4 @@ difficultyFilter.addEventListener(
    ========================================================= */
 
 displayLevels();
+animateInitialPage();
