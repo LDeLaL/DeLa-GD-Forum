@@ -2,145 +2,97 @@ const levels = [
 
     {
         name: "Qlixsyn",
-        difficulty: "Extreme Demon",
+        difficulty: "Hard Demon",
 
-        date: "2026.10.03",
-        number: "#001",
-        first: "Qlixsyn",
+        date: "미정",
+        number: "《1》",
+        first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "2026.10.03",
-                rank: "#1"
-            }
-        ]
+        absolute: "14.8",
+        length: "19초",
+        objects: "24,657",
+        design: "2.1",
+        song: "Classical VIP"
     },
 
 
     {
         name: "EYESwork",
-        difficulty: "Extreme Demon",
+        difficulty: "Hard Demon",
 
         date: "미정",
-        number: "#002",
+        number: "《2》",
         first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "등재",
-                rank: "#2"
-            }
-        ]
+        absolute: "14",
+        length: "16초",
+        objects: "3,408",
+        design: "1.9",
+        song: "Society"
     },
 
 
     {
         name: "Unnerfed Glamorous",
-        difficulty: "Extreme Demon",
+        difficulty: "Hard Demon",
 
         date: "미정",
-        number: "#003",
+        number: "《3》",
         first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "등재",
-                rank: "#3"
-            }
-        ]
+        absolute: "10.3",
+        length: "42초",
+        objects: "2,077",
+        design: "1.3",
+        song: "Eden"
     },
 
 
     {
         name: "DELUSION",
-        difficulty: "Extreme Demon",
+        difficulty: "Medium Demon",
 
         date: "미정",
-        number: "#004",
+        number: "《4》",
         first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "등재",
-                rank: "#4"
-            }
-        ]
+        absolute: "10",
+        length: "22초",
+        objects: "23,863",
+        design: "1.9",
+        song: "Turn The Lights Off"
     },
 
 
     {
         name: "D",
-        difficulty: "Extreme Demon",
+        difficulty: "Insane Demon",
 
         date: "미정",
-        number: "#005",
+        number: "《5》",
         first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "등재",
-                rank: "#5"
-            }
-        ]
+        absolute: "9",
+        length: "3초",
+        objects: "27",
+        design: "1.6",
+        song: "Creo - Flow"
     },
 
 
     {
         name: "5",
-        difficulty: "Extreme Demon",
+        difficulty: "Insane Demon",
 
         date: "미정",
-        number: "#006",
+        number: "《6》",
         first: "미정",
 
-        absolute: "Extreme Demon",
-        length: "미정",
-        objects: "미정",
-        framePerfects: "미정",
-        design: "미정",
-        song: "미정",
-
-        history: [
-            {
-                date: "등재",
-                rank: "#6"
-            }
-        ]
+        absolute: "5",
+        length: "3초",
+        objects: "207",
+        design: "3",
+        song: ""
     }
 
 ];
@@ -302,12 +254,6 @@ function openLevel(level) {
 
 
     document.getElementById(
-        "detail-frame"
-    ).textContent =
-        level.framePerfects;
-
-
-    document.getElementById(
         "detail-design"
     ).textContent =
         level.design;
@@ -317,43 +263,6 @@ function openLevel(level) {
         "detail-song"
     ).textContent =
         level.song;
-
-
-    const history =
-        document.getElementById(
-            "rank-history"
-        );
-
-
-    history.innerHTML = "";
-
-
-    level.history.forEach(entry => {
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "rank-history-item";
-
-
-        item.innerHTML = `
-
-            <span class="history-date">
-                ${entry.date}
-            </span>
-
-            <span class="history-rank">
-                ${entry.rank}
-            </span>
-
-        `;
-
-
-        history.appendChild(item);
-
-    });
 
 
     window.scrollTo({
