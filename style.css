@@ -26,7 +26,7 @@ body {
 
     height: 72px;
 
-    background: rgba(7, 7, 11, 0.94);
+    background: rgba(7, 7, 11, 0.96);
 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -153,6 +153,9 @@ main {
 ========================= */
 
 .controls {
+    position: relative;
+    z-index: 20;
+
     max-width: 1050px;
     margin: 0 auto 25px;
 
@@ -168,6 +171,9 @@ main {
 
 .search-box input,
 .filter-box select {
+    position: relative;
+    z-index: 21;
+
     width: 100%;
     height: 48px;
 
@@ -215,6 +221,9 @@ main {
 ========================= */
 
 .ranking-grid {
+    position: relative;
+    z-index: 1;
+
     max-width: 1050px;
     margin: 0 auto;
 
@@ -237,9 +246,6 @@ main {
 
     isolation: isolate;
 
-    /*
-       카드 전체가 하나의 완전한 표면.
-    */
     background: #111017;
 
     border: 1px solid rgba(170, 120, 220, 0.14);
@@ -254,9 +260,9 @@ main {
 }
 
 /* =========================================================
-   SOFT OUTER GLOW
-   ★ 카드의 위쪽/좌우에만 아주 약하게 표시
-   ★ 아래쪽 정보 영역에는 글로우 없음
+   SOFT PURPLE GLOW
+   ★ 이전 버전보다 약 2배
+   ★ 하지만 카드 주변의 좁은 영역에만 존재
 ========================================================= */
 
 .level-card::before {
@@ -269,27 +275,35 @@ main {
     pointer-events: none;
 
     /*
-       카드보다 살짝 넓게.
+       이전보다 조금 넓게.
+       하지만 UI까지 닿을 정도로 크게 만들지는 않음.
     */
-    top: -8px;
-    left: -8px;
-    right: -8px;
+    top: -12px;
+    left: -12px;
+    right: -12px;
 
     /*
-       ★ 중요
-       카드 아래쪽까지 내려가지 않음.
-       따라서 이름/난이도 영역 아래에는
-       보라색 glow가 생기지 않음.
+       ★ 아래 정보 영역보다 위에서 끝남.
+       이름/난이도 영역에는 glow가 없음.
     */
-    bottom: 72px;
+    bottom: 78px;
 
-    border-radius: 22px;
+    border-radius: 25px;
 
-    background: rgba(135, 40, 255, 0.22);
+    /*
+       ★ 이전보다 약 2배 정도의 밝기
+    */
+    background: rgba(135, 40, 255, 0.42);
 
-    filter: blur(30px);
+    /*
+       퍼짐은 적당히.
+       blur를 과하게 키우지 않음.
+    */
+    filter: blur(32px);
 
     opacity: 0;
+
+    transform: scale(0.98);
 
     transition:
         opacity 0.3s ease,
@@ -303,23 +317,25 @@ main {
 .level-card:hover {
     transform: translateY(-4px);
 
-    border-color: rgba(198, 127, 255, 0.40);
+    border-color: rgba(198, 127, 255, 0.45);
 
     /*
-       ★ 보라색 box-shadow 완전히 제거.
-       이전에 있던 강한 glow의 원인이었음.
+       보라색 shadow는 제거.
+       검은 그림자만 사용해서
+       다른 UI로 색이 번지는 현상을 방지.
     */
     box-shadow:
-        0 12px 28px rgba(0, 0, 0, 0.42);
+        0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 .level-card:hover::before {
-    opacity: 0.42;
+    opacity: 0.50;
+
+    transform: scale(1);
 }
 
 /* =========================================================
    CARD SURFACE
-   썸네일 + 이름 + 난이도를 완전히 하나로 취급
 ========================================================= */
 
 .level-thumbnail,
@@ -386,7 +402,7 @@ main {
 
     border-radius: 8px;
 
-    background: rgba(8, 7, 12, 0.86);
+    background: rgba(8, 7, 12, 0.88);
 
     border: 1px solid rgba(205, 157, 255, 0.25);
 
@@ -404,17 +420,15 @@ main {
 
 /* =========================================================
    MAP INFO
-   ★ 여기에는 절대로 glow가 비치지 않음
+   ★ 썸네일과 하나의 카드처럼 취급
+   ★ glow가 뒤에서 비치지 않음
 ========================================================= */
 
 .level-info {
     position: relative;
 
-    z-index: 4;
+    z-index: 10;
 
-    /*
-       완전 불투명.
-    */
     background: #111017 !important;
 
     border-radius: 0 0 17px 17px;
@@ -426,7 +440,7 @@ main {
 
 .level-name {
     position: relative;
-    z-index: 5;
+    z-index: 11;
 
     color: #ffffff;
 
@@ -440,7 +454,7 @@ main {
 
 .level-difficulty {
     position: relative;
-    z-index: 5;
+    z-index: 11;
 
     margin-top: 7px;
 
@@ -706,6 +720,9 @@ main {
 ========================= */
 
 footer {
+    position: relative;
+    z-index: 20;
+
     padding: 30px;
 
     text-align: center;
