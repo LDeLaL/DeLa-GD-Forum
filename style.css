@@ -342,13 +342,16 @@ main {
 .level-card {
     position: relative;
 
+    display: flex;
+    align-items: stretch;
+
     z-index: 1;
 
     isolation: isolate;
 
     /*
-       카드 내부의 썸네일과 정보 영역을
-       하나의 카드처럼 유지.
+       가로 카드 형태를 유지하면서
+       둥근 외곽선과 글로우를 하나로 유지.
     */
     overflow: hidden;
 
@@ -414,12 +417,13 @@ main {
     position: relative;
     z-index: 2;
 
-    width: 100%;
+    flex: 0 0 32%;
+    width: 32%;
     aspect-ratio: 16 / 9;
 
     overflow: hidden;
 
-    border-radius: 17px 17px 0 0;
+    border-radius: 17px 0 0 17px;
 
     background: #111017;
 }
@@ -443,43 +447,6 @@ main {
     filter: brightness(1.02);
 }
 
-/* =========================
-   RANK BADGE
-========================= */
-
-.rank-badge {
-    position: absolute;
-    z-index: 5;
-
-    top: 15px;
-    left: 15px;
-
-    min-width: 47px;
-    height: 32px;
-
-    padding: 0 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 8px;
-
-    background: rgba(8, 7, 12, 0.86);
-
-    border: 1px solid rgba(205, 157, 255, 0.25);
-
-    color: #ffffff;
-
-    font-size: 14px;
-    font-weight: 800;
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.35);
-}
 
 /* =========================================================
    MAP INFO AREA
@@ -490,17 +457,24 @@ main {
 
     z-index: 4;
 
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     /*
        완전 불투명한 카드 표면.
        이름/난이도 영역 뒤로 glow가 비치지 않는다.
     */
     background: #111017 !important;
 
-    border-radius: 0 0 17px 17px;
+    border-radius: 0 17px 17px 0;
 
-    padding: 19px 21px 21px;
+    padding: 19px 24px;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.025);
+    border-left: 1px solid rgba(255, 255, 255, 0.025);
 }
 
 /* =========================
@@ -857,8 +831,17 @@ footer {
         gap: 40px;
     }
 
+    .level-thumbnail {
+        flex-basis: 36%;
+        width: 36%;
+    }
+
+    .level-info {
+        padding: 15px 16px;
+    }
+
     .level-name {
-        font-size: 18px;
+        font-size: 17px;
     }
 
     .detail-container,
@@ -882,5 +865,25 @@ footer {
     .history-header,
     .rank-history-item {
         min-width: 600px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .level-thumbnail {
+        flex-basis: 38%;
+        width: 38%;
+    }
+
+    .level-info {
+        padding: 12px;
+    }
+
+    .level-name {
+        font-size: 15px;
+    }
+
+    .level-difficulty {
+        font-size: 11px;
     }
 }
