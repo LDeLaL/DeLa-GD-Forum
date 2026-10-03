@@ -410,3 +410,32 @@ footer {
     }
 
 }
+.rank-history-item {
+    display: grid;
+    grid-template-columns: 160px 60px 80px 1fr;
+    align-items: center;
+    gap: 15px;
+
+    padding: 16px 5px;
+
+    border-bottom: 1px solid #21152b;
+}
+
+.rank-history-item:last-child {
+    border-bottom: none;
+}
+
+.history-date {
+    color: #777;
+    font-size: 13px;
+}
+
+.history-rank {
+    color: #d8b4fe;
+    font-weight: bold;
+}
+
+.history-reason {
+    color: #aaa;
+    font-size: 14px;
+}
