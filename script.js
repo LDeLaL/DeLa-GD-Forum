@@ -19,6 +19,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#1",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -44,6 +45,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#2",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -69,6 +71,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#3",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -94,6 +97,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#4",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -119,6 +123,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#5",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -144,6 +149,7 @@ const levels = [
                 date: "2026년 10월 3일",
                 rank: "#6",
                 change: "−",
+                type: "entry",
                 reason: "등재됨"
             }
         ]
@@ -152,103 +158,173 @@ const levels = [
 ];
 
 
-const list = document.getElementById("level-list");
-const search = document.getElementById("search");
-const difficulty = document.getElementById("difficulty");
+
+/* ========================= */
+/* ELEMENTS */
+/* ========================= */
+
+const list =
+    document.getElementById(
+        "level-list"
+    );
+
+
+const search =
+    document.getElementById(
+        "search"
+    );
+
+
+const difficulty =
+    document.getElementById(
+        "difficulty"
+    );
+
 
 const rankingPage =
-    document.getElementById("ranking-page");
+    document.getElementById(
+        "ranking-page"
+    );
+
 
 const detailPage =
-    document.getElementById("detail-page");
+    document.getElementById(
+        "detail-page"
+    );
+
 
 const backButton =
-    document.getElementById("back-button");
+    document.getElementById(
+        "back-button"
+    );
 
 
+
+/* ========================= */
 /* DISPLAY LEVELS */
+/* ========================= */
 
 function displayLevels() {
 
     const searchText =
-        search.value.toLowerCase();
+        search.value
+            .toLowerCase();
+
 
     const selectedDifficulty =
         difficulty.value;
 
 
     const filtered =
-        levels.filter(level => {
+        levels.filter(
+            level => {
 
-            const matchesSearch =
-                level.name
-                    .toLowerCase()
-                    .includes(searchText);
+                const matchesSearch =
+                    level.name
+                        .toLowerCase()
+                        .includes(
+                            searchText
+                        );
 
-            const matchesDifficulty =
-                selectedDifficulty === "all" ||
-                level.difficulty === selectedDifficulty;
 
-            return matchesSearch &&
-                   matchesDifficulty;
+                const matchesDifficulty =
+                    selectedDifficulty === "all" ||
+                    level.difficulty ===
+                        selectedDifficulty;
 
-        });
+
+                return (
+                    matchesSearch &&
+                    matchesDifficulty
+                );
+
+            }
+        );
 
 
     list.innerHTML = "";
 
 
-    filtered.forEach(level => {
+    filtered.forEach(
+        level => {
 
-        const originalRank =
-            levels.indexOf(level) + 1;
+            const originalRank =
+                levels.indexOf(
+                    level
+                ) + 1;
 
-        const element =
-            document.createElement("div");
 
-        element.className = "level";
+            const element =
+                document.createElement(
+                    "div"
+                );
 
-        element.innerHTML = `
 
-            <div class="rank">
-                ${originalRank}
-            </div>
+            element.className =
+                "level";
 
-            <div class="level-name">
-                ${level.name}
-            </div>
 
-            <div class="difficulty">
-                ${level.difficulty}
-            </div>
+            element.innerHTML = `
 
-        `;
+                <div class="rank">
+                    ${originalRank}
+                </div>
 
-        element.addEventListener(
-            "click",
-            () => openLevel(level)
-        );
+                <div class="level-name">
+                    ${level.name}
+                </div>
 
-        list.appendChild(element);
+                <div class="difficulty">
+                    ${level.difficulty}
+                </div>
 
-    });
+            `;
+
+
+            element.addEventListener(
+                "click",
+                () => openLevel(level)
+            );
+
+
+            list.appendChild(
+                element
+            );
+
+        }
+    );
 
 }
 
 
+
+/* ========================= */
 /* OPEN LEVEL */
+/* ========================= */
 
 function openLevel(level) {
 
-    rankingPage.classList.add("hidden");
+    rankingPage
+        .classList
+        .add("hidden");
 
-    detailPage.classList.remove("hidden");
+
+    detailPage
+        .classList
+        .remove("hidden");
+
+
+
+    const rank =
+        levels.indexOf(level) + 1;
+
 
 
     document.getElementById(
         "detail-rank"
     ).textContent =
-        "RANK #" + (levels.indexOf(level) + 1);
+        "RANK #" + rank;
+
 
 
     document.getElementById(
@@ -257,10 +333,12 @@ function openLevel(level) {
         level.name;
 
 
+
     document.getElementById(
         "detail-difficulty"
     ).textContent =
         level.difficulty;
+
 
 
     document.getElementById(
@@ -269,10 +347,12 @@ function openLevel(level) {
         level.date;
 
 
+
     document.getElementById(
         "detail-number"
     ).textContent =
         level.number;
+
 
 
     document.getElementById(
@@ -281,10 +361,12 @@ function openLevel(level) {
         level.first;
 
 
+
     document.getElementById(
         "detail-absolute"
     ).textContent =
         level.absolute;
+
 
 
     document.getElementById(
@@ -293,10 +375,12 @@ function openLevel(level) {
         level.length;
 
 
+
     document.getElementById(
         "detail-objects"
     ).textContent =
         level.objects;
+
 
 
     document.getElementById(
@@ -305,55 +389,75 @@ function openLevel(level) {
         level.design;
 
 
+
     document.getElementById(
         "detail-song"
     ).textContent =
         level.song;
 
 
+
+    /* ========================= */
     /* RANK HISTORY */
+    /* ========================= */
 
     const history =
         document.getElementById(
             "rank-history"
         );
 
+
     history.innerHTML = "";
 
 
-    level.history.forEach(entry => {
 
-        const item =
-            document.createElement("div");
+    level.history.forEach(
+        entry => {
 
-        item.className =
-            "rank-history-item";
-
-
-        item.innerHTML = `
-
-            <span class="history-date">
-                ${entry.date}
-            </span>
-
-            <span class="history-rank">
-                ${entry.change}
-            </span>
-
-            <span class="history-rank">
-                ${entry.rank}
-            </span>
-
-            <span class="history-reason">
-                ${entry.reason}
-            </span>
-
-        `;
+            const item =
+                document.createElement(
+                    "div"
+                );
 
 
-        history.appendChild(item);
+            item.className =
+                "rank-history-item";
 
-    });
+
+
+            item.innerHTML = `
+
+                <div class="history-date">
+                    ${entry.date}
+                </div>
+
+                <div
+                    class="
+                        history-change
+                        ${entry.type}
+                    "
+                >
+                    ${entry.change}
+                </div>
+
+                <div class="history-rank">
+                    ${entry.rank}
+                </div>
+
+                <div class="history-reason">
+                    ${entry.reason}
+                </div>
+
+            `;
+
+
+            history.appendChild(
+                item
+            );
+
+        }
+    );
+
 
 
     window.scrollTo({
@@ -364,15 +468,24 @@ function openLevel(level) {
 }
 
 
+
+/* ========================= */
 /* BACK BUTTON */
+/* ========================= */
 
 backButton.addEventListener(
     "click",
     () => {
 
-        detailPage.classList.add("hidden");
+        detailPage
+            .classList
+            .add("hidden");
 
-        rankingPage.classList.remove("hidden");
+
+        rankingPage
+            .classList
+            .remove("hidden");
+
 
         window.scrollTo({
             top: 0,
@@ -383,7 +496,10 @@ backButton.addEventListener(
 );
 
 
+
+/* ========================= */
 /* SEARCH */
+/* ========================= */
 
 search.addEventListener(
     "input",
@@ -391,7 +507,10 @@ search.addEventListener(
 );
 
 
-/* DIFFICULTY */
+
+/* ========================= */
+/* DIFFICULTY FILTER */
+/* ========================= */
 
 difficulty.addEventListener(
     "change",
@@ -399,6 +518,9 @@ difficulty.addEventListener(
 );
 
 
+
+/* ========================= */
 /* INITIAL DISPLAY */
+/* ========================= */
 
 displayLevels();
