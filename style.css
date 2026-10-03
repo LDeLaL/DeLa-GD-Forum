@@ -1,3 +1,7 @@
+.level-card {
+    outline: 10px solid red !important;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
