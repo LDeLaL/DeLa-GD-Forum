@@ -99,17 +99,11 @@ main {
 
 .controls input,
 .controls select {
-
     background: #15101c;
-
     border: 1px solid #342043;
-
     color: white;
-
     padding: 13px 15px;
-
     border-radius: 7px;
-
     outline: none;
 }
 
@@ -127,40 +121,30 @@ main {
 
 .ranking {
     background: #100c15;
-
     border: 1px solid #281934;
-
     border-radius: 10px;
-
     overflow: hidden;
 }
 
 .table-header,
 .level {
-
     display: grid;
 
     grid-template-columns:
-        60px
+        70px
         1fr
-        180px
-        160px
-        100px;
+        200px;
 
     align-items: center;
 }
 
 
-/* HEADER ROW */
+/* TABLE HEADER */
 
 .table-header {
-
     background: #17101e;
-
     color: #777;
-
     font-size: 12px;
-
     text-transform: uppercase;
 
     padding: 18px 22px;
@@ -172,18 +156,14 @@ main {
 /* LEVEL */
 
 .level {
-
     padding: 20px 22px;
-
     border-bottom: 1px solid #21152b;
 
     transition: 0.2s;
 }
 
 .level:hover {
-
     background: #18101f;
-
     transform: translateX(3px);
 }
 
@@ -198,32 +178,21 @@ main {
     font-weight: bold;
 }
 
-.creator {
-    color: #9d8ca8;
-}
-
 .difficulty {
     color: #c084fc;
-}
-
-.score {
-    color: #d8b4fe;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 
 /* FOOTER */
 
 footer {
-
     text-align: center;
-
     color: #555;
 
     padding: 50px 20px;
 
     font-size: 12px;
-
     line-height: 2;
 }
 
@@ -232,23 +201,12 @@ footer {
 
 @media (max-width: 700px) {
 
-    .table-header {
-        display: none;
-    }
-
+    .table-header,
     .level {
-
         grid-template-columns:
-            40px
+            45px
             1fr
-            80px;
-
-        gap: 8px;
-    }
-
-    .creator,
-    .difficulty {
-        display: none;
+            120px;
     }
 
     nav {
