@@ -11,7 +11,10 @@
 
 <body>
 
+    <!-- HEADER -->
+
     <header>
+
         <div class="logo">
             <span>DeLa</span> GD Forum
         </div>
@@ -21,20 +24,30 @@
             <a href="#">RECORDS</a>
             <a href="#">ABOUT</a>
         </nav>
+
     </header>
 
 
     <main>
 
+        <!-- ========================= -->
         <!-- RANKING PAGE -->
+        <!-- ========================= -->
 
         <section id="ranking-page">
 
             <section class="hero">
+
                 <h1>DEMONLIST</h1>
-                <p>DeLa GD Forum Demon Ranking</p>
+
+                <p>
+                    DeLa GD Forum Demon Ranking
+                </p>
+
             </section>
 
+
+            <!-- SEARCH / FILTER -->
 
             <section class="controls">
 
@@ -45,22 +58,42 @@
                 >
 
                 <select id="difficulty">
-                    <option value="all">All Difficulties</option>
-                    <option value="Extreme Demon">Extreme Demon</option>
-                    <option value="Insane Demon">Insane Demon</option>
-                    <option value="Hard Demon">Hard Demon</option>
+
+                    <option value="all">
+                        All Difficulties
+                    </option>
+
+                    <option value="Hard Demon">
+                        Hard Demon
+                    </option>
+
+                    <option value="Medium Demon">
+                        Medium Demon
+                    </option>
+
+                    <option value="Insane Demon">
+                        Insane Demon
+                    </option>
+
                 </select>
 
             </section>
 
 
+            <!-- RANKING -->
+
             <section class="ranking">
 
                 <div class="table-header">
+
                     <div>#</div>
+
                     <div>LEVEL</div>
+
                     <div>DIFFICULTY</div>
+
                 </div>
+
 
                 <div id="level-list"></div>
 
@@ -69,50 +102,90 @@
         </section>
 
 
-        <!-- LEVEL DETAIL PAGE -->
 
-        <section id="detail-page" class="hidden">
+        <!-- ========================= -->
+        <!-- DETAIL PAGE -->
+        <!-- ========================= -->
+
+        <section
+            id="detail-page"
+            class="hidden"
+        >
 
             <button id="back-button">
                 ← Back to Demonlist
             </button>
 
+
+            <!-- LEVEL TITLE -->
+
             <div class="detail-header">
 
-                <div>
-                    <div id="detail-rank" class="detail-rank"></div>
+                <div
+                    id="detail-rank"
+                    class="detail-rank"
+                ></div>
 
-                    <h1 id="detail-name"></h1>
+                <h1 id="detail-name"></h1>
 
-                    <div id="detail-difficulty"
-                         class="detail-difficulty">
-                    </div>
-                </div>
+                <div
+                    id="detail-difficulty"
+                    class="detail-difficulty"
+                ></div>
 
             </div>
 
 
+
+            <!-- ========================= -->
             <!-- REGISTRATION INFORMATION -->
+            <!-- ========================= -->
 
             <section class="detail-section">
 
-                <h2>Registration Information</h2>
+                <h2>
+                    Registration Information
+                </h2>
+
 
                 <div class="info-grid">
 
                     <div class="info-box">
-                        <span>등재일</span>
-                        <strong id="detail-date"></strong>
+
+                        <span>
+                            등재일
+                        </span>
+
+                        <strong
+                            id="detail-date"
+                        ></strong>
+
                     </div>
 
-                    <div class="info-box">
-                        <span>등재번호</span>
-                        <strong id="detail-number"></strong>
-                    </div>
 
                     <div class="info-box">
-                        <span>등재 당시 포럼 1위</span>
-                        <strong id="detail-first"></strong>
+
+                        <span>
+                            등재번호
+                        </span>
+
+                        <strong
+                            id="detail-number"
+                        ></strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span>
+                            등재 당시 포럼 1위
+                        </span>
+
+                        <strong
+                            id="detail-first"
+                        ></strong>
+
                     </div>
 
                 </div>
@@ -120,51 +193,127 @@
             </section>
 
 
-            <!-- DIFFICULTY INFORMATION -->
+
+            <!-- ========================= -->
+            <!-- LEVEL INFORMATION -->
+            <!-- ========================= -->
 
             <section class="detail-section">
 
-                <h2>Level Information</h2>
+                <h2>
+                    Level Information
+                </h2>
+
 
                 <div class="info-grid">
 
-                    <div class="info-box">
-                        <span>절대적 난이도</span>
-                        <strong id="detail-absolute"></strong>
-                    </div>
 
                     <div class="info-box">
-                        <span>맵 길이</span>
-                        <strong id="detail-length"></strong>
+
+                        <span>
+                            절대적 난이도
+                        </span>
+
+                        <strong
+                            id="detail-absolute"
+                        ></strong>
+
                     </div>
 
-                    <div class="info-box">
-                        <span>오브젝트 수</span>
-                        <strong id="detail-objects"></strong>
-                    </div>
 
                     <div class="info-box">
-                        <span>디자인 척도</span>
-                        <strong id="detail-design"></strong>
+
+                        <span>
+                            맵 길이
+                        </span>
+
+                        <strong
+                            id="detail-length"
+                        ></strong>
+
                     </div>
 
+
                     <div class="info-box">
-                        <span>사용된 노래</span>
-                        <strong id="detail-song"></strong>
+
+                        <span>
+                            오브젝트 수
+                        </span>
+
+                        <strong
+                            id="detail-objects"
+                        ></strong>
+
                     </div>
+
+
+                    <div class="info-box">
+
+                        <span>
+                            디자인 척도
+                        </span>
+
+                        <strong
+                            id="detail-design"
+                        ></strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span>
+                            사용된 노래
+                        </span>
+
+                        <strong
+                            id="detail-song"
+                        ></strong>
+
+                    </div>
+
 
                 </div>
 
             </section>
 
 
+
+            <!-- ========================= -->
             <!-- RANK HISTORY -->
+            <!-- ========================= -->
 
-            <section class="detail-section rank-history">
+            <section class="detail-section">
 
-                <h2>Rank History</h2>
+                <h2>
+                    Rank History
+                </h2>
 
-                <div id="rank-history"></div>
+
+                <div class="history-header">
+
+                    <div>
+                        날짜
+                    </div>
+
+                    <div>
+                        변동
+                    </div>
+
+                    <div>
+                        순위
+                    </div>
+
+                    <div>
+                        사유
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="rank-history"
+                ></div>
 
             </section>
 
@@ -173,10 +322,21 @@
     </main>
 
 
+
+    <!-- FOOTER -->
+
     <footer>
-        <p>DeLa GD Forum © 2026</p>
-        <p>Unofficial Geometry Dash Ranking</p>
+
+        <p>
+            DeLa GD Forum © 2026
+        </p>
+
+        <p>
+            Unofficial Geometry Dash Ranking
+        </p>
+
     </footer>
+
 
 
     <script src="script.js"></script>
