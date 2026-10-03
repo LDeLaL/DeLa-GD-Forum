@@ -133,7 +133,7 @@ const levels = [
     {
         rank: 5,
         name: "D",
-        difficulty: "Insane Demon",
+        difficulty: "Insane",
 
         image: "images/1000009785.jpg",
 
@@ -163,7 +163,7 @@ const levels = [
     {
         rank: 6,
         name: "5",
-        difficulty: "Insane Demon",
+        difficulty: "Insane",
 
         image: "images/1000009784.jpg",
 
