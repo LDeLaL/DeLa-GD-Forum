@@ -15,10 +15,20 @@ html {
 
 body {
     background:
-        radial-gradient(circle at 50% -20%, rgba(111, 44, 180, 0.20), transparent 45%),
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(111, 44, 180, 0.20),
+            transparent 45%
+        ),
         #07070b;
+
     color: #f4f1fa;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     min-height: 100vh;
 }
 
@@ -31,15 +41,22 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+
     width: 100%;
+
     background: rgba(7, 7, 11, 0.88);
+
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(170, 90, 255, 0.16);
+
+    border-bottom:
+        1px solid
+        rgba(170, 90, 255, 0.16);
 }
 
 .header-inner {
     max-width: 1250px;
     height: 72px;
+
     margin: 0 auto;
     padding: 0 28px;
 
@@ -51,18 +68,22 @@ body {
 .logo {
     font-size: 21px;
     font-weight: 800;
+
     letter-spacing: -0.5px;
+
     cursor: pointer;
 
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #d9b6ff,
-        #a34cff
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #d9b6ff,
+            #a34cff
+        );
 
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
 }
 
@@ -74,12 +95,18 @@ body {
 .nav button {
     background: transparent;
     border: none;
+
     color: #96929e;
+
     padding: 10px 13px;
+
     cursor: pointer;
+
     font-size: 12px;
     font-weight: 700;
+
     letter-spacing: 1px;
+
     transition: 0.2s;
 }
 
@@ -98,8 +125,13 @@ body {
 
 main {
     max-width: 1250px;
+
     margin: 0 auto;
-    padding: 0 28px 80px;
+
+    padding:
+        0
+        28px
+        80px;
 }
 
 
@@ -109,42 +141,63 @@ main {
 
 .hero {
     text-align: center;
-    padding: 95px 20px 55px;
+
+    padding:
+        95px
+        20px
+        55px;
 }
 
 .hero-small {
     color: #a65cff;
+
     font-size: 12px;
     font-weight: 700;
+
     letter-spacing: 4px;
+
     text-transform: uppercase;
+
     margin-bottom: 15px;
 }
 
 .hero h1 {
-    font-size: clamp(45px, 7vw, 82px);
+    font-size:
+        clamp(
+            45px,
+            7vw,
+            82px
+        );
+
     line-height: 0.95;
+
     font-weight: 900;
+
     letter-spacing: -3px;
 
-    background: linear-gradient(
-        180deg,
-        #ffffff 10%,
-        #d9b3ff 48%,
-        #7d2ed1 100%
-    );
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 10%,
+            #d9b3ff 48%,
+            #7d2ed1 100%
+        );
 
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
 
     text-shadow:
-        0 0 35px rgba(145, 55, 255, 0.18);
+        0 0 35px
+        rgba(145, 55, 255, 0.18);
 }
 
 .hero p {
     color: #77727f;
+
     margin-top: 18px;
+
     font-size: 14px;
 }
 
@@ -155,7 +208,9 @@ main {
 
 .controls {
     display: flex;
+
     gap: 12px;
+
     margin-bottom: 32px;
 }
 
@@ -167,12 +222,22 @@ main {
 .filter-box select {
     width: 100%;
     height: 46px;
+
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
     color: #eeeeF3;
+
     padding: 0 15px;
+
     outline: none;
+
     transition: 0.2s;
 }
 
@@ -182,8 +247,12 @@ main {
 
 .search-box input:focus,
 .filter-box select:focus {
-    border-color: rgba(167, 79, 255, 0.65);
-    box-shadow: 0 0 0 3px rgba(145, 45, 255, 0.08);
+    border-color:
+        rgba(167, 79, 255, 0.65);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(145, 45, 255, 0.08);
 }
 
 .filter-box {
@@ -204,9 +273,16 @@ main {
    RANKING GRID
    ========================================================= */
 
+/*
+   레벨을 가로 2개가 아니라
+   하나씩 세로로 배치
+*/
+
 .ranking-grid {
     display: grid;
+
     grid-template-columns: 1fr;
+
     gap: 26px;
 }
 
@@ -217,42 +293,73 @@ main {
 
 .level-card {
     position: relative;
+
     overflow: hidden;
+
+    width: 100%;
+
     border-radius: 15px;
+
     background: #101015;
-    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.075);
+
     cursor: pointer;
 
     transition:
         transform 0.25s ease,
         border-color 0.25s ease,
-        box-shadow 0.25s ease;
+        box-shadow 0.3s ease;
 }
+
+
+/*
+   마우스를 올렸을 때
+   은은한 보라색 글로우
+*/
 
 .level-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(166, 77, 255, 0.55);
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(174, 91, 255, 0.48);
 
     box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.5),
-        0 0 35px rgba(137, 43, 255, 0.13);
+        0 12px 35px
+        rgba(0, 0, 0, 0.50),
+
+        0 0 28px
+        rgba(145, 55, 255, 0.18),
+
+        0 0 70px
+        rgba(145, 55, 255, 0.07);
 }
 
 
-/* Thumbnail */
+/* =========================================================
+   LEVEL THUMBNAIL
+   ========================================================= */
 
 .level-thumbnail {
     position: relative;
+
     width: 100%;
+
     aspect-ratio: 16 / 9;
+
     overflow: hidden;
+
     background: #08080c;
 }
 
 .level-thumbnail img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+
     display: block;
 
     transition:
@@ -260,17 +367,28 @@ main {
         filter 0.35s ease;
 }
 
+
+/*
+   마우스를 올리면
+   이미지도 아주 살짝 확대
+*/
+
 .level-card:hover .level-thumbnail img {
     transform: scale(1.035);
+
     filter: brightness(1.08);
 }
 
 
-/* Dark overlay */
+/* =========================================================
+   THUMBNAIL DARK OVERLAY
+   ========================================================= */
 
 .level-thumbnail::after {
     content: "";
+
     position: absolute;
+
     inset: 0;
 
     background:
@@ -284,63 +402,119 @@ main {
 }
 
 
-/* Rank badge */
+/* =========================================================
+   RANK BADGE
+   ========================================================= */
 
 .rank-badge {
     position: absolute;
+
     top: 13px;
     left: 13px;
+
     z-index: 2;
 
     min-width: 43px;
     height: 38px;
-    padding: 0 10px;
+
+    padding:
+        0
+        10px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     border-radius: 9px;
 
-    background: rgba(7, 7, 11, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.13);
+    background:
+        rgba(7, 7, 11, 0.82);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.13);
 
     backdrop-filter: blur(8px);
 
     font-size: 15px;
+
     font-weight: 900;
+
     color: #ffffff;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 
-/* Card information */
+/*
+   카드에 마우스를 올리면
+   순위 뱃지도 아주 살짝 보라색
+*/
+
+.level-card:hover .rank-badge {
+    background:
+        rgba(24, 11, 35, 0.88);
+
+    border-color:
+        rgba(177, 94, 255, 0.35);
+
+    box-shadow:
+        0 0 18px
+        rgba(145, 55, 255, 0.12);
+}
+
+
+/* =========================================================
+   CARD INFORMATION
+   ========================================================= */
 
 .level-info {
-    padding: 18px 19px 19px;
+    padding:
+        18px
+        19px
+        19px;
 }
 
 .level-name {
     font-size: 22px;
+
     font-weight: 800;
+
     color: #ffffff;
+
     line-height: 1.15;
+
     word-break: break-word;
 }
 
 .level-difficulty {
     display: inline-flex;
+
     margin-top: 9px;
 
-    padding: 5px 9px;
+    padding:
+        5px
+        9px;
+
     border-radius: 6px;
 
-    background: rgba(157, 69, 255, 0.10);
-    border: 1px solid rgba(157, 69, 255, 0.22);
+    background:
+        rgba(157, 69, 255, 0.10);
+
+    border:
+        1px solid
+        rgba(157, 69, 255, 0.22);
 
     color: #c58aff;
 
     font-size: 11px;
+
     font-weight: 800;
+
     letter-spacing: 0.5px;
 }
 
@@ -351,24 +525,31 @@ main {
 
 .detail-container {
     max-width: 1050px;
+
     margin: 0 auto;
+
     padding-top: 35px;
 }
 
 .back-button {
     display: inline-flex;
+
     align-items: center;
 
     border: none;
+
     background: transparent;
 
     color: #8f8998;
+
     font-size: 13px;
+
     font-weight: 700;
 
     cursor: pointer;
 
     margin-bottom: 22px;
+
     padding: 8px 0;
 
     transition: 0.2s;
@@ -379,22 +560,31 @@ main {
 }
 
 
-/* Big detail thumbnail */
+/* =========================================================
+   DETAIL THUMBNAIL
+   ========================================================= */
 
 .detail-thumbnail {
     width: 100%;
+
     aspect-ratio: 16 / 9;
 
     overflow: hidden;
+
     border-radius: 17px;
 
     background: #0d0d12;
 
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.09);
 
     box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.45),
-        0 0 50px rgba(122, 38, 230, 0.10);
+        0 25px 70px
+        rgba(0, 0, 0, 0.45),
+
+        0 0 50px
+        rgba(122, 38, 230, 0.10);
 
     margin-bottom: 28px;
 }
@@ -402,30 +592,50 @@ main {
 .detail-thumbnail img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+
     display: block;
 }
 
 
-/* Detail title */
+/* =========================================================
+   DETAIL TITLE
+   ========================================================= */
 
 .detail-title-area {
     text-align: center;
-    padding: 5px 20px 45px;
+
+    padding:
+        5px
+        20px
+        45px;
 }
 
 .detail-rank {
     color: #a65cff;
+
     font-size: 15px;
+
     font-weight: 900;
+
     letter-spacing: 2px;
+
     margin-bottom: 12px;
 }
 
 .detail-title-area h1 {
-    font-size: clamp(36px, 6vw, 62px);
+    font-size:
+        clamp(
+            36px,
+            6vw,
+            62px
+        );
+
     line-height: 1.05;
+
     font-weight: 900;
+
     letter-spacing: -2px;
 
     color: #ffffff;
@@ -433,17 +643,26 @@ main {
 
 .detail-difficulty {
     display: inline-block;
+
     margin-top: 15px;
 
-    padding: 7px 13px;
+    padding:
+        7px
+        13px;
 
     border-radius: 7px;
 
     color: #c98cff;
-    background: rgba(154, 64, 255, 0.11);
-    border: 1px solid rgba(154, 64, 255, 0.25);
+
+    background:
+        rgba(154, 64, 255, 0.11);
+
+    border:
+        1px solid
+        rgba(154, 64, 255, 0.25);
 
     font-size: 12px;
+
     font-weight: 800;
 }
 
@@ -458,20 +677,32 @@ main {
 
 .detail-section h2 {
     font-size: 17px;
+
     font-weight: 800;
 
     padding-bottom: 14px;
+
     margin-bottom: 15px;
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.07);
 }
 
 
-/* Information cards */
+/* =========================================================
+   INFORMATION CARDS
+   ========================================================= */
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
     gap: 11px;
 }
 
@@ -479,13 +710,21 @@ main {
     min-height: 78px;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
 
-    padding: 16px 18px;
+    padding:
+        16px
+        18px;
 
-    background: rgba(255, 255, 255, 0.028);
-    border: 1px solid rgba(255, 255, 255, 0.065);
+    background:
+        rgba(255, 255, 255, 0.028);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.065);
 
     border-radius: 10px;
 }
@@ -496,14 +735,19 @@ main {
 
 .info-card span {
     color: #716c77;
+
     font-size: 11px;
+
     font-weight: 700;
+
     margin-bottom: 7px;
 }
 
 .info-card strong {
     color: #e9e5ed;
+
     font-size: 14px;
+
     font-weight: 800;
 }
 
@@ -514,47 +758,69 @@ main {
 
 .history-box {
     border-radius: 11px;
+
     overflow: hidden;
 
-    border: 1px solid rgba(255, 255, 255, 0.065);
-    background: rgba(255, 255, 255, 0.018);
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.065);
+
+    background:
+        rgba(255, 255, 255, 0.018);
 }
 
 .history-header,
 .rank-history-item {
     display: grid;
-    grid-template-columns: 1.1fr 0.7fr 0.7fr 2fr;
+
+    grid-template-columns:
+        1.1fr
+        0.7fr
+        0.7fr
+        2fr;
+
     align-items: center;
 }
 
 .history-header {
     min-height: 45px;
 
-    background: rgba(255, 255, 255, 0.035);
+    background:
+        rgba(255, 255, 255, 0.035);
 
     color: #716c77;
 
     font-size: 10px;
+
     font-weight: 800;
+
     text-transform: uppercase;
+
     letter-spacing: 0.8px;
 }
 
 .history-header span,
 .rank-history-item span {
-    padding: 0 16px;
+    padding:
+        0
+        16px;
 }
 
 .rank-history-item {
     min-height: 58px;
-    border-top: 1px solid rgba(255, 255, 255, 0.055);
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.055);
 
     color: #c8c3ce;
+
     font-size: 12px;
 }
 
 .history-change {
     font-size: 17px;
+
     font-weight: 900;
 }
 
@@ -577,19 +843,25 @@ main {
 
 .simple-page-inner {
     max-width: 900px;
+
     margin: 0 auto;
+
     padding-top: 80px;
 }
 
 .simple-page-inner h1 {
     font-size: 50px;
+
     font-weight: 900;
+
     margin-bottom: 18px;
 }
 
 .simple-page-inner p {
     color: #88818f;
+
     line-height: 1.8;
+
     margin-bottom: 10px;
 }
 
@@ -599,11 +871,18 @@ main {
    ========================================================= */
 
 footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.055);
+
     text-align: center;
-    padding: 30px 20px;
+
+    padding:
+        30px
+        20px;
 
     color: #514c57;
+
     font-size: 11px;
 }
 
@@ -615,10 +894,14 @@ footer {
 .empty-message {
     grid-column: 1 / -1;
 
-    padding: 70px 20px;
+    padding:
+        70px
+        20px;
+
     text-align: center;
 
     color: #625d68;
+
     font-size: 13px;
 }
 
@@ -631,7 +914,10 @@ footer {
 
     .header-inner {
         height: 64px;
-        padding: 0 17px;
+
+        padding:
+            0
+            17px;
     }
 
     .logo {
@@ -643,7 +929,10 @@ footer {
     }
 
     .nav button {
-        padding: 8px 7px;
+        padding:
+            8px
+            7px;
+
         font-size: 10px;
     }
 
@@ -679,12 +968,18 @@ footer {
 
     .history-header,
     .rank-history-item {
-        grid-template-columns: 1fr 0.7fr 0.7fr 1.4fr;
+        grid-template-columns:
+            1fr
+            0.7fr
+            0.7fr
+            1.4fr;
     }
 
     .history-header span,
     .rank-history-item span {
-        padding: 0 9px;
+        padding:
+            0
+            9px;
     }
 
     .detail-container {
@@ -696,6 +991,10 @@ footer {
     }
 }
 
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
 
 @media (max-width: 500px) {
 
