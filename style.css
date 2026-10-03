@@ -44,7 +44,8 @@ body {
 
     width: 100%;
 
-    background: rgba(7, 7, 11, 0.88);
+    background:
+        rgba(7, 7, 11, 0.88);
 
     backdrop-filter: blur(14px);
 
@@ -273,17 +274,19 @@ main {
    RANKING GRID
    ========================================================= */
 
-/*
-   레벨을 가로 2개가 아니라
-   하나씩 세로로 배치
-*/
-
 .ranking-grid {
     display: grid;
 
     grid-template-columns: 1fr;
 
-    gap: 26px;
+    gap: 30px;
+
+    /*
+       아우라가 카드 바깥으로 퍼질 공간
+    */
+    padding:
+        12px
+        8px;
 }
 
 
@@ -294,7 +297,11 @@ main {
 .level-card {
     position: relative;
 
-    overflow: hidden;
+    /*
+       아우라가 카드 밖으로 보이도록
+       hidden이 아니라 visible
+    */
+    overflow: visible;
 
     width: 100%;
 
@@ -311,30 +318,92 @@ main {
     transition:
         transform 0.25s ease,
         border-color 0.25s ease,
-        box-shadow 0.3s ease;
+        box-shadow 0.35s ease;
+}
+
+
+/* =========================================================
+   SOFT PURPLE AURA
+   ========================================================= */
+
+/*
+   카드 뒤쪽에 존재하는
+   흐릿한 보라색 빛
+*/
+
+.level-card::before {
+    content: "";
+
+    position: absolute;
+
+    z-index: -1;
+
+    left: 4%;
+    right: 4%;
+
+    top: 7%;
+    bottom: 7%;
+
+    border-radius: 25px;
+
+    background:
+        rgba(137, 43, 255, 0);
+
+    filter:
+        blur(38px);
+
+    opacity: 0;
+
+    transform:
+        scale(0.94);
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease,
+        background 0.4s ease;
+}
+
+
+/* =========================================================
+   CARD HOVER
+   ========================================================= */
+
+.level-card:hover {
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(181, 103, 255, 0.52);
+
+    box-shadow:
+
+        /*
+           카드 바로 밑 그림자
+        */
+        0 12px 35px
+        rgba(0, 0, 0, 0.50),
+
+        /*
+           얇은 보라색 테두리
+        */
+        0 0 18px
+        rgba(151, 58, 255, 0.16);
 }
 
 
 /*
    마우스를 올렸을 때
-   은은한 보라색 글로우
+   진짜 안개처럼 퍼지는 보라색
 */
 
-.level-card:hover {
-    transform: translateY(-4px);
+.level-card:hover::before {
+    background:
+        rgba(137, 43, 255, 0.42);
 
-    border-color:
-        rgba(174, 91, 255, 0.48);
+    opacity: 0.78;
 
-    box-shadow:
-        0 12px 35px
-        rgba(0, 0, 0, 0.50),
-
-        0 0 28px
-        rgba(145, 55, 255, 0.18),
-
-        0 0 70px
-        rgba(145, 55, 255, 0.07);
+    transform:
+        scale(1.04);
 }
 
 
@@ -350,6 +419,8 @@ main {
     aspect-ratio: 16 / 9;
 
     overflow: hidden;
+
+    border-radius: 14px 14px 0 0;
 
     background: #08080c;
 }
@@ -369,19 +440,20 @@ main {
 
 
 /*
-   마우스를 올리면
-   이미지도 아주 살짝 확대
+   썸네일 살짝 확대
 */
 
 .level-card:hover .level-thumbnail img {
-    transform: scale(1.035);
+    transform:
+        scale(1.035);
 
-    filter: brightness(1.08);
+    filter:
+        brightness(1.08);
 }
 
 
 /* =========================================================
-   THUMBNAIL DARK OVERLAY
+   THUMBNAIL OVERLAY
    ========================================================= */
 
 .level-thumbnail::after {
@@ -435,7 +507,8 @@ main {
         1px solid
         rgba(255, 255, 255, 0.13);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
 
     font-size: 15px;
 
@@ -448,12 +521,6 @@ main {
         border-color 0.25s ease,
         box-shadow 0.25s ease;
 }
-
-
-/*
-   카드에 마우스를 올리면
-   순위 뱃지도 아주 살짝 보라색
-*/
 
 .level-card:hover .rank-badge {
     background:
@@ -948,6 +1015,12 @@ footer {
 
     .ranking-grid {
         grid-template-columns: 1fr;
+
+        gap: 25px;
+
+        padding:
+            8px
+            4px;
     }
 
     .controls {
