@@ -104,11 +104,254 @@ body {
 ========================= */
 
 main {
+    position: relative;
+    z-index: 1;
+
     width: 100%;
 }
 
 .hidden {
     display: none !important;
+}
+
+/* =========================
+   AMBIENT SQUARES
+========================= */
+
+.ambient-square-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+}
+
+.orbit-square {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: block;
+    width: 0;
+    height: 0;
+
+    opacity: var(--square-opacity, 0.16);
+    animation: slow-square-orbit var(--orbit-duration, 80s) linear infinite;
+    animation-delay: var(--orbit-delay, 0s);
+    will-change: transform;
+}
+
+.orbit-square::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: var(--orbit-radius, 400px);
+
+    display: block;
+    width: var(--square-size, 12px);
+    height: var(--square-size, 12px);
+
+    border: 1px solid rgba(190, 137, 255, 0.78);
+    border-radius: 2px;
+
+    box-shadow:
+        0 0 7px rgba(169, 99, 255, 0.28),
+        inset 0 0 4px rgba(169, 99, 255, 0.10);
+
+    transform: translate(-50%, -50%) rotate(var(--square-tilt, 0deg));
+}
+
+.orbit-square:nth-child(1) {
+    --orbit-radius: 185px;
+    --square-size: 9px;
+    --orbit-duration: 78s;
+    --orbit-delay: -7s;
+    --start-angle: 12deg;
+    --square-tilt: 8deg;
+    --square-opacity: 0.12;
+}
+
+.orbit-square:nth-child(2) {
+    --orbit-radius: 270px;
+    --square-size: 14px;
+    --orbit-duration: 96s;
+    --orbit-delay: -31s;
+    --start-angle: 78deg;
+    --square-tilt: 18deg;
+    --square-opacity: 0.16;
+}
+
+.orbit-square:nth-child(3) {
+    --orbit-radius: 355px;
+    --square-size: 8px;
+    --orbit-duration: 84s;
+    --orbit-delay: -19s;
+    --start-angle: 142deg;
+    --square-tilt: -8deg;
+    --square-opacity: 0.13;
+}
+
+.orbit-square:nth-child(4) {
+    --orbit-radius: 455px;
+    --square-size: 17px;
+    --orbit-duration: 110s;
+    --orbit-delay: -54s;
+    --start-angle: 218deg;
+    --square-tilt: 12deg;
+    --square-opacity: 0.17;
+}
+
+.orbit-square:nth-child(5) {
+    --orbit-radius: 555px;
+    --square-size: 10px;
+    --orbit-duration: 92s;
+    --orbit-delay: -42s;
+    --start-angle: 292deg;
+    --square-tilt: -14deg;
+    --square-opacity: 0.14;
+}
+
+.orbit-square:nth-child(6) {
+    --orbit-radius: 655px;
+    --square-size: 12px;
+    --orbit-duration: 118s;
+    --orbit-delay: -83s;
+    --start-angle: 38deg;
+    --square-tilt: 6deg;
+    --square-opacity: 0.15;
+}
+
+.orbit-square:nth-child(7) {
+    --orbit-radius: 755px;
+    --square-size: 8px;
+    --orbit-duration: 88s;
+    --orbit-delay: -26s;
+    --start-angle: 106deg;
+    --square-tilt: -18deg;
+    --square-opacity: 0.12;
+}
+
+.orbit-square:nth-child(8) {
+    --orbit-radius: 855px;
+    --square-size: 15px;
+    --orbit-duration: 124s;
+    --orbit-delay: -67s;
+    --start-angle: 178deg;
+    --square-tilt: 14deg;
+    --square-opacity: 0.16;
+}
+
+.orbit-square:nth-child(9) {
+    --orbit-radius: 245px;
+    --square-size: 11px;
+    --orbit-duration: 102s;
+    --orbit-delay: -48s;
+    --start-angle: 254deg;
+    --square-tilt: -10deg;
+    --square-opacity: 0.14;
+}
+
+.orbit-square:nth-child(10) {
+    --orbit-radius: 395px;
+    --square-size: 13px;
+    --orbit-duration: 116s;
+    --orbit-delay: -91s;
+    --start-angle: 328deg;
+    --square-tilt: 20deg;
+    --square-opacity: 0.15;
+}
+
+.orbit-square:nth-child(11) {
+    --orbit-radius: 505px;
+    --square-size: 9px;
+    --orbit-duration: 94s;
+    --orbit-delay: -13s;
+    --start-angle: 54deg;
+    --square-tilt: -6deg;
+    --square-opacity: 0.13;
+}
+
+.orbit-square:nth-child(12) {
+    --orbit-radius: 605px;
+    --square-size: 16px;
+    --orbit-duration: 128s;
+    --orbit-delay: -105s;
+    --start-angle: 126deg;
+    --square-tilt: 10deg;
+    --square-opacity: 0.17;
+}
+
+.orbit-square:nth-child(13) {
+    --orbit-radius: 705px;
+    --square-size: 10px;
+    --orbit-duration: 106s;
+    --orbit-delay: -59s;
+    --start-angle: 202deg;
+    --square-tilt: -16deg;
+    --square-opacity: 0.13;
+}
+
+.orbit-square:nth-child(14) {
+    --orbit-radius: 805px;
+    --square-size: 12px;
+    --orbit-duration: 120s;
+    --orbit-delay: -37s;
+    --start-angle: 276deg;
+    --square-tilt: 4deg;
+    --square-opacity: 0.15;
+}
+
+.orbit-square:nth-child(15) {
+    --orbit-radius: 320px;
+    --square-size: 8px;
+    --orbit-duration: 90s;
+    --orbit-delay: -72s;
+    --start-angle: 344deg;
+    --square-tilt: -12deg;
+    --square-opacity: 0.12;
+}
+
+.orbit-square:nth-child(16) {
+    --orbit-radius: 535px;
+    --square-size: 14px;
+    --orbit-duration: 114s;
+    --orbit-delay: -22s;
+    --start-angle: 96deg;
+    --square-tilt: 16deg;
+    --square-opacity: 0.16;
+}
+
+.orbit-square:nth-child(17) {
+    --orbit-radius: 735px;
+    --square-size: 9px;
+    --orbit-duration: 100s;
+    --orbit-delay: -61s;
+    --start-angle: 164deg;
+    --square-tilt: -4deg;
+    --square-opacity: 0.13;
+}
+
+.orbit-square:nth-child(18) {
+    --orbit-radius: 900px;
+    --square-size: 13px;
+    --orbit-duration: 132s;
+    --orbit-delay: -116s;
+    --start-angle: 236deg;
+    --square-tilt: 11deg;
+    --square-opacity: 0.14;
+}
+
+@keyframes slow-square-orbit {
+    from {
+        transform: rotate(var(--start-angle, 0deg));
+    }
+
+    to {
+        transform: rotate(calc(var(--start-angle, 0deg) + 360deg));
+    }
 }
 
 /* =========================
@@ -194,6 +437,11 @@ main {
     #about-page.page-entering .simple-page-inner {
         animation-duration: 1ms !important;
         animation-delay: 0ms !important;
+    }
+
+    .orbit-square {
+        animation: none !important;
+        transform: rotate(var(--start-angle, 0deg));
     }
 }
 
@@ -768,6 +1016,9 @@ main {
 ========================= */
 
 footer {
+    position: relative;
+    z-index: 1;
+
     padding: 30px;
 
     text-align: center;
