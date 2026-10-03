@@ -368,17 +368,13 @@ function displayLevels() {
                     loading="lazy"
                 >
 
-                <div class="rank-badge">
-                    #${level.rank}
-                </div>
-
             </div>
 
 
             <div class="level-info">
 
                 <div class="level-name">
-                    ${level.name}
+                    #${level.rank} - ${level.name}
                 </div>
 
                 <div class="level-difficulty">
