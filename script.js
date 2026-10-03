@@ -1,59 +1,33 @@
 const levels = [
 
     {
-        name: "Firework",
-        creator: "Trick",
-        difficulty: "Extreme Demon",
-        score: 100
+        name: "Qlixsyn",
+        difficulty: "Extreme Demon"
     },
 
     {
-        name: "Arctic Lights",
-        creator: "APTeam",
-        difficulty: "Extreme Demon",
-        score: 99
+        name: "EYESwork",
+        difficulty: "Extreme Demon"
     },
 
     {
-        name: "Acheron",
-        creator: "Ryamu",
-        difficulty: "Extreme Demon",
-        score: 98
+        name: "Unnerfed Glamorous",
+        difficulty: "Extreme Demon"
     },
 
     {
-        name: "Tidal Wave",
-        creator: "OniLink",
-        difficulty: "Extreme Demon",
-        score: 97
+        name: "DELUSION",
+        difficulty: "Extreme Demon"
     },
 
     {
-        name: "DeLa Circles",
-        creator: "Dira",
-        difficulty: "Extreme Demon",
-        score: 96
+        name: "D",
+        difficulty: "Extreme Demon"
     },
 
     {
-        name: "Bloodbath",
-        creator: "Riot",
-        difficulty: "Extreme Demon",
-        score: 95
-    },
-
-    {
-        name: "Sonic Wave",
-        creator: "APTeam",
-        difficulty: "Extreme Demon",
-        score: 94
-    },
-
-    {
-        name: "Slaughterhouse",
-        creator: "icedcave",
-        difficulty: "Extreme Demon",
-        score: 93
+        name: "5",
+        difficulty: "Extreme Demon"
     }
 
 ];
@@ -111,16 +85,8 @@ function displayLevels() {
                 ${level.name}
             </div>
 
-            <div class="creator">
-                ${level.creator}
-            </div>
-
             <div class="difficulty">
                 ${level.difficulty}
-            </div>
-
-            <div class="score">
-                ${level.score}
             </div>
 
         `;
