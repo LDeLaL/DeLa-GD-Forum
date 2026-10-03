@@ -279,14 +279,14 @@ main {
 
     grid-template-columns: 1fr;
 
-    gap: 42px;
+    gap: 55px;
 
     /*
-       글로우가 화면 밖으로 퍼질 공간
+       강한 아우라가 바깥으로 퍼질 공간
     */
     padding:
-        35px
-        25px;
+        65px
+        45px;
 }
 
 
@@ -311,15 +311,17 @@ main {
 
     cursor: pointer;
 
+    isolation: isolate;
+
     transition:
-        transform 0.28s ease,
+        transform 0.3s ease,
         border-color 0.3s ease,
-        box-shadow 0.4s ease;
+        box-shadow 0.35s ease;
 }
 
 
 /* =========================================================
-   LARGE PURPLE AURA
+   LARGE PURPLE FOG
    ========================================================= */
 
 .level-card::before {
@@ -330,29 +332,29 @@ main {
     z-index: -1;
 
     /*
-       카드보다 훨씬 넓게
+       카드보다 훨씬 크게 확장
     */
-    left: -9%;
-    right: -9%;
+    left: -18%;
+    right: -18%;
 
-    top: -13%;
-    bottom: -13%;
+    top: -28%;
+    bottom: -28%;
 
-    border-radius: 45px;
+    border-radius: 60px;
 
     background:
-        rgba(137, 43, 255, 0);
+        rgba(138, 35, 255, 0);
 
     /*
-       넓고 부드러운 안개
+       아주 넓게 퍼지는 안개
     */
     filter:
-        blur(65px);
+        blur(85px);
 
     opacity: 0;
 
     transform:
-        scale(0.88);
+        scale(0.80);
 
     transition:
         opacity 0.45s ease,
@@ -362,38 +364,97 @@ main {
 
 
 /* =========================================================
+   SECONDARY AURA
+   ========================================================= */
+
+.level-card::after {
+    content: "";
+
+    position: absolute;
+
+    z-index: -1;
+
+    left: -7%;
+    right: -7%;
+
+    top: -12%;
+    bottom: -12%;
+
+    border-radius: 35px;
+
+    background:
+        rgba(166, 62, 255, 0);
+
+    filter:
+        blur(45px);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.35s ease,
+        background 0.35s ease;
+}
+
+
+/* =========================================================
    CARD HOVER
    ========================================================= */
 
 .level-card:hover {
     transform:
-        translateY(-5px);
+        translateY(-6px);
 
     border-color:
-        rgba(190, 115, 255, 0.60);
+        rgba(198, 127, 255, 0.72);
 
     box-shadow:
 
-        0 15px 40px
-        rgba(0, 0, 0, 0.55),
+        /*
+           일반 그림자
+        */
+        0 18px 45px
+        rgba(0, 0, 0, 0.60),
 
-        0 0 22px
-        rgba(155, 60, 255, 0.22);
+        /*
+           가까운 보라색 광원
+        */
+        0 0 30px
+        rgba(153, 50, 255, 0.32),
+
+        /*
+           넓은 보라색 광원
+        */
+        0 0 80px
+        rgba(132, 37, 255, 0.18);
 }
 
 
-/*
-   실제 넓은 보라색 안개
-*/
+/* =========================================================
+   STRONG PURPLE FOG ON HOVER
+   ========================================================= */
 
 .level-card:hover::before {
     background:
-        rgba(132, 37, 255, 0.48);
+        rgba(128, 30, 255, 0.62);
 
-    opacity: 0.92;
+    opacity:
+        0.95;
 
     transform:
-        scale(1.02);
+        scale(1.08);
+}
+
+
+/* =========================================================
+   SECONDARY FOG ON HOVER
+   ========================================================= */
+
+.level-card:hover::after {
+    background:
+        rgba(184, 76, 255, 0.42);
+
+    opacity:
+        0.75;
 }
 
 
@@ -516,11 +577,11 @@ main {
         rgba(24, 11, 35, 0.88);
 
     border-color:
-        rgba(177, 94, 255, 0.35);
+        rgba(177, 94, 255, 0.55);
 
     box-shadow:
-        0 0 18px
-        rgba(145, 55, 255, 0.12);
+        0 0 25px
+        rgba(145, 55, 255, 0.25);
 }
 
 
@@ -1005,11 +1066,11 @@ footer {
     .ranking-grid {
         grid-template-columns: 1fr;
 
-        gap: 32px;
+        gap: 42px;
 
         padding:
-            25px
-            12px;
+            40px
+            18px;
     }
 
     .controls {
@@ -1082,7 +1143,7 @@ footer {
 
     .ranking-grid {
         padding:
-            18px
-            8px;
+            30px
+            10px;
     }
 }
