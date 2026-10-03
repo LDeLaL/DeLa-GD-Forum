@@ -1,156 +1,190 @@
+/* =========================================================
+   DeLa GD Forum
+   Main JavaScript
+   ========================================================= */
+
+
+/* =========================================================
+   LEVEL DATA
+   ========================================================= */
+
 const levels = [
 
     {
+        rank: 1,
         name: "Qlixsyn",
         difficulty: "Hard Demon",
 
-        date: "2026년 10월 3일",
-        number: "《1》",
-        first: "Qlixsyn",
+        image: "images/1000007894.jpg",
 
-        absolute: "14.8",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《1》",
+        registrationRank: "#1",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "14.8",
         length: "19초",
         objects: "24,657",
-        design: "2.1",
+        designScale: "2.1",
         song: "Classical VIP",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#1",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#1",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     },
 
 
     {
+        rank: 2,
         name: "EYESwork",
         difficulty: "Hard Demon",
 
-        date: "2026년 10월 3일",
-        number: "《2》",
-        first: "Qlixsyn",
+        image: "images/1000006550.jpg",
 
-        absolute: "14",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《2》",
+        registrationRank: "#2",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "14",
         length: "16초",
         objects: "3,408",
-        design: "1.9",
+        designScale: "1.9",
         song: "Society",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#2",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#2",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     },
 
 
     {
+        rank: 3,
         name: "Unnerfed Glamorous",
         difficulty: "Hard Demon",
 
-        date: "2026년 10월 3일",
-        number: "《3》",
-        first: "Qlixsyn",
+        image: "images/1000006513.jpg",
 
-        absolute: "10.3",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《3》",
+        registrationRank: "#3",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "10.3",
         length: "42초",
         objects: "2,077",
-        design: "1.3",
+        designScale: "1.3",
         song: "Eden",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#3",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#3",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     },
 
 
     {
+        rank: 4,
         name: "DELUSION",
         difficulty: "Medium Demon",
 
-        date: "2026년 10월 3일",
-        number: "《4》",
-        first: "Qlixsyn",
+        image: "images/1000009821.jpg",
 
-        absolute: "10",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《4》",
+        registrationRank: "#4",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "10",
         length: "22초",
         objects: "23,863",
-        design: "1.9",
+        designScale: "1.9",
         song: "Turn The Lights Off",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#4",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#4",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     },
 
 
     {
+        rank: 5,
         name: "D",
         difficulty: "Insane Demon",
 
-        date: "2026년 10월 3일",
-        number: "《5》",
-        first: "Qlixsyn",
+        image: "images/1000009785.jpg",
 
-        absolute: "9",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《5》",
+        registrationRank: "#5",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "9",
         length: "3초",
         objects: "27",
-        design: "1.6",
+        designScale: "1.6",
         song: "Creo - Flow",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#5",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#5",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     },
 
 
     {
+        rank: 6,
         name: "5",
         difficulty: "Insane Demon",
 
-        date: "2026년 10월 3일",
-        number: "《6》",
-        first: "Qlixsyn",
+        image: "images/1000009784.jpg",
 
-        absolute: "5",
+        registrationDate: "2026년 10월 3일",
+        registrationNumber: "《6》",
+        registrationRank: "#6",
+        forumFirst: "Qlixsyn",
+
+        absoluteDifficulty: "5",
         length: "3초",
         objects: "207",
-        design: "3",
-        song: "",
+        designScale: "3",
+        song: "—",
 
         history: [
             {
                 date: "2026년 10월 3일",
-                rank: "#6",
                 change: "−",
-                type: "entry",
-                reason: "등재됨"
+                rank: "#6",
+                reason: "등재됨",
+                type: "entry"
             }
         ]
     }
@@ -158,306 +192,224 @@ const levels = [
 ];
 
 
+/* =========================================================
+   DOM ELEMENTS
+   ========================================================= */
 
-/* ========================= */
-/* ELEMENTS */
-/* ========================= */
+const rankingPage = document.getElementById("ranking-page");
+const detailPage = document.getElementById("detail-page");
+const recordsPage = document.getElementById("records-page");
+const aboutPage = document.getElementById("about-page");
 
-const list =
-    document.getElementById(
-        "level-list"
-    );
+const rankingGrid = document.getElementById("ranking-grid");
 
-
-const search =
-    document.getElementById(
-        "search"
-    );
+const searchInput = document.getElementById("search-input");
+const difficultyFilter = document.getElementById("difficulty-filter");
 
 
-const difficulty =
-    document.getElementById(
-        "difficulty"
-    );
-
-
-const rankingPage =
-    document.getElementById(
-        "ranking-page"
-    );
-
-
-const detailPage =
-    document.getElementById(
-        "detail-page"
-    );
-
-
-const backButton =
-    document.getElementById(
-        "back-button"
-    );
-
-
-
-/* ========================= */
-/* DISPLAY LEVELS */
-/* ========================= */
+/* =========================================================
+   DISPLAY LEVELS
+   ========================================================= */
 
 function displayLevels() {
 
-    const searchText =
-        search.value
-            .toLowerCase();
+    const searchText = searchInput.value
+        .trim()
+        .toLowerCase();
+
+    const selectedDifficulty = difficultyFilter.value;
 
 
-    const selectedDifficulty =
-        difficulty.value;
+    const filteredLevels = levels.filter(level => {
+
+        const matchesSearch =
+            level.name
+                .toLowerCase()
+                .includes(searchText);
+
+        const matchesDifficulty =
+            selectedDifficulty === "all" ||
+            level.difficulty === selectedDifficulty;
+
+        return matchesSearch && matchesDifficulty;
+
+    });
 
 
-    const filtered =
-        levels.filter(
-            level => {
-
-                const matchesSearch =
-                    level.name
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        );
+    rankingGrid.innerHTML = "";
 
 
-                const matchesDifficulty =
-                    selectedDifficulty === "all" ||
-                    level.difficulty ===
-                        selectedDifficulty;
+    if (filteredLevels.length === 0) {
+
+        rankingGrid.innerHTML = `
+            <div class="empty-message">
+                No levels found.
+            </div>
+        `;
+
+        return;
+    }
 
 
-                return (
-                    matchesSearch &&
-                    matchesDifficulty
-                );
+    filteredLevels.forEach(level => {
 
-            }
-        );
+        const card = document.createElement("article");
 
+        card.className = "level-card";
 
-    list.innerHTML = "";
-
-
-    filtered.forEach(
-        level => {
-
-            const originalRank =
-                levels.indexOf(
-                    level
-                ) + 1;
+        card.onclick = () => {
+            openLevel(level.rank);
+        };
 
 
-            const element =
-                document.createElement(
-                    "div"
-                );
+        card.innerHTML = `
 
+            <div class="level-thumbnail">
 
-            element.className =
-                "level";
+                <img
+                    src="${level.image}"
+                    alt="${level.name}"
+                    loading="lazy"
+                >
 
-
-            element.innerHTML = `
-
-                <div class="rank">
-                    ${originalRank}
+                <div class="rank-badge">
+                    #${level.rank}
                 </div>
+
+            </div>
+
+
+            <div class="level-info">
 
                 <div class="level-name">
                     ${level.name}
                 </div>
 
-                <div class="difficulty">
+                <div class="level-difficulty">
                     ${level.difficulty}
                 </div>
 
-            `;
+            </div>
+
+        `;
 
 
-            element.addEventListener(
-                "click",
-                () => openLevel(level)
-            );
+        rankingGrid.appendChild(card);
 
-
-            list.appendChild(
-                element
-            );
-
-        }
-    );
+    });
 
 }
 
 
+/* =========================================================
+   OPEN LEVEL
+   ========================================================= */
 
-/* ========================= */
-/* OPEN LEVEL */
-/* ========================= */
+function openLevel(rank) {
 
-function openLevel(level) {
+    const level = levels.find(
+        item => item.rank === rank
+    );
 
-    rankingPage
-        .classList
-        .add("hidden");
-
-
-    detailPage
-        .classList
-        .remove("hidden");
+    if (!level) {
+        return;
+    }
 
 
+    rankingPage.classList.add("hidden");
+    recordsPage.classList.add("hidden");
+    aboutPage.classList.add("hidden");
 
-    const rank =
-        levels.indexOf(level) + 1;
-
-
-
-    document.getElementById(
-        "detail-rank"
-    ).textContent =
-        "RANK #" + rank;
+    detailPage.classList.remove("hidden");
 
 
+    /* Image */
 
-    document.getElementById(
-        "detail-name"
-    ).textContent =
+    const detailImage =
+        document.getElementById("detail-image");
+
+    detailImage.src = level.image;
+    detailImage.alt = level.name;
+
+
+    /* Title */
+
+    document.getElementById("detail-rank").textContent =
+        `#${level.rank}`;
+
+    document.getElementById("detail-name").textContent =
         level.name;
 
-
-
-    document.getElementById(
-        "detail-difficulty"
-    ).textContent =
+    document.getElementById("detail-difficulty").textContent =
         level.difficulty;
 
 
+    /* Registration */
 
-    document.getElementById(
-        "detail-date"
-    ).textContent =
-        level.date;
+    document.getElementById("detail-date").textContent =
+        level.registrationDate;
 
+    document.getElementById("detail-number").textContent =
+        level.registrationNumber;
 
+    document.getElementById("detail-registration-rank").textContent =
+        level.registrationRank;
 
-    document.getElementById(
-        "detail-number"
-    ).textContent =
-        level.number;
-
-
-
-    document.getElementById(
-        "detail-first"
-    ).textContent =
-        level.first;
+    document.getElementById("detail-forum-first").textContent =
+        level.forumFirst;
 
 
+    /* Level Information */
 
-    document.getElementById(
-        "detail-absolute"
-    ).textContent =
-        level.absolute;
+    document.getElementById("detail-absolute").textContent =
+        level.absoluteDifficulty;
 
-
-
-    document.getElementById(
-        "detail-length"
-    ).textContent =
+    document.getElementById("detail-length").textContent =
         level.length;
 
-
-
-    document.getElementById(
-        "detail-objects"
-    ).textContent =
+    document.getElementById("detail-objects").textContent =
         level.objects;
 
+    document.getElementById("detail-design").textContent =
+        level.designScale;
 
-
-    document.getElementById(
-        "detail-design"
-    ).textContent =
-        level.design;
-
-
-
-    document.getElementById(
-        "detail-song"
-    ).textContent =
+    document.getElementById("detail-song").textContent =
         level.song;
 
 
+    /* Rank History */
 
-    /* ========================= */
-    /* RANK HISTORY */
-    /* ========================= */
+    const historyContainer =
+        document.getElementById("rank-history");
 
-    const history =
-        document.getElementById(
-            "rank-history"
-        );
+    historyContainer.innerHTML = "";
 
 
-    history.innerHTML = "";
+    level.history.forEach(entry => {
+
+        const row = document.createElement("div");
+
+        row.className = "rank-history-item";
 
 
+        row.innerHTML = `
 
-    level.history.forEach(
-        entry => {
+            <span>${entry.date}</span>
 
-            const item =
-                document.createElement(
-                    "div"
-                );
+            <span class="history-change ${entry.type}">
+                ${entry.change}
+            </span>
 
+            <span>${entry.rank}</span>
 
-            item.className =
-                "rank-history-item";
+            <span>${entry.reason}</span>
 
-
-
-            item.innerHTML = `
-
-                <div class="history-date">
-                    ${entry.date}
-                </div>
-
-                <div
-                    class="
-                        history-change
-                        ${entry.type}
-                    "
-                >
-                    ${entry.change}
-                </div>
-
-                <div class="history-rank">
-                    ${entry.rank}
-                </div>
-
-                <div class="history-reason">
-                    ${entry.reason}
-                </div>
-
-            `;
+        `;
 
 
-            history.appendChild(
-                item
-            );
+        historyContainer.appendChild(row);
 
-        }
-    );
-
+    });
 
 
     window.scrollTo({
@@ -468,59 +420,88 @@ function openLevel(level) {
 }
 
 
+/* =========================================================
+   GO HOME
+   ========================================================= */
 
-/* ========================= */
-/* BACK BUTTON */
-/* ========================= */
+function goHome() {
 
-backButton.addEventListener(
-    "click",
-    () => {
+    detailPage.classList.add("hidden");
+    recordsPage.classList.add("hidden");
+    aboutPage.classList.add("hidden");
 
-        detailPage
-            .classList
-            .add("hidden");
+    rankingPage.classList.remove("hidden");
 
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
-        rankingPage
-            .classList
-            .remove("hidden");
-
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-);
+}
 
 
+/* =========================================================
+   RECORDS
+   ========================================================= */
 
-/* ========================= */
-/* SEARCH */
-/* ========================= */
+function showRecords() {
 
-search.addEventListener(
+    rankingPage.classList.add("hidden");
+    detailPage.classList.add("hidden");
+    aboutPage.classList.add("hidden");
+
+    recordsPage.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+function showAbout() {
+
+    rankingPage.classList.add("hidden");
+    detailPage.classList.add("hidden");
+    recordsPage.classList.add("hidden");
+
+    aboutPage.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+searchInput.addEventListener(
     "input",
     displayLevels
 );
 
 
+/* =========================================================
+   DIFFICULTY FILTER
+   ========================================================= */
 
-/* ========================= */
-/* DIFFICULTY FILTER */
-/* ========================= */
-
-difficulty.addEventListener(
+difficultyFilter.addEventListener(
     "change",
     displayLevels
 );
 
 
-
-/* ========================= */
-/* INITIAL DISPLAY */
-/* ========================= */
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
 
 displayLevels();
