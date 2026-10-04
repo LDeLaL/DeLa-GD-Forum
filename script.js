@@ -257,7 +257,7 @@ function playCardClickSound() {
             cardClickCompressor.release.setValueAtTime(0.045, now);
 
             cardClickMasterGain = cardClickAudioContext.createGain();
-            cardClickMasterGain.gain.setValueAtTime(6, now);
+            cardClickMasterGain.gain.setValueAtTime(24, now);
 
             cardClickLimiter = cardClickAudioContext.createDynamicsCompressor();
             cardClickLimiter.threshold.setValueAtTime(-1, now);
