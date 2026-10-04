@@ -222,7 +222,7 @@ main {
 }
 
 /* The densest outer orbit uses very large cubes and moves slowly. */
-.orbit-square:nth-child(n + 29):nth-child(-n + 40) {
+.orbit-square:nth-child(n + 29):nth-child(-n + 43) {
     --orbit-radius-x: 78vw;
     --orbit-radius-y: 80vh;
     --square-size: 190px;
@@ -238,9 +238,9 @@ main {
 
 /* Keep the largest cubes visible around the monitor's edges. */
 @media (min-width: 1025px) {
-    .orbit-square:nth-child(n + 29):nth-child(-n + 40) {
-        --orbit-radius-x: 58vw;
-        --orbit-radius-y: 60vh;
+    .orbit-square:nth-child(n + 29):nth-child(-n + 43) {
+        --orbit-radius-x: 54vw;
+        --orbit-radius-y: 56vh;
     }
 }
 
@@ -285,6 +285,9 @@ main {
 .orbit-square:nth-child(38) { --orbit-start: 75%; --square-start-angle: 185.3deg; --spin-duration: 68s; --spin-delay: -42.78s; --spin-direction: reverse; }
 .orbit-square:nth-child(39) { --orbit-start: 83.333%; --square-start-angle: 322.8deg; --spin-duration: 70s; --spin-delay: -3.09s; --spin-direction: normal; }
 .orbit-square:nth-child(40) { --orbit-start: 91.667%; --square-start-angle: 100.3deg; --spin-duration: 64s; --spin-delay: -10.4s; --spin-direction: reverse; }
+.orbit-square:nth-child(41) { --orbit-start: 4.167%; --square-start-angle: 232.5deg; --spin-duration: 72s; --spin-delay: -17.41s; --spin-direction: normal; }
+.orbit-square:nth-child(42) { --orbit-start: 37.5%; --square-start-angle: 10.3deg; --spin-duration: 74s; --spin-delay: -28.72s; --spin-direction: reverse; }
+.orbit-square:nth-child(43) { --orbit-start: 70.833%; --square-start-angle: 148.1deg; --spin-duration: 76s; --spin-delay: -39.03s; --spin-direction: normal; }
 
 @keyframes slow-square-orbit {
     from {
@@ -678,6 +681,7 @@ main {
 
     filter: brightness(1.02);
 }
+
 
 /* =========================================================
    MAP INFO AREA
