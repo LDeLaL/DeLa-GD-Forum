@@ -387,6 +387,113 @@ function playCardClickSound() {
 }
 
 
+function playPageTurnSound() {
+
+    // The level click already creates and unlocks this shared audio chain.
+    if (!cardClickAudioContext || !cardClickCompressor) {
+        return;
+    }
+
+    try {
+        if (cardClickAudioContext.state === "suspended") {
+            cardClickAudioContext.resume().catch(() => {});
+        }
+
+        const now = cardClickAudioContext.currentTime;
+        const sampleRate = cardClickAudioContext.sampleRate;
+        const turnDuration = 0.28;
+        const turnBuffer = cardClickAudioContext.createBuffer(
+            1,
+            Math.ceil(sampleRate * turnDuration),
+            sampleRate
+        );
+        const turnSamples = turnBuffer.getChannelData(0);
+
+        for (let index = 0; index < turnSamples.length; index++) {
+            turnSamples[index] = Math.random() * 2 - 1;
+        }
+
+        const turnNoise = cardClickAudioContext.createBufferSource();
+        turnNoise.buffer = turnBuffer;
+
+        const turnHighPass = cardClickAudioContext.createBiquadFilter();
+        turnHighPass.type = "highpass";
+        turnHighPass.frequency.setValueAtTime(3600, now);
+        turnHighPass.frequency.exponentialRampToValueAtTime(
+            380,
+            now + turnDuration
+        );
+
+        const turnLowPass = cardClickAudioContext.createBiquadFilter();
+        turnLowPass.type = "lowpass";
+        turnLowPass.frequency.setValueAtTime(9000, now);
+        turnLowPass.frequency.exponentialRampToValueAtTime(
+            2200,
+            now + turnDuration
+        );
+
+        const turnVolume = cardClickAudioContext.createGain();
+        turnVolume.gain.setValueAtTime(0.0001, now);
+        turnVolume.gain.exponentialRampToValueAtTime(0.9, now + 0.025);
+        turnVolume.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + turnDuration
+        );
+
+        turnNoise.connect(turnHighPass);
+        turnHighPass.connect(turnLowPass);
+        turnLowPass.connect(turnVolume);
+        turnVolume.connect(cardClickCompressor);
+
+        turnNoise.start(now);
+        turnNoise.stop(now + turnDuration);
+
+        // A soft paper-edge flutter finishes the page-turn sound.
+        const flickStart = now + 0.17;
+        const flickDuration = 0.065;
+        const flickBuffer = cardClickAudioContext.createBuffer(
+            1,
+            Math.ceil(sampleRate * flickDuration),
+            sampleRate
+        );
+        const flickSamples = flickBuffer.getChannelData(0);
+
+        for (let index = 0; index < flickSamples.length; index++) {
+            const fade = Math.pow(1 - index / flickSamples.length, 1.6);
+            flickSamples[index] = (Math.random() * 2 - 1) * fade;
+        }
+
+        const flickNoise = cardClickAudioContext.createBufferSource();
+        flickNoise.buffer = flickBuffer;
+
+        const flickFilter = cardClickAudioContext.createBiquadFilter();
+        flickFilter.type = "bandpass";
+        flickFilter.frequency.setValueAtTime(1750, flickStart);
+        flickFilter.Q.setValueAtTime(0.8, flickStart);
+
+        const flickVolume = cardClickAudioContext.createGain();
+        flickVolume.gain.setValueAtTime(0.0001, flickStart);
+        flickVolume.gain.exponentialRampToValueAtTime(
+            0.48,
+            flickStart + 0.004
+        );
+        flickVolume.gain.exponentialRampToValueAtTime(
+            0.0001,
+            flickStart + flickDuration
+        );
+
+        flickNoise.connect(flickFilter);
+        flickFilter.connect(flickVolume);
+        flickVolume.connect(cardClickCompressor);
+
+        flickNoise.start(flickStart);
+        flickNoise.stop(flickStart + flickDuration);
+    } catch (error) {
+        // Keep list navigation working if audio is unavailable.
+    }
+}
+
+
 /* =========================================================
    PAGE TRANSITIONS
    ========================================================= */
@@ -742,6 +849,17 @@ difficultyFilter.addEventListener(
     "change",
     displayLevels
 );
+
+
+/* =========================================================
+   DETAIL BACK BUTTON SOUND
+   ========================================================= */
+
+const detailBackButton = detailPage.querySelector(".back-button");
+
+if (detailBackButton) {
+    detailBackButton.addEventListener("click", playPageTurnSound);
+}
 
 
 /* =========================================================
