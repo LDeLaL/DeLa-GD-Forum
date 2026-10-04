@@ -1493,3 +1493,546 @@ body.impossible-theme #impossible-list-nav {
         0 0 26px rgba(220, 38, 38, 0.24);
     text-shadow: 0 0 10px rgba(254, 202, 202, 0.66);
 }
+
+/* =========================
+   PERSONAL DISPLAY OPTIONS
+========================= */
+
+.display-options {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 8px;
+}
+
+.display-option-button {
+    min-height: 36px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    border: 1px solid rgba(170, 120, 220, 0.20);
+    border-radius: 9px;
+    background: rgba(24, 19, 31, 0.86);
+    color: #d9c4f0;
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.display-option-button > span:first-child {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.display-option-button:hover,
+.display-option-button:focus-visible {
+    color: #ffffff;
+    border-color: rgba(198, 127, 255, 0.55);
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.18);
+    outline: none;
+}
+
+.display-option-button:active {
+    transform: scale(0.97);
+}
+
+body.cubes-hidden .ambient-square-field {
+    display: none;
+}
+
+/* A warm, one-time reveal marks the number-one level on its detail page. */
+#detail-page.page-entering.rank-one-entry .detail-container {
+    position: relative;
+    isolation: isolate;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-container::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 80px;
+    left: 50%;
+    width: min(760px, 100%);
+    height: 480px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(250, 204, 21, 0.18) 0%,
+        rgba(245, 158, 11, 0.08) 38%,
+        transparent 72%
+    );
+    opacity: 0;
+    animation: rank-one-ambient-reveal 1s ease-out both;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-thumbnail {
+    position: relative;
+    border-color: rgba(252, 211, 77, 0.86);
+    box-shadow:
+        0 0 0 1px rgba(250, 204, 21, 0.24),
+        0 0 28px rgba(250, 204, 21, 0.30),
+        0 20px 50px rgba(0, 0, 0, 0.35);
+    animation: rank-one-thumbnail-reveal 1s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-thumbnail img {
+    position: relative;
+    z-index: 1;
+    animation: rank-one-image-reveal 1s ease-out both;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-thumbnail::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-conic-gradient(
+        from -16deg at 50% 50%,
+        rgba(255, 236, 179, 0.00) 0deg 11deg,
+        rgba(255, 236, 179, 0.32) 11.5deg 12deg,
+        rgba(255, 236, 179, 0.00) 12.5deg 24deg
+    );
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: rank-one-rays-reveal 950ms ease-out both;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-rank {
+    color: #fbbf24;
+    text-shadow: 0 0 16px rgba(251, 191, 36, 0.48);
+    animation: rank-one-label-reveal 1s ease-out both;
+}
+
+#detail-page.page-entering.rank-one-entry .detail-title-area h1 {
+    background: linear-gradient(105deg, #fff7d6 0%, #ffffff 34%, #fcd34d 56%, #fff7d6 76%);
+    background-size: 220% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: rank-one-title-reveal 1s ease-out both;
+}
+
+@keyframes rank-one-ambient-reveal {
+    0% { opacity: 0; transform: translateX(-50%) scale(0.72); }
+    36% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) scale(1.12); }
+}
+
+@keyframes rank-one-thumbnail-reveal {
+    0% {
+        transform: translateY(12px) scale(0.985);
+        border-color: rgba(252, 211, 77, 0.18);
+        box-shadow: 0 0 0 rgba(250, 204, 21, 0);
+    }
+    38% {
+        transform: translateY(-3px) scale(1.006);
+        border-color: rgba(255, 237, 173, 0.98);
+        box-shadow:
+            0 0 0 2px rgba(250, 204, 21, 0.25),
+            0 0 48px rgba(250, 204, 21, 0.46),
+            0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        border-color: rgba(252, 211, 77, 0.60);
+        box-shadow:
+            0 0 0 1px rgba(250, 204, 21, 0.12),
+            0 0 20px rgba(250, 204, 21, 0.14),
+            0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+}
+
+@keyframes rank-one-image-reveal {
+    0% { filter: brightness(1.7) saturate(0.72); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
+@keyframes rank-one-rays-reveal {
+    0% { opacity: 0; transform: scale(0.68) rotate(-18deg); }
+    35% { opacity: 0.88; }
+    100% { opacity: 0; transform: scale(1.08) rotate(14deg); }
+}
+
+@keyframes rank-one-label-reveal {
+    0% { opacity: 0; transform: translateY(8px); }
+    45% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 1; }
+}
+
+@keyframes rank-one-title-reveal {
+    0% { opacity: 0.55; background-position: 100% center; }
+    100% { opacity: 1; background-position: 0% center; }
+}
+
+/* Light mode changes the surfaces while keeping each list's accent color. */
+body.light-theme {
+    background: #f4f1f8;
+    color: #292432;
+}
+
+body.light-theme .site-header {
+    background: rgba(250, 248, 253, 0.94);
+    border-bottom-color: rgba(103, 70, 135, 0.16);
+}
+
+body.light-theme .logo {
+    background: linear-gradient(100deg, #6b21a8 0%, #7e22ce 48%, #581c87 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 2px rgba(67, 25, 99, 0.16));
+}
+
+body.light-theme .nav button {
+    color: #655d6e;
+}
+
+body.light-theme .nav button:hover {
+    color: #30253c;
+    background: rgba(155, 80, 255, 0.08);
+}
+
+body.light-theme .hero-small {
+    background: linear-gradient(100deg, #6b21a8 0%, #7e22ce 48%, #581c87 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(67, 25, 99, 0.12));
+}
+
+body.light-theme #ranking-page .hero h1 {
+    background: linear-gradient(105deg, #6b21a8 0%, #9333ea 48%, #5b21b6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(75, 29, 110, 0.14));
+}
+
+body.light-theme.impossible-theme #impossible-ranking-page .hero h1 {
+    background: linear-gradient(105deg, #991b1b 0%, #b91c1c 48%, #7f1d1d 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(127, 29, 29, 0.15));
+}
+
+body.light-theme.list-theme #list-nav {
+    color: #6b21a8;
+    background: rgba(147, 51, 234, 0.10);
+    box-shadow: 0 0 10px rgba(126, 34, 206, 0.12);
+    text-shadow: none;
+}
+
+body.light-theme.impossible-theme #impossible-list-nav {
+    color: #a61b1b;
+    background: rgba(220, 38, 38, 0.10);
+    box-shadow: 0 0 10px rgba(185, 28, 28, 0.12);
+    text-shadow: none;
+}
+
+body.light-theme .hero p,
+body.light-theme .simple-page-inner p {
+    color: #5e5668;
+}
+
+body.light-theme .search-box input,
+body.light-theme .filter-box select {
+    border-color: rgba(104, 77, 132, 0.22);
+    background: #ffffff;
+    color: #292432;
+}
+
+body.light-theme .search-box input::placeholder {
+    color: #88808f;
+}
+
+body.light-theme .search-box input:focus,
+body.light-theme .filter-box select:focus {
+    border-color: rgba(147, 75, 215, 0.55);
+    box-shadow: 0 0 0 3px rgba(150, 65, 255, 0.10);
+}
+
+body.light-theme .level-card,
+body.light-theme .level-thumbnail,
+body.light-theme .level-info {
+    background: #ffffff;
+}
+
+body.light-theme .level-card {
+    border-color: rgba(105, 77, 132, 0.22);
+    box-shadow: 0 12px 30px rgba(43, 29, 57, 0.08);
+}
+
+body.light-theme .level-card:hover {
+    border-color: rgba(147, 75, 215, 0.48);
+    box-shadow:
+        0 0 24px rgba(147, 75, 215, 0.18),
+        0 14px 30px rgba(43, 29, 57, 0.12);
+}
+
+body.light-theme .level-info {
+    background: #ffffff !important;
+    border-left-color: rgba(55, 42, 69, 0.08);
+}
+
+body.light-theme .level-rank {
+    border-color: rgba(147, 75, 215, 0.32);
+    background: linear-gradient(145deg, #f2e8fc, #e8dcf4);
+    color: #70419b;
+    box-shadow: inset 0 0 12px rgba(147, 75, 215, 0.08);
+}
+
+body.light-theme .level-name {
+    border-color: rgba(123, 82, 158, 0.22);
+    background: #f7f3fb;
+    color: #292432;
+    box-shadow: inset 0 0 14px rgba(147, 75, 215, 0.04);
+}
+
+body.light-theme .level-difficulty {
+    color: #8052a7;
+}
+
+body.light-theme .back-button {
+    border-color: rgba(104, 77, 132, 0.22);
+    background: #ffffff;
+    color: #5e5668;
+}
+
+body.light-theme .back-button:hover {
+    border-color: rgba(147, 75, 215, 0.44);
+    background: #f3edf8;
+    color: #342840;
+}
+
+body.light-theme .detail-thumbnail {
+    border-color: rgba(104, 77, 132, 0.22);
+    background: #ffffff;
+}
+
+body.light-theme .detail-rank {
+    color: #6b3b91;
+}
+
+body.light-theme .detail-title-area h1,
+body.light-theme .detail-section h2,
+body.light-theme .simple-page-inner h1 {
+    color: #292432;
+}
+
+body.light-theme .detail-difficulty {
+    color: #6b3b91;
+}
+
+body.light-theme .info-card,
+body.light-theme .history-box {
+    border-color: rgba(104, 77, 132, 0.18);
+    background: #ffffff;
+}
+
+body.light-theme .info-card span,
+body.light-theme .history-header {
+    color: #5e5668;
+}
+
+body.light-theme .info-card strong {
+    color: #292432;
+}
+
+body.light-theme .history-header {
+    border-bottom-color: rgba(104, 77, 132, 0.16);
+}
+
+body.light-theme .rank-history-item {
+    color: #494252;
+    border-bottom-color: rgba(104, 77, 132, 0.12);
+}
+
+body.light-theme .history-change.entry {
+    color: #8052a7;
+}
+
+body.light-theme .empty-message {
+    color: #5e5668;
+}
+
+body.light-theme footer {
+    border-top-color: rgba(104, 77, 132, 0.14);
+    color: #625b6b;
+}
+
+body.light-theme .display-option-button {
+    border-color: rgba(104, 77, 132, 0.22);
+    background: rgba(255, 255, 255, 0.90);
+    color: #5e466f;
+}
+
+body.light-theme .display-option-button:hover,
+body.light-theme .display-option-button:focus-visible {
+    color: #382349;
+    border-color: rgba(147, 75, 215, 0.48);
+    box-shadow: 0 0 14px rgba(147, 75, 215, 0.14);
+}
+
+/* Impossible List keeps its red accent in light mode. */
+body.light-theme.impossible-theme #impossible-ranking-page .level-card {
+    border-color: rgba(220, 38, 38, 0.32);
+}
+
+body.light-theme.impossible-theme #impossible-ranking-page .level-card:hover {
+    border-color: rgba(220, 38, 38, 0.72);
+    box-shadow:
+        0 0 24px rgba(220, 38, 38, 0.18),
+        0 14px 30px rgba(43, 29, 57, 0.12);
+}
+
+body.light-theme.impossible-theme #impossible-ranking-page .level-rank {
+    border-color: rgba(220, 38, 38, 0.42);
+    background: linear-gradient(145deg, #fee2e2, #fff1f2);
+    color: #a51d2d;
+}
+
+body.light-theme.impossible-theme #impossible-ranking-page .level-name {
+    border-color: rgba(220, 38, 38, 0.34);
+    background: linear-gradient(145deg, #fff1f2, #fffafa);
+    color: #45151b;
+}
+
+body.light-theme.impossible-theme #detail-page .detail-thumbnail,
+body.light-theme.impossible-theme #detail-page .info-card,
+body.light-theme.impossible-theme #detail-page .history-box {
+    border-color: rgba(220, 38, 38, 0.26);
+}
+
+body.light-theme.impossible-theme #detail-page .detail-rank,
+body.light-theme.impossible-theme #detail-page .history-change.entry {
+    color: #c53030;
+}
+
+body.light-theme.impossible-theme #detail-page .back-button {
+    border-color: rgba(220, 38, 38, 0.32);
+    background: #fffafa;
+    color: #9d2b31;
+}
+
+body.light-theme.impossible-theme #detail-page .back-button:hover,
+body.light-theme.impossible-theme #detail-page .back-button:focus-visible {
+    border-color: rgba(220, 38, 38, 0.76);
+    background: #fff0f0;
+    box-shadow:
+        0 0 12px rgba(248, 113, 113, 0.26),
+        0 0 28px rgba(220, 38, 38, 0.14);
+}
+
+body.light-theme #detail-page.page-entering.rank-one-entry .detail-title-area h1 {
+    background: linear-gradient(105deg, #78350f 0%, #92400e 45%, #b45309 72%, #78350f 100%);
+    background-size: 220% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+body.light-theme #detail-page.page-entering.rank-one-entry .detail-rank {
+    color: #92400e;
+    text-shadow: none;
+}
+
+@media (max-width: 900px) {
+    .header-inner {
+        gap: 8px;
+    }
+
+    .nav {
+        gap: 3px;
+    }
+
+    .nav button {
+        padding: 8px 7px;
+        font-size: 11px;
+    }
+
+    .display-options {
+        gap: 5px;
+        margin-left: 0;
+    }
+
+    .display-option-button {
+        width: 36px;
+        min-height: 34px;
+        padding: 0;
+    }
+
+    .display-option-label {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .site-header {
+        height: auto;
+        min-height: 64px;
+    }
+
+    .header-inner {
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 2px;
+        padding-top: 7px;
+        padding-bottom: 5px;
+    }
+
+    .logo {
+        order: 0;
+        font-size: 16px;
+    }
+
+    .display-options {
+        order: 1;
+    }
+
+    .nav {
+        order: 2;
+        flex: 0 0 100%;
+        justify-content: center;
+        padding-bottom: 2px;
+    }
+
+    .nav button {
+        padding: 7px 8px;
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #detail-page.page-entering.rank-one-entry .detail-container::before,
+    #detail-page.page-entering.rank-one-entry .detail-thumbnail,
+    #detail-page.page-entering.rank-one-entry .detail-thumbnail img,
+    #detail-page.page-entering.rank-one-entry .detail-thumbnail::after,
+    #detail-page.page-entering.rank-one-entry .detail-rank,
+    #detail-page.page-entering.rank-one-entry .detail-title-area h1 {
+        animation: none !important;
+    }
+}
