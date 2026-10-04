@@ -225,6 +225,7 @@ let isOpeningLevel = false;
 let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
+let cardClickLimiter = null;
 
 
 function playCardClickSound() {
@@ -249,21 +250,29 @@ function playCardClickSound() {
 
         if (!cardClickCompressor) {
             cardClickCompressor = cardClickAudioContext.createDynamicsCompressor();
-            cardClickCompressor.threshold.setValueAtTime(-10, now);
-            cardClickCompressor.knee.setValueAtTime(8, now);
-            cardClickCompressor.ratio.setValueAtTime(6, now);
+            cardClickCompressor.threshold.setValueAtTime(-14, now);
+            cardClickCompressor.knee.setValueAtTime(6, now);
+            cardClickCompressor.ratio.setValueAtTime(8, now);
             cardClickCompressor.attack.setValueAtTime(0.001, now);
-            cardClickCompressor.release.setValueAtTime(0.06, now);
+            cardClickCompressor.release.setValueAtTime(0.045, now);
 
             cardClickMasterGain = cardClickAudioContext.createGain();
-            cardClickMasterGain.gain.setValueAtTime(2, now);
+            cardClickMasterGain.gain.setValueAtTime(6, now);
+
+            cardClickLimiter = cardClickAudioContext.createDynamicsCompressor();
+            cardClickLimiter.threshold.setValueAtTime(-1, now);
+            cardClickLimiter.knee.setValueAtTime(0, now);
+            cardClickLimiter.ratio.setValueAtTime(20, now);
+            cardClickLimiter.attack.setValueAtTime(0.001, now);
+            cardClickLimiter.release.setValueAtTime(0.05, now);
 
             cardClickCompressor.connect(cardClickMasterGain);
-            cardClickMasterGain.connect(cardClickAudioContext.destination);
+            cardClickMasterGain.connect(cardClickLimiter);
+            cardClickLimiter.connect(cardClickAudioContext.destination);
         }
 
-        // A short, rapidly decaying noise burst creates the sharp mouse-click attack.
-        const clickDuration = 0.028;
+        // A brief, bright transient gives the key switch a crisp keyboard-like attack.
+        const clickDuration = 0.018;
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clickDuration),
@@ -272,7 +281,7 @@ function playCardClickSound() {
         const clickSamples = clickBuffer.getChannelData(0);
 
         for (let index = 0; index < clickSamples.length; index++) {
-            const fade = Math.pow(1 - index / clickSamples.length, 2.5);
+            const fade = Math.pow(1 - index / clickSamples.length, 3.4);
             clickSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -281,15 +290,15 @@ function playCardClickSound() {
 
         const highPass = cardClickAudioContext.createBiquadFilter();
         highPass.type = "highpass";
-        highPass.frequency.setValueAtTime(420, now);
+        highPass.frequency.setValueAtTime(900, now);
 
         const lowPass = cardClickAudioContext.createBiquadFilter();
         lowPass.type = "lowpass";
-        lowPass.frequency.setValueAtTime(7200, now);
+        lowPass.frequency.setValueAtTime(9000, now);
 
         const noiseVolume = cardClickAudioContext.createGain();
         noiseVolume.gain.setValueAtTime(0.0001, now);
-        noiseVolume.gain.exponentialRampToValueAtTime(0.75, now + 0.001);
+        noiseVolume.gain.exponentialRampToValueAtTime(0.9, now + 0.001);
         noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + clickDuration);
 
         noise.connect(highPass);
@@ -300,77 +309,78 @@ function playCardClickSound() {
         noise.start(now);
         noise.stop(now + clickDuration);
 
-        // A tiny high click gives the transient a distinct button-switch snap.
+        // The high switch snap makes the sound feel like a keyboard key press.
         const oscillator = cardClickAudioContext.createOscillator();
         const toneVolume = cardClickAudioContext.createGain();
 
         oscillator.type = "triangle";
-        oscillator.frequency.setValueAtTime(1550, now);
-        oscillator.frequency.exponentialRampToValueAtTime(620, now + 0.016);
+        oscillator.frequency.setValueAtTime(2850, now);
+        oscillator.frequency.exponentialRampToValueAtTime(1450, now + 0.008);
 
         toneVolume.gain.setValueAtTime(0.0001, now);
-        toneVolume.gain.exponentialRampToValueAtTime(0.16, now + 0.001);
-        toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.028);
+        toneVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.001);
+        toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
 
         oscillator.connect(toneVolume);
         toneVolume.connect(cardClickCompressor);
 
         oscillator.start(now);
-        oscillator.stop(now + 0.03);
+        oscillator.stop(now + 0.016);
 
-        // A quiet low-frequency tap supplies the physical mouse-button body.
+        // The short, lower clack adds the keycap's physical bottom-out sound.
+        const clackStart = now + 0.008;
+        const clackDuration = 0.022;
+        const clackBuffer = cardClickAudioContext.createBuffer(
+            1,
+            Math.ceil(sampleRate * clackDuration),
+            sampleRate
+        );
+        const clackSamples = clackBuffer.getChannelData(0);
+
+        for (let index = 0; index < clackSamples.length; index++) {
+            const fade = Math.pow(1 - index / clackSamples.length, 3);
+            clackSamples[index] = (Math.random() * 2 - 1) * fade;
+        }
+
+        const clack = cardClickAudioContext.createBufferSource();
+        clack.buffer = clackBuffer;
+
+        const clackFilter = cardClickAudioContext.createBiquadFilter();
+        clackFilter.type = "lowpass";
+        clackFilter.frequency.setValueAtTime(2800, clackStart);
+
+        const clackVolume = cardClickAudioContext.createGain();
+        clackVolume.gain.setValueAtTime(0.0001, clackStart);
+        clackVolume.gain.exponentialRampToValueAtTime(0.62, clackStart + 0.001);
+        clackVolume.gain.exponentialRampToValueAtTime(
+            0.0001,
+            clackStart + clackDuration
+        );
+
+        clack.connect(clackFilter);
+        clackFilter.connect(clackVolume);
+        clackVolume.connect(cardClickCompressor);
+
+        clack.start(clackStart);
+        clack.stop(clackStart + clackDuration);
+
+        // A restrained low tap rounds out the keyboard clack without a pop.
         const thump = cardClickAudioContext.createOscillator();
         const thumpVolume = cardClickAudioContext.createGain();
 
         thump.type = "sine";
-        thump.frequency.setValueAtTime(210, now);
-        thump.frequency.exponentialRampToValueAtTime(125, now + 0.022);
+        thump.frequency.setValueAtTime(250, now);
+        thump.frequency.exponentialRampToValueAtTime(175, now + 0.016);
 
         thumpVolume.gain.setValueAtTime(0.0001, now);
-        thumpVolume.gain.exponentialRampToValueAtTime(0.18, now + 0.001);
-        thumpVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.1, now + 0.001);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.024);
 
         thump.connect(thumpVolume);
         thumpVolume.connect(cardClickCompressor);
 
         thump.start(now);
-        thump.stop(now + 0.037);
-
-        // A short two-note metallic ring follows the click, like a soft "ding".
-        const dingStart = now + 0.012;
-        const dingDuration = 0.19;
-        const dingTones = [
-            { frequency: 1480, endFrequency: 1390, volume: 0.13 },
-            { frequency: 2220, endFrequency: 2085, volume: 0.055 }
-        ];
-
-        dingTones.forEach(({ frequency, endFrequency, volume }) => {
-            const ding = cardClickAudioContext.createOscillator();
-            const dingVolume = cardClickAudioContext.createGain();
-
-            ding.type = "sine";
-            ding.frequency.setValueAtTime(frequency, dingStart);
-            ding.frequency.exponentialRampToValueAtTime(
-                endFrequency,
-                dingStart + dingDuration
-            );
-
-            dingVolume.gain.setValueAtTime(0.0001, dingStart);
-            dingVolume.gain.exponentialRampToValueAtTime(
-                volume,
-                dingStart + 0.003
-            );
-            dingVolume.gain.exponentialRampToValueAtTime(
-                0.0001,
-                dingStart + dingDuration
-            );
-
-            ding.connect(dingVolume);
-            dingVolume.connect(cardClickCompressor);
-
-            ding.start(dingStart);
-            ding.stop(dingStart + dingDuration + 0.01);
-        });
+        thump.stop(now + 0.026);
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
