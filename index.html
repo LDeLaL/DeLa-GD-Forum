@@ -61,6 +61,7 @@
 
         <nav class="nav">
             <button onclick="goHome()">LIST</button>
+            <button onclick="showImpossibleList()">IMPOSSIBLE LIST</button>
             <button onclick="showRecords()">RECORDS</button>
             <button onclick="showAbout()">ABOUT</button>
         </nav>
@@ -110,13 +111,41 @@
     </section>
 
 
+    <!-- ==================== IMPOSSIBLE LIST PAGE ==================== -->
+
+    <section id="impossible-ranking-page" class="hidden">
+
+        <div class="hero">
+            <div class="hero-small">DeLa GD Forum</div>
+            <h1>IMPOSSIBLE LIST</h1>
+            <p>Geometry Dash Level Ranking</p>
+        </div>
+
+        <div class="controls">
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="impossible-search-input"
+                    placeholder="Search levels..."
+                    autocomplete="off"
+                >
+            </div>
+
+        </div>
+
+        <div id="impossible-ranking-grid" class="ranking-grid"></div>
+
+    </section>
+
+
     <!-- ==================== DETAIL PAGE ==================== -->
 
     <section id="detail-page" class="hidden">
 
         <div class="detail-container">
 
-            <button class="back-button" onclick="goHome()">
+            <button class="back-button" onclick="goBackToList()">
                 ← Back to List
             </button>
 
@@ -178,7 +207,7 @@
 
                 <div class="info-grid">
 
-                    <div class="info-card">
+                    <div class="info-card" id="detail-absolute-card">
                         <span>Absolute Difficulty</span>
                         <strong id="detail-absolute"></strong>
                     </div>
