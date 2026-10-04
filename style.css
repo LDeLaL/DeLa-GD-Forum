@@ -138,13 +138,13 @@ main {
     height: var(--square-size, 11px);
 
     opacity: var(--square-opacity, 0.28);
-    border: 1px solid rgba(218, 187, 255, 1);
+    border: var(--square-border-width, 1px) solid rgba(228, 208, 255, 1);
     border-radius: 2px;
 
     box-shadow:
-        0 0 9px rgba(184, 116, 255, 0.72),
-        0 0 20px rgba(159, 91, 255, 0.48),
-        inset 0 0 5px rgba(198, 151, 255, 0.22);
+        0 0 10px rgba(194, 133, 255, 0.82),
+        0 0 24px rgba(169, 104, 255, 0.60),
+        inset 0 0 6px rgba(210, 173, 255, 0.28);
 
     offset-path: ellipse(var(--orbit-radius-x, 46vw) var(--orbit-radius-y, 45vh) at 50% 50%);
     offset-anchor: center;
@@ -158,399 +158,435 @@ main {
 }
 
 .orbit-square:nth-child(1) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 9px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 7px;
     --orbit-duration: 81s;
     --orbit-delay: -17s;
     --orbit-start: 0%;
     --square-tilt: -12deg;
-    --square-opacity: 0.36;
+    --square-opacity: 0.31;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(2) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 11px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 8px;
     --orbit-duration: 94s;
     --orbit-delay: -34s;
     --orbit-start: 11.1%;
     --square-tilt: 7deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.36;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(3) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 13px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 9px;
     --orbit-duration: 107s;
     --orbit-delay: -51s;
     --orbit-start: 22.2%;
     --square-tilt: 15deg;
-    --square-opacity: 0.38;
+    --square-opacity: 0.33;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(4) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 10px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 8px;
     --orbit-duration: 71s;
     --orbit-delay: -68s;
     --orbit-start: 33.3%;
     --square-tilt: -5deg;
-    --square-opacity: 0.46;
+    --square-opacity: 0.39;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(5) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 14px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 10px;
     --orbit-duration: 84s;
     --orbit-delay: -85s;
     --orbit-start: 44.4%;
     --square-tilt: 10deg;
-    --square-opacity: 0.34;
+    --square-opacity: 0.30;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(6) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 8px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 7px;
     --orbit-duration: 97s;
     --orbit-delay: -102s;
     --orbit-start: 55.5%;
     --square-tilt: -16deg;
-    --square-opacity: 0.40;
+    --square-opacity: 0.35;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(7) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 12px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 9px;
     --orbit-duration: 110s;
     --orbit-delay: -10s;
     --orbit-start: 66.6%;
     --square-tilt: 4deg;
-    --square-opacity: 0.44;
+    --square-opacity: 0.38;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(8) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 15px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 11px;
     --orbit-duration: 74s;
     --orbit-delay: -27s;
     --orbit-start: 77.7%;
     --square-tilt: 13deg;
-    --square-opacity: 0.37;
+    --square-opacity: 0.32;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(9) {
-    --orbit-radius-x: 39vw;
-    --orbit-radius-y: 40vh;
-    --square-size: 10px;
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 43vh;
+    --square-size: 8px;
     --orbit-duration: 87s;
     --orbit-delay: -44s;
     --orbit-start: 88.8%;
     --square-tilt: -8deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.36;
+    --square-border-width: 1px;
 }
 
 .orbit-square:nth-child(10) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
     --square-size: 9px;
     --orbit-duration: 100s;
     --orbit-delay: -61s;
     --orbit-start: 0%;
     --square-tilt: -12deg;
-    --square-opacity: 0.36;
+    --square-opacity: 0.39;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(11) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
     --square-size: 11px;
     --orbit-duration: 113s;
     --orbit-delay: -78s;
     --orbit-start: 11.1%;
     --square-tilt: 7deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.44;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(12) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 13px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 10px;
     --orbit-duration: 77s;
     --orbit-delay: -95s;
     --orbit-start: 22.2%;
     --square-tilt: 15deg;
-    --square-opacity: 0.38;
+    --square-opacity: 0.41;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(13) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 10px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 12px;
     --orbit-duration: 90s;
     --orbit-delay: -3s;
     --orbit-start: 33.3%;
     --square-tilt: -5deg;
-    --square-opacity: 0.46;
+    --square-opacity: 0.47;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(14) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 14px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 9px;
     --orbit-duration: 103s;
     --orbit-delay: -20s;
     --orbit-start: 44.4%;
     --square-tilt: 10deg;
-    --square-opacity: 0.34;
+    --square-opacity: 0.38;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(15) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 8px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 11px;
     --orbit-duration: 116s;
     --orbit-delay: -37s;
     --orbit-start: 55.5%;
     --square-tilt: -16deg;
-    --square-opacity: 0.40;
+    --square-opacity: 0.43;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(16) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 12px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 13px;
     --orbit-duration: 80s;
     --orbit-delay: -54s;
     --orbit-start: 66.6%;
     --square-tilt: 4deg;
-    --square-opacity: 0.44;
+    --square-opacity: 0.46;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(17) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 15px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 10px;
     --orbit-duration: 93s;
     --orbit-delay: -71s;
     --orbit-start: 77.7%;
     --square-tilt: 13deg;
-    --square-opacity: 0.37;
+    --square-opacity: 0.40;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(18) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 43vh;
-    --square-size: 10px;
+    --orbit-radius-x: 47vw;
+    --orbit-radius-y: 48vh;
+    --square-size: 12px;
     --orbit-duration: 106s;
     --orbit-delay: -88s;
     --orbit-start: 88.8%;
     --square-tilt: -8deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.44;
+    --square-border-width: 1.1px;
 }
 
 .orbit-square:nth-child(19) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 9px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 12px;
     --orbit-duration: 70s;
     --orbit-delay: -105s;
     --orbit-start: 0%;
     --square-tilt: -12deg;
-    --square-opacity: 0.36;
+    --square-opacity: 0.49;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(20) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 11px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 14px;
     --orbit-duration: 83s;
     --orbit-delay: -13s;
     --orbit-start: 11.1%;
     --square-tilt: 7deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.54;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(21) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
     --square-size: 13px;
     --orbit-duration: 96s;
     --orbit-delay: -30s;
     --orbit-start: 22.2%;
     --square-tilt: 15deg;
-    --square-opacity: 0.38;
+    --square-opacity: 0.51;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(22) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 10px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 16px;
     --orbit-duration: 109s;
     --orbit-delay: -47s;
     --orbit-start: 33.3%;
     --square-tilt: -5deg;
-    --square-opacity: 0.46;
+    --square-opacity: 0.58;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(23) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 14px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 12px;
     --orbit-duration: 73s;
     --orbit-delay: -64s;
     --orbit-start: 44.4%;
     --square-tilt: 10deg;
-    --square-opacity: 0.34;
+    --square-opacity: 0.48;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(24) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 8px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 15px;
     --orbit-duration: 86s;
     --orbit-delay: -81s;
     --orbit-start: 55.5%;
     --square-tilt: -16deg;
-    --square-opacity: 0.40;
+    --square-opacity: 0.53;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(25) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 12px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 14px;
     --orbit-duration: 99s;
     --orbit-delay: -98s;
     --orbit-start: 66.6%;
     --square-tilt: 4deg;
-    --square-opacity: 0.44;
+    --square-opacity: 0.57;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(26) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 15px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 17px;
     --orbit-duration: 112s;
     --orbit-delay: -6s;
     --orbit-start: 77.7%;
     --square-tilt: 13deg;
-    --square-opacity: 0.37;
+    --square-opacity: 0.50;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(27) {
-    --orbit-radius-x: 46vw;
-    --orbit-radius-y: 46vh;
-    --square-size: 10px;
+    --orbit-radius-x: 52vw;
+    --orbit-radius-y: 53vh;
+    --square-size: 13px;
     --orbit-duration: 76s;
     --orbit-delay: -23s;
     --orbit-start: 88.8%;
     --square-tilt: -8deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.55;
+    --square-border-width: 1.3px;
 }
 
 .orbit-square:nth-child(28) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 9px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 16px;
     --orbit-duration: 89s;
     --orbit-delay: -40s;
     --orbit-start: 0%;
     --square-tilt: -12deg;
-    --square-opacity: 0.36;
+    --square-opacity: 0.59;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(29) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 11px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 18px;
     --orbit-duration: 102s;
     --orbit-delay: -57s;
     --orbit-start: 11.1%;
     --square-tilt: 7deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.64;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(30) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 13px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 17px;
     --orbit-duration: 115s;
     --orbit-delay: -74s;
     --orbit-start: 22.2%;
     --square-tilt: 15deg;
-    --square-opacity: 0.38;
+    --square-opacity: 0.61;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(31) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 10px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 20px;
     --orbit-duration: 79s;
     --orbit-delay: -91s;
     --orbit-start: 33.3%;
     --square-tilt: -5deg;
-    --square-opacity: 0.46;
+    --square-opacity: 0.68;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(32) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 14px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 15px;
     --orbit-duration: 92s;
     --orbit-delay: -108s;
     --orbit-start: 44.4%;
     --square-tilt: 10deg;
-    --square-opacity: 0.34;
+    --square-opacity: 0.58;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(33) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 8px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 19px;
     --orbit-duration: 105s;
     --orbit-delay: -16s;
     --orbit-start: 55.5%;
     --square-tilt: -16deg;
-    --square-opacity: 0.40;
+    --square-opacity: 0.63;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(34) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 12px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 21px;
     --orbit-duration: 69s;
     --orbit-delay: -33s;
     --orbit-start: 66.6%;
     --square-tilt: 4deg;
-    --square-opacity: 0.44;
+    --square-opacity: 0.67;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(35) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 15px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 16px;
     --orbit-duration: 82s;
     --orbit-delay: -50s;
     --orbit-start: 77.7%;
     --square-tilt: 13deg;
-    --square-opacity: 0.37;
+    --square-opacity: 0.60;
+    --square-border-width: 1.5px;
 }
 
 .orbit-square:nth-child(36) {
-    --orbit-radius-x: 49vw;
-    --orbit-radius-y: 48vh;
-    --square-size: 10px;
+    --orbit-radius-x: 57vw;
+    --orbit-radius-y: 58vh;
+    --square-size: 18px;
     --orbit-duration: 95s;
     --orbit-delay: -67s;
     --orbit-start: 88.8%;
     --square-tilt: -8deg;
-    --square-opacity: 0.42;
+    --square-opacity: 0.65;
+    --square-border-width: 1.5px;
 }
 
 @keyframes slow-square-orbit {
