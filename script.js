@@ -243,22 +243,63 @@ function playCardClickSound() {
         }
 
         const now = cardClickAudioContext.currentTime;
+        const sampleRate = cardClickAudioContext.sampleRate;
+
+        // A short filtered noise burst gives the click its mechanical texture.
+        const clickDuration = 0.045;
+        const clickBuffer = cardClickAudioContext.createBuffer(
+            1,
+            Math.ceil(sampleRate * clickDuration),
+            sampleRate
+        );
+        const clickSamples = clickBuffer.getChannelData(0);
+
+        for (let index = 0; index < clickSamples.length; index++) {
+            const fade = 1 - index / clickSamples.length;
+            clickSamples[index] = (Math.random() * 2 - 1) * fade;
+        }
+
+        const noise = cardClickAudioContext.createBufferSource();
+        noise.buffer = clickBuffer;
+
+        const highPass = cardClickAudioContext.createBiquadFilter();
+        highPass.type = "highpass";
+        highPass.frequency.setValueAtTime(650, now);
+
+        const lowPass = cardClickAudioContext.createBiquadFilter();
+        lowPass.type = "lowpass";
+        lowPass.frequency.setValueAtTime(6200, now);
+
+        const noiseVolume = cardClickAudioContext.createGain();
+        noiseVolume.gain.setValueAtTime(0.0001, now);
+        noiseVolume.gain.exponentialRampToValueAtTime(0.24, now + 0.0015);
+        noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + clickDuration);
+
+        noise.connect(highPass);
+        highPass.connect(lowPass);
+        lowPass.connect(noiseVolume);
+        noiseVolume.connect(cardClickAudioContext.destination);
+
+        noise.start(now);
+        noise.stop(now + clickDuration);
+
+        // A very brief descending tone adds a crisp switch-like snap.
         const oscillator = cardClickAudioContext.createOscillator();
-        const volume = cardClickAudioContext.createGain();
+        const toneVolume = cardClickAudioContext.createGain();
 
         oscillator.type = "triangle";
-        oscillator.frequency.setValueAtTime(780, now);
-        oscillator.frequency.exponentialRampToValueAtTime(320, now + 0.035);
+        oscillator.frequency.setValueAtTime(1250, now);
+        oscillator.frequency.exponentialRampToValueAtTime(470, now + 0.018);
 
-        volume.gain.setValueAtTime(0.0001, now);
-        volume.gain.exponentialRampToValueAtTime(0.07, now + 0.002);
-        volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+        toneVolume.gain.setValueAtTime(0.0001, now);
+        toneVolume.gain.exponentialRampToValueAtTime(0.10, now + 0.0015);
+        toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
 
-        oscillator.connect(volume);
-        volume.connect(cardClickAudioContext.destination);
+        oscillator.connect(toneVolume);
+        toneVolume.connect(cardClickAudioContext.destination);
 
         oscillator.start(now);
-        oscillator.stop(now + 0.052);
+        oscillator.stop(now + 0.032);
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
