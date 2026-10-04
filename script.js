@@ -540,13 +540,12 @@ function changePage(targetPage) {
         return;
     }
 
-    syncPageTheme(targetPage);
-
     const currentPage = appPages.find(
         page => !page.classList.contains("hidden")
     );
 
     if (currentPage === targetPage) {
+        syncPageTheme(targetPage);
         return;
     }
 
@@ -564,6 +563,7 @@ function changePage(targetPage) {
             currentPage.classList.remove("page-leaving");
         }
 
+        syncPageTheme(targetPage);
         targetPage.classList.remove("hidden", "page-leaving", "page-entering");
 
         // Restart the entrance animation whenever a page is shown again.
