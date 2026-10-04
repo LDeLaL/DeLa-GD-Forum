@@ -264,6 +264,7 @@ let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
 let cardClickLimiter = null;
+let themeTransitionTimeout = null;
 
 
 /* =========================================================
@@ -328,18 +329,35 @@ function applyMovingCubes(enabled) {
 }
 
 
+function startThemeTransition() {
+    if (themeTransitionTimeout) {
+        window.clearTimeout(themeTransitionTimeout);
+    }
+
+    document.body.classList.remove("theme-transition");
+    void document.body.offsetWidth;
+    document.body.classList.add("theme-transition");
+
+    themeTransitionTimeout = window.setTimeout(() => {
+        document.body.classList.remove("theme-transition");
+        themeTransitionTimeout = null;
+    }, 760);
+}
+
+
 function initializeDisplayPreferences() {
     const savedTheme = readDisplayPreference("dela-gd-theme");
     const savedCubes = readDisplayPreference("dela-gd-moving-cubes");
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
-    // Keep the moving background off by default; it can be enabled from the header.
-    applyMovingCubes(savedCubes === "on");
+    // Keep the moving background on by default unless it was explicitly turned off.
+    applyMovingCubes(savedCubes !== "off");
 
     themeToggle?.addEventListener("click", () => {
         const nextTheme = document.body.classList.contains("light-theme")
             ? "dark"
             : "light";
+        startThemeTransition();
         applyColorTheme(nextTheme);
         saveDisplayPreference("dela-gd-theme", nextTheme);
     });
