@@ -249,14 +249,14 @@ function playCardClickSound() {
 
         if (!cardClickCompressor) {
             cardClickCompressor = cardClickAudioContext.createDynamicsCompressor();
-            cardClickCompressor.threshold.setValueAtTime(-8, now);
+            cardClickCompressor.threshold.setValueAtTime(-10, now);
             cardClickCompressor.knee.setValueAtTime(8, now);
-            cardClickCompressor.ratio.setValueAtTime(4, now);
+            cardClickCompressor.ratio.setValueAtTime(6, now);
             cardClickCompressor.attack.setValueAtTime(0.001, now);
             cardClickCompressor.release.setValueAtTime(0.06, now);
 
             cardClickMasterGain = cardClickAudioContext.createGain();
-            cardClickMasterGain.gain.setValueAtTime(1.7, now);
+            cardClickMasterGain.gain.setValueAtTime(2, now);
 
             cardClickCompressor.connect(cardClickMasterGain);
             cardClickMasterGain.connect(cardClickAudioContext.destination);
@@ -335,6 +335,42 @@ function playCardClickSound() {
 
         thump.start(now);
         thump.stop(now + 0.037);
+
+        // A short two-note metallic ring follows the click, like a soft "ding".
+        const dingStart = now + 0.012;
+        const dingDuration = 0.19;
+        const dingTones = [
+            { frequency: 1480, endFrequency: 1390, volume: 0.13 },
+            { frequency: 2220, endFrequency: 2085, volume: 0.055 }
+        ];
+
+        dingTones.forEach(({ frequency, endFrequency, volume }) => {
+            const ding = cardClickAudioContext.createOscillator();
+            const dingVolume = cardClickAudioContext.createGain();
+
+            ding.type = "sine";
+            ding.frequency.setValueAtTime(frequency, dingStart);
+            ding.frequency.exponentialRampToValueAtTime(
+                endFrequency,
+                dingStart + dingDuration
+            );
+
+            dingVolume.gain.setValueAtTime(0.0001, dingStart);
+            dingVolume.gain.exponentialRampToValueAtTime(
+                volume,
+                dingStart + 0.003
+            );
+            dingVolume.gain.exponentialRampToValueAtTime(
+                0.0001,
+                dingStart + dingDuration
+            );
+
+            ding.connect(dingVolume);
+            dingVolume.connect(cardClickCompressor);
+
+            ding.start(dingStart);
+            ding.stop(dingStart + dingDuration + 0.01);
+        });
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
