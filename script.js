@@ -838,7 +838,7 @@ difficultyFilter.addEventListener(
 const detailBackButton = detailPage.querySelector(".back-button");
 
 if (detailBackButton) {
-    detailBackButton.addEventListener("click", playPageTurnSound);
+    detailBackButton.addEventListener("click", playCardClickSound);
 }
 
 
