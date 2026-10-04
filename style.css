@@ -134,145 +134,183 @@ main {
     left: 0;
 
     display: block;
-    width: var(--square-size, 14px);
-    height: var(--square-size, 14px);
+    width: var(--square-size, 10px);
+    height: var(--square-size, 10px);
 
-    opacity: var(--square-opacity, 0.35);
-    border: var(--square-border-width, 1px) solid #8b5cf6;
+    opacity: var(--square-opacity, 0.56);
+    border: var(--square-border-width, 1px) solid #a78bfa;
     border-radius: 2px;
 
     box-shadow:
-        0 0 var(--glow-core, 12px) rgba(139, 92, 246, 0.96),
-        0 0 var(--glow-mid, 26px) rgba(124, 58, 237, 0.78),
-        0 0 var(--glow-far, 44px) rgba(109, 40, 217, 0.52),
-        inset 0 0 var(--glow-inset, 7px) rgba(167, 139, 250, 0.48);
+        0 0 var(--glow-core, 9px) rgba(139, 92, 246, 0.98),
+        0 0 var(--glow-mid, 20px) rgba(124, 58, 237, 0.84),
+        0 0 var(--glow-far, 36px) rgba(109, 40, 217, 0.64),
+        inset 0 0 var(--glow-inset, 7px) rgba(196, 181, 253, 0.68);
 
-    offset-path: ellipse(var(--orbit-radius-x, 15vw) var(--orbit-radius-y, 16vh) at 50% 50%);
+    offset-path: ellipse(var(--orbit-radius-x, 7vw) var(--orbit-radius-y, 7vh) at 50% 50%);
     offset-anchor: center;
     offset-rotate: 0deg;
     offset-distance: var(--orbit-start, 0%);
 
     transform: rotate(var(--square-tilt, 0deg));
-    animation: slow-square-orbit var(--orbit-duration, 28s) linear infinite;
+    animation: slow-square-orbit var(--orbit-duration, 24s) linear infinite;
     animation-delay: var(--orbit-delay, 0s);
     will-change: offset-distance;
 }
 
-/* Inner orbit: smaller squares that travel faster. */
-.orbit-square:nth-child(-n + 9) {
-    --orbit-radius-x: 15vw;
-    --orbit-radius-y: 16vh;
-    --square-size: 14px;
-    --square-opacity: 0.35;
+/* Inner orbit: smaller squares move faster. */
+.orbit-square:nth-child(-n + 10) {
+    --orbit-radius-x: 7vw;
+    --orbit-radius-y: 7vh;
+    --square-size: 10px;
+    --square-opacity: 0.56;
     --square-border-width: 1px;
-    --glow-core: 12px;
-    --glow-mid: 26px;
-    --glow-far: 44px;
+    --glow-core: 9px;
+    --glow-mid: 20px;
+    --glow-far: 36px;
     --glow-inset: 7px;
-    --orbit-duration: 28s;
+    --orbit-duration: 24s;
+    --orbit-delay: 0s;
 }
 
-.orbit-square:nth-child(n + 10):nth-child(-n + 18) {
-    --orbit-radius-x: 22vw;
-    --orbit-radius-y: 23vh;
-    --square-size: 19px;
-    --square-opacity: 0.40;
+.orbit-square:nth-child(n + 11):nth-child(-n + 20) {
+    --orbit-radius-x: 14vw;
+    --orbit-radius-y: 14vh;
+    --square-size: 14px;
+    --square-opacity: 0.61;
     --square-border-width: 1.2px;
-    --glow-core: 14px;
-    --glow-mid: 30px;
-    --glow-far: 50px;
+    --glow-core: 11px;
+    --glow-mid: 24px;
+    --glow-far: 45px;
     --glow-inset: 8px;
-    --orbit-duration: 36s;
+    --orbit-duration: 30s;
+    --orbit-delay: -4s;
 }
 
-.orbit-square:nth-child(n + 19):nth-child(-n + 27) {
-    --orbit-radius-x: 29vw;
-    --orbit-radius-y: 30vh;
-    --square-size: 24px;
-    --square-opacity: 0.46;
+.orbit-square:nth-child(n + 21):nth-child(-n + 30) {
+    --orbit-radius-x: 21vw;
+    --orbit-radius-y: 21vh;
+    --square-size: 18px;
+    --square-opacity: 0.66;
     --square-border-width: 1.4px;
-    --glow-core: 17px;
-    --glow-mid: 36px;
+    --glow-core: 13px;
+    --glow-mid: 30px;
     --glow-far: 58px;
     --glow-inset: 9px;
-    --orbit-duration: 45s;
+    --orbit-duration: 38s;
+    --orbit-delay: -9s;
 }
 
-.orbit-square:nth-child(n + 28):nth-child(-n + 36) {
-    --orbit-radius-x: 36vw;
-    --orbit-radius-y: 37vh;
-    --square-size: 30px;
-    --square-opacity: 0.53;
+.orbit-square:nth-child(n + 31):nth-child(-n + 40) {
+    --orbit-radius-x: 28vw;
+    --orbit-radius-y: 28vh;
+    --square-size: 23px;
+    --square-opacity: 0.70;
     --square-border-width: 1.6px;
-    --glow-core: 20px;
-    --glow-mid: 44px;
-    --glow-far: 68px;
+    --glow-core: 17px;
+    --glow-mid: 38px;
+    --glow-far: 72px;
     --glow-inset: 10px;
-    --orbit-duration: 56s;
+    --orbit-duration: 47s;
+    --orbit-delay: -13s;
 }
 
-.orbit-square:nth-child(n + 37):nth-child(-n + 45) {
-    --orbit-radius-x: 43vw;
-    --orbit-radius-y: 44vh;
-    --square-size: 38px;
-    --square-opacity: 0.60;
+.orbit-square:nth-child(n + 41):nth-child(-n + 50) {
+    --orbit-radius-x: 35vw;
+    --orbit-radius-y: 35vh;
+    --square-size: 30px;
+    --square-opacity: 0.75;
     --square-border-width: 1.8px;
-    --glow-core: 24px;
-    --glow-mid: 54px;
-    --glow-far: 82px;
+    --glow-core: 21px;
+    --glow-mid: 48px;
+    --glow-far: 90px;
     --glow-inset: 11px;
-    --orbit-duration: 68s;
+    --orbit-duration: 58s;
+    --orbit-delay: -19s;
 }
 
-.orbit-square:nth-child(n + 46):nth-child(-n + 54) {
-    --orbit-radius-x: 50vw;
-    --orbit-radius-y: 51vh;
-    --square-size: 46px;
-    --square-opacity: 0.68;
+.orbit-square:nth-child(n + 51):nth-child(-n + 60) {
+    --orbit-radius-x: 42vw;
+    --orbit-radius-y: 42vh;
+    --square-size: 39px;
+    --square-opacity: 0.80;
     --square-border-width: 2px;
-    --glow-core: 29px;
-    --glow-mid: 64px;
-    --glow-far: 98px;
+    --glow-core: 26px;
+    --glow-mid: 60px;
+    --glow-far: 110px;
     --glow-inset: 12px;
-    --orbit-duration: 82s;
+    --orbit-duration: 72s;
+    --orbit-delay: -27s;
 }
 
-.orbit-square:nth-child(n + 55):nth-child(-n + 63) {
-    --orbit-radius-x: 57vw;
-    --orbit-radius-y: 58vh;
-    --square-size: 56px;
-    --square-opacity: 0.78;
-    --square-border-width: 2.4px;
-    --glow-core: 34px;
-    --glow-mid: 78px;
-    --glow-far: 118px;
+.orbit-square:nth-child(n + 61):nth-child(-n + 70) {
+    --orbit-radius-x: 49vw;
+    --orbit-radius-y: 49vh;
+    --square-size: 50px;
+    --square-opacity: 0.84;
+    --square-border-width: 2.3px;
+    --glow-core: 32px;
+    --glow-mid: 74px;
+    --glow-far: 135px;
     --glow-inset: 14px;
-    --orbit-duration: 102s;
+    --orbit-duration: 88s;
+    --orbit-delay: -36s;
 }
 
-/* Outer orbit extends beyond the viewport and moves slowest. */
-.orbit-square:nth-child(n + 64):nth-child(-n + 72) {
-    --orbit-radius-x: 65vw;
-    --orbit-radius-y: 66vh;
-    --square-size: 70px;
+.orbit-square:nth-child(n + 71):nth-child(-n + 80) {
+    --orbit-radius-x: 56vw;
+    --orbit-radius-y: 56vh;
+    --square-size: 64px;
     --square-opacity: 0.88;
-    --square-border-width: 3px;
-    --glow-core: 42px;
-    --glow-mid: 94px;
-    --glow-far: 145px;
+    --square-border-width: 2.6px;
+    --glow-core: 40px;
+    --glow-mid: 92px;
+    --glow-far: 165px;
     --glow-inset: 16px;
-    --orbit-duration: 128s;
+    --orbit-duration: 106s;
+    --orbit-delay: -48s;
 }
 
-.orbit-square:nth-child(9n + 1) { --orbit-start: 0%; --square-tilt: -12deg; }
-.orbit-square:nth-child(9n + 2) { --orbit-start: 11.1%; --square-tilt: 7deg; }
-.orbit-square:nth-child(9n + 3) { --orbit-start: 22.2%; --square-tilt: 15deg; }
-.orbit-square:nth-child(9n + 4) { --orbit-start: 33.3%; --square-tilt: -5deg; }
-.orbit-square:nth-child(9n + 5) { --orbit-start: 44.4%; --square-tilt: 10deg; }
-.orbit-square:nth-child(9n + 6) { --orbit-start: 55.5%; --square-tilt: -16deg; }
-.orbit-square:nth-child(9n + 7) { --orbit-start: 66.6%; --square-tilt: 4deg; }
-.orbit-square:nth-child(9n + 8) { --orbit-start: 77.7%; --square-tilt: 13deg; }
-.orbit-square:nth-child(9n) { --orbit-start: 88.8%; --square-tilt: -8deg; }
+.orbit-square:nth-child(n + 81):nth-child(-n + 90) {
+    --orbit-radius-x: 63vw;
+    --orbit-radius-y: 63vh;
+    --square-size: 82px;
+    --square-opacity: 0.92;
+    --square-border-width: 3px;
+    --glow-core: 50px;
+    --glow-mid: 116px;
+    --glow-far: 200px;
+    --glow-inset: 18px;
+    --orbit-duration: 130s;
+    --orbit-delay: -62s;
+}
+
+/* The largest outer orbit goes beyond the screen edge and moves slowest. */
+.orbit-square:nth-child(n + 91):nth-child(-n + 100) {
+    --orbit-radius-x: 70vw;
+    --orbit-radius-y: 70vh;
+    --square-size: 108px;
+    --square-opacity: 0.96;
+    --square-border-width: 3.5px;
+    --glow-core: 62px;
+    --glow-mid: 145px;
+    --glow-far: 245px;
+    --glow-inset: 20px;
+    --orbit-duration: 160s;
+    --orbit-delay: -80s;
+}
+
+/* Spread ten squares evenly along every orbit. */
+.orbit-square:nth-child(10n + 1) { --orbit-start: 0%; --square-tilt: -12deg; }
+.orbit-square:nth-child(10n + 2) { --orbit-start: 10%; --square-tilt: 7deg; }
+.orbit-square:nth-child(10n + 3) { --orbit-start: 20%; --square-tilt: 15deg; }
+.orbit-square:nth-child(10n + 4) { --orbit-start: 30%; --square-tilt: -5deg; }
+.orbit-square:nth-child(10n + 5) { --orbit-start: 40%; --square-tilt: 10deg; }
+.orbit-square:nth-child(10n + 6) { --orbit-start: 50%; --square-tilt: -16deg; }
+.orbit-square:nth-child(10n + 7) { --orbit-start: 60%; --square-tilt: 4deg; }
+.orbit-square:nth-child(10n + 8) { --orbit-start: 70%; --square-tilt: 13deg; }
+.orbit-square:nth-child(10n + 9) { --orbit-start: 80%; --square-tilt: -8deg; }
+.orbit-square:nth-child(10n) { --orbit-start: 90%; --square-tilt: 11deg; }
 
 @keyframes slow-square-orbit {
     from {
