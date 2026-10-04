@@ -401,16 +401,19 @@ function playPageTurnSound() {
 
         const now = cardClickAudioContext.currentTime;
         const sampleRate = cardClickAudioContext.sampleRate;
-        const turnDuration = 0.28;
+        const turnDuration = 0.62;
         const turnBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * turnDuration),
             sampleRate
         );
         const turnSamples = turnBuffer.getChannelData(0);
+        let softenedNoise = 0;
 
         for (let index = 0; index < turnSamples.length; index++) {
-            turnSamples[index] = Math.random() * 2 - 1;
+            const whiteNoise = Math.random() * 2 - 1;
+            softenedNoise = softenedNoise * 0.88 + whiteNoise * 0.12;
+            turnSamples[index] = softenedNoise * 3;
         }
 
         const turnNoise = cardClickAudioContext.createBufferSource();
@@ -418,76 +421,53 @@ function playPageTurnSound() {
 
         const turnHighPass = cardClickAudioContext.createBiquadFilter();
         turnHighPass.type = "highpass";
-        turnHighPass.frequency.setValueAtTime(3600, now);
-        turnHighPass.frequency.exponentialRampToValueAtTime(
-            380,
-            now + turnDuration
-        );
+        turnHighPass.frequency.setValueAtTime(180, now);
 
         const turnLowPass = cardClickAudioContext.createBiquadFilter();
         turnLowPass.type = "lowpass";
-        turnLowPass.frequency.setValueAtTime(9000, now);
+        turnLowPass.frequency.setValueAtTime(1500, now);
+        turnLowPass.frequency.exponentialRampToValueAtTime(4200, now + 0.22);
         turnLowPass.frequency.exponentialRampToValueAtTime(
-            2200,
+            1700,
             now + turnDuration
         );
 
         const turnVolume = cardClickAudioContext.createGain();
         turnVolume.gain.setValueAtTime(0.0001, now);
-        turnVolume.gain.exponentialRampToValueAtTime(0.9, now + 0.025);
-        turnVolume.gain.exponentialRampToValueAtTime(
-            0.0001,
-            now + turnDuration
-        );
+        turnVolume.gain.exponentialRampToValueAtTime(0.32, now + 0.08);
+        turnVolume.gain.exponentialRampToValueAtTime(0.58, now + 0.22);
+        turnVolume.gain.exponentialRampToValueAtTime(0.0001, now + turnDuration);
 
         turnNoise.connect(turnHighPass);
         turnHighPass.connect(turnLowPass);
         turnLowPass.connect(turnVolume);
         turnVolume.connect(cardClickCompressor);
 
+        // A lower, airy layer adds the soft "whoosh" under the paper swish.
+        const whooshLowPass = cardClickAudioContext.createBiquadFilter();
+        whooshLowPass.type = "lowpass";
+        whooshLowPass.frequency.setValueAtTime(700, now);
+        whooshLowPass.frequency.exponentialRampToValueAtTime(1150, now + 0.2);
+        whooshLowPass.frequency.exponentialRampToValueAtTime(
+            420,
+            now + turnDuration
+        );
+
+        const whooshVolume = cardClickAudioContext.createGain();
+        whooshVolume.gain.setValueAtTime(0.0001, now);
+        whooshVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.12);
+        whooshVolume.gain.exponentialRampToValueAtTime(0.34, now + 0.25);
+        whooshVolume.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + turnDuration
+        );
+
+        turnNoise.connect(whooshLowPass);
+        whooshLowPass.connect(whooshVolume);
+        whooshVolume.connect(cardClickCompressor);
+
         turnNoise.start(now);
         turnNoise.stop(now + turnDuration);
-
-        // A soft paper-edge flutter finishes the page-turn sound.
-        const flickStart = now + 0.17;
-        const flickDuration = 0.065;
-        const flickBuffer = cardClickAudioContext.createBuffer(
-            1,
-            Math.ceil(sampleRate * flickDuration),
-            sampleRate
-        );
-        const flickSamples = flickBuffer.getChannelData(0);
-
-        for (let index = 0; index < flickSamples.length; index++) {
-            const fade = Math.pow(1 - index / flickSamples.length, 1.6);
-            flickSamples[index] = (Math.random() * 2 - 1) * fade;
-        }
-
-        const flickNoise = cardClickAudioContext.createBufferSource();
-        flickNoise.buffer = flickBuffer;
-
-        const flickFilter = cardClickAudioContext.createBiquadFilter();
-        flickFilter.type = "bandpass";
-        flickFilter.frequency.setValueAtTime(1750, flickStart);
-        flickFilter.Q.setValueAtTime(0.8, flickStart);
-
-        const flickVolume = cardClickAudioContext.createGain();
-        flickVolume.gain.setValueAtTime(0.0001, flickStart);
-        flickVolume.gain.exponentialRampToValueAtTime(
-            0.48,
-            flickStart + 0.004
-        );
-        flickVolume.gain.exponentialRampToValueAtTime(
-            0.0001,
-            flickStart + flickDuration
-        );
-
-        flickNoise.connect(flickFilter);
-        flickFilter.connect(flickVolume);
-        flickVolume.connect(cardClickCompressor);
-
-        flickNoise.start(flickStart);
-        flickNoise.stop(flickStart + flickDuration);
     } catch (error) {
         // Keep list navigation working if audio is unavailable.
     }
