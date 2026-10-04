@@ -756,6 +756,10 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
     lastListPage = sourceLevels === impossibleLevels
         ? impossibleRankingPage
         : rankingPage;
+    document.body.classList.toggle(
+        "impossible-theme",
+        lastListPage === impossibleRankingPage
+    );
 
     playCardClickSound();
     isOpeningLevel = true;
@@ -886,16 +890,22 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
    ========================================================= */
 
 function goHome() {
+    document.body.classList.remove("impossible-theme");
     changePage(rankingPage);
 }
 
 
 function showImpossibleList() {
+    document.body.classList.add("impossible-theme");
     changePage(impossibleRankingPage);
 }
 
 
 function goBackToList() {
+    document.body.classList.toggle(
+        "impossible-theme",
+        lastListPage === impossibleRankingPage
+    );
     changePage(lastListPage);
 }
 
@@ -905,6 +915,7 @@ function goBackToList() {
    ========================================================= */
 
 function showRecords() {
+    document.body.classList.remove("impossible-theme");
     changePage(recordsPage);
 }
 
@@ -914,6 +925,7 @@ function showRecords() {
    ========================================================= */
 
 function showAbout() {
+    document.body.classList.remove("impossible-theme");
     changePage(aboutPage);
 }
 
