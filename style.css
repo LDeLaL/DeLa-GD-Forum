@@ -155,7 +155,6 @@ main {
     transform: rotate(var(--square-tilt, 0deg));
     animation: slow-square-orbit var(--orbit-duration, 24s) linear infinite;
     animation-delay: var(--orbit-delay, 0s);
-    will-change: offset-distance;
 }
 
 /* Inner orbit: smaller squares move faster. */
@@ -319,6 +318,43 @@ main {
 
     to {
         offset-distance: calc(var(--orbit-start, 0%) + 100%);
+    }
+}
+
+/* Reduce animated glow layers on tablets and phones to keep motion smooth. */
+@media (max-width: 1024px) {
+    .orbit-square:nth-child(10n + 2),
+    .orbit-square:nth-child(10n + 4),
+    .orbit-square:nth-child(10n + 6),
+    .orbit-square:nth-child(10n + 8),
+    .orbit-square:nth-child(10n) {
+        display: none;
+    }
+
+    .orbit-square {
+        box-shadow:
+            0 0 min(var(--glow-core, 9px), 24px) rgba(139, 92, 246, 0.98),
+            0 0 min(var(--glow-mid, 20px), 52px) rgba(124, 58, 237, 0.82),
+            inset 0 0 min(var(--glow-inset, 7px), 10px) rgba(196, 181, 253, 0.65);
+    }
+}
+
+/* Phones keep three evenly spaced squares per orbit and cap the largest glows. */
+@media (max-width: 640px) {
+    .orbit-square:nth-child(10n + 3),
+    .orbit-square:nth-child(10n + 7) {
+        display: none;
+    }
+
+    .orbit-square {
+        width: min(var(--square-size, 10px), 44px);
+        height: min(var(--square-size, 10px), 44px);
+        border-width: min(var(--square-border-width, 1px), 2px);
+
+        box-shadow:
+            0 0 min(var(--glow-core, 9px), 15px) rgba(139, 92, 246, 0.98),
+            0 0 min(var(--glow-mid, 20px), 34px) rgba(124, 58, 237, 0.82),
+            inset 0 0 min(var(--glow-inset, 7px), 7px) rgba(196, 181, 253, 0.65);
     }
 }
 
