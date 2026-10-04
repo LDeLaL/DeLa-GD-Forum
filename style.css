@@ -383,23 +383,28 @@ main {
 }
 
 /* Stagger the main screen UI so it settles in from the background. */
-#ranking-page.page-entering > .hero {
+#ranking-page.page-entering > .hero,
+#impossible-ranking-page.page-entering > .hero {
     animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 40ms both;
 }
 
-#ranking-page.page-entering > .controls {
+#ranking-page.page-entering > .controls,
+#impossible-ranking-page.page-entering > .controls {
     animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 120ms both;
 }
 
-#ranking-page.page-entering > .ranking-grid {
+#ranking-page.page-entering > .ranking-grid,
+#impossible-ranking-page.page-entering > .ranking-grid {
     animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 190ms both;
 }
 
-#ranking-page.page-entering .level-card {
+#ranking-page.page-entering .level-card,
+#impossible-ranking-page.page-entering .level-card {
     animation: soft-page-enter 620ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
 #ranking-page.page-entering .level-card:nth-child(1) { animation-delay: 190ms; }
+#impossible-ranking-page.page-entering .level-card:nth-child(1) { animation-delay: 190ms; }
 #ranking-page.page-entering .level-card:nth-child(2) { animation-delay: 250ms; }
 #ranking-page.page-entering .level-card:nth-child(3) { animation-delay: 310ms; }
 #ranking-page.page-entering .level-card:nth-child(4) { animation-delay: 370ms; }
@@ -416,9 +421,13 @@ main {
     .page-entering,
     .page-leaving,
     #ranking-page.page-entering > .hero,
+    #impossible-ranking-page.page-entering > .hero,
     #ranking-page.page-entering > .controls,
+    #impossible-ranking-page.page-entering > .controls,
     #ranking-page.page-entering > .ranking-grid,
+    #impossible-ranking-page.page-entering > .ranking-grid,
     #ranking-page.page-entering .level-card,
+    #impossible-ranking-page.page-entering .level-card,
     #detail-page.page-entering .detail-container,
     #records-page.page-entering .simple-page-inner,
     #about-page.page-entering .simple-page-inner {
