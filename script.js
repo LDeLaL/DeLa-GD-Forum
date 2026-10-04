@@ -272,7 +272,7 @@ function playCardClickSound() {
         }
 
         // A brief, bright transient gives the key switch a crisp keyboard-like attack.
-        const clickDuration = 0.018;
+        const clickDuration = 0.028;
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clickDuration),
@@ -281,7 +281,7 @@ function playCardClickSound() {
         const clickSamples = clickBuffer.getChannelData(0);
 
         for (let index = 0; index < clickSamples.length; index++) {
-            const fade = Math.pow(1 - index / clickSamples.length, 3.4);
+            const fade = Math.pow(1 - index / clickSamples.length, 2.2);
             clickSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -290,7 +290,7 @@ function playCardClickSound() {
 
         const highPass = cardClickAudioContext.createBiquadFilter();
         highPass.type = "highpass";
-        highPass.frequency.setValueAtTime(900, now);
+        highPass.frequency.setValueAtTime(700, now);
 
         const lowPass = cardClickAudioContext.createBiquadFilter();
         lowPass.type = "lowpass";
@@ -329,7 +329,7 @@ function playCardClickSound() {
 
         // The short, lower clack adds the keycap's physical bottom-out sound.
         const clackStart = now + 0.008;
-        const clackDuration = 0.022;
+        const clackDuration = 0.045;
         const clackBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clackDuration),
@@ -338,7 +338,7 @@ function playCardClickSound() {
         const clackSamples = clackBuffer.getChannelData(0);
 
         for (let index = 0; index < clackSamples.length; index++) {
-            const fade = Math.pow(1 - index / clackSamples.length, 3);
+            const fade = Math.pow(1 - index / clackSamples.length, 2.1);
             clackSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -351,7 +351,7 @@ function playCardClickSound() {
 
         const clackVolume = cardClickAudioContext.createGain();
         clackVolume.gain.setValueAtTime(0.0001, clackStart);
-        clackVolume.gain.exponentialRampToValueAtTime(0.62, clackStart + 0.001);
+        clackVolume.gain.exponentialRampToValueAtTime(0.78, clackStart + 0.001);
         clackVolume.gain.exponentialRampToValueAtTime(
             0.0001,
             clackStart + clackDuration
@@ -369,18 +369,18 @@ function playCardClickSound() {
         const thumpVolume = cardClickAudioContext.createGain();
 
         thump.type = "sine";
-        thump.frequency.setValueAtTime(250, now);
-        thump.frequency.exponentialRampToValueAtTime(175, now + 0.016);
+        thump.frequency.setValueAtTime(620, now);
+        thump.frequency.exponentialRampToValueAtTime(360, now + 0.045);
 
         thumpVolume.gain.setValueAtTime(0.0001, now);
-        thumpVolume.gain.exponentialRampToValueAtTime(0.1, now + 0.001);
-        thumpVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.024);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.001);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
 
         thump.connect(thumpVolume);
         thumpVolume.connect(cardClickCompressor);
 
         thump.start(now);
-        thump.stop(now + 0.026);
+        thump.stop(now + 0.058);
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
