@@ -222,6 +222,47 @@ const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
 
 let isChangingPage = false;
 let isOpeningLevel = false;
+let cardClickAudioContext = null;
+
+
+function playCardClickSound() {
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+        return;
+    }
+
+    try {
+        if (!cardClickAudioContext) {
+            cardClickAudioContext = new AudioContextClass();
+        }
+
+        if (cardClickAudioContext.state === "suspended") {
+            cardClickAudioContext.resume().catch(() => {});
+        }
+
+        const now = cardClickAudioContext.currentTime;
+        const oscillator = cardClickAudioContext.createOscillator();
+        const volume = cardClickAudioContext.createGain();
+
+        oscillator.type = "triangle";
+        oscillator.frequency.setValueAtTime(780, now);
+        oscillator.frequency.exponentialRampToValueAtTime(320, now + 0.035);
+
+        volume.gain.setValueAtTime(0.0001, now);
+        volume.gain.exponentialRampToValueAtTime(0.07, now + 0.002);
+        volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+        oscillator.connect(volume);
+        volume.connect(cardClickAudioContext.destination);
+
+        oscillator.start(now);
+        oscillator.stop(now + 0.052);
+    } catch (error) {
+        // Keep the card interaction working if audio is unavailable.
+    }
+}
 
 
 /* =========================================================
@@ -418,6 +459,7 @@ function openLevel(rank, clickedCard) {
         return;
     }
 
+    playCardClickSound();
     isOpeningLevel = true;
 
     if (clickedCard && !prefersReducedMotion) {
