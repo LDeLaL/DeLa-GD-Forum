@@ -221,6 +221,7 @@ const PAGE_LEAVE_DURATION = prefersReducedMotion ? 0 : 240;
 const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
 
 let isChangingPage = false;
+let isOpeningLevel = false;
 
 
 /* =========================================================
@@ -354,7 +355,7 @@ function displayLevels() {
         card.className = "level-card";
 
         card.onclick = () => {
-            openLevel(level.rank);
+            openLevel(level.rank, card);
         };
 
 
@@ -373,8 +374,14 @@ function displayLevels() {
 
             <div class="level-info">
 
-                <div class="level-name">
-                    #${level.rank} - ${level.name}
+                <div class="level-title-row">
+                    <div class="level-rank">
+                        #${level.rank}
+                    </div>
+
+                    <div class="level-name">
+                        ${level.name}
+                    </div>
                 </div>
 
                 <div class="level-difficulty">
@@ -397,7 +404,11 @@ function displayLevels() {
    OPEN LEVEL
    ========================================================= */
 
-function openLevel(rank) {
+function openLevel(rank, clickedCard) {
+
+    if (isOpeningLevel || isChangingPage) {
+        return;
+    }
 
     const level = levels.find(
         item => item.rank === rank
@@ -407,104 +418,118 @@ function openLevel(rank) {
         return;
     }
 
+    isOpeningLevel = true;
 
-    changePage(detailPage);
+    if (clickedCard && !prefersReducedMotion) {
+        clickedCard.classList.add("is-opening");
 
+        window.setTimeout(() => {
+            clickedCard.classList.remove("is-opening");
+        }, 460);
+    }
 
-    /* Image */
+    const flashDelay = prefersReducedMotion ? 0 : 180;
 
-    const detailImage =
-        document.getElementById("detail-image");
+    window.setTimeout(() => {
+        changePage(detailPage);
 
-    detailImage.src = level.image;
-    detailImage.alt = level.name;
+        /* Image */
 
+        const detailImage =
+            document.getElementById("detail-image");
 
-    /* Title */
-
-    document.getElementById("detail-rank").textContent =
-        `#${level.rank}`;
-
-    document.getElementById("detail-name").textContent =
-        level.name;
-
-    document.getElementById("detail-difficulty").textContent =
-        level.difficulty;
-
-
-    /* Registration */
-
-    document.getElementById("detail-date").textContent =
-        level.registrationDate;
-
-    document.getElementById("detail-number").textContent =
-        level.registrationNumber;
-
-    document.getElementById("detail-registration-rank").textContent =
-        level.registrationRank;
-
-    document.getElementById("detail-forum-first").textContent =
-        level.forumFirst;
+        detailImage.src = level.image;
+        detailImage.alt = level.name;
 
 
-    /* Level Information */
+        /* Title */
 
-    document.getElementById("detail-absolute").textContent =
-        level.absoluteDifficulty;
+        document.getElementById("detail-rank").textContent =
+            `#${level.rank}`;
 
-    document.getElementById("detail-length").textContent =
-        level.length;
+        document.getElementById("detail-name").textContent =
+            level.name;
 
-    document.getElementById("detail-objects").textContent =
-        level.objects;
-
-    document.getElementById("detail-design").textContent =
-        level.designScale;
-
-    document.getElementById("detail-song").textContent =
-        level.song;
+        document.getElementById("detail-difficulty").textContent =
+            level.difficulty;
 
 
-    /* Rank History */
+        /* Registration */
 
-    const historyContainer =
-        document.getElementById("rank-history");
+        document.getElementById("detail-date").textContent =
+            level.registrationDate;
 
-    historyContainer.innerHTML = "";
+        document.getElementById("detail-number").textContent =
+            level.registrationNumber;
 
+        document.getElementById("detail-registration-rank").textContent =
+            level.registrationRank;
 
-    level.history.forEach(entry => {
-
-        const row = document.createElement("div");
-
-        row.className = "rank-history-item";
-
-
-        row.innerHTML = `
-
-            <span>${entry.date}</span>
-
-            <span class="history-change ${entry.type}">
-                ${entry.change}
-            </span>
-
-            <span>${entry.rank}</span>
-
-            <span>${entry.reason}</span>
-
-        `;
+        document.getElementById("detail-forum-first").textContent =
+            level.forumFirst;
 
 
-        historyContainer.appendChild(row);
+        /* Level Information */
 
-    });
+        document.getElementById("detail-absolute").textContent =
+            level.absoluteDifficulty;
+
+        document.getElementById("detail-length").textContent =
+            level.length;
+
+        document.getElementById("detail-objects").textContent =
+            level.objects;
+
+        document.getElementById("detail-design").textContent =
+            level.designScale;
+
+        document.getElementById("detail-song").textContent =
+            level.song;
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+        /* Rank History */
 
+        const historyContainer =
+            document.getElementById("rank-history");
+
+        historyContainer.innerHTML = "";
+
+
+        level.history.forEach(entry => {
+
+            const row = document.createElement("div");
+
+            row.className = "rank-history-item";
+
+
+            row.innerHTML = `
+
+                <span>${entry.date}</span>
+
+                <span class="history-change ${entry.type}">
+                    ${entry.change}
+                </span>
+
+                <span>${entry.rank}</span>
+
+                <span>${entry.reason}</span>
+
+            `;
+
+
+            historyContainer.appendChild(row);
+
+        });
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        isOpeningLevel = false;
+
+    }, flashDelay);
 }
 
 
