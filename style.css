@@ -164,7 +164,7 @@ main {
         var(--spin-direction, normal);
 }
 
-/* 안쪽 궤도: 중심에서 떨어진 위치에서 더 빠르게 회전 */
+/* Four inner cubes: already kept away from the screen center. */
 .orbit-square:nth-child(-n + 4) {
     --orbit-radius-x: 36vw;
     --orbit-radius-y: 38vh;
@@ -221,7 +221,7 @@ main {
     --orbit-delay: -30s;
 }
 
-/* 바깥 궤도: 가장 크고 천천히 회전 */
+/* The densest outer orbit uses very large cubes and moves slowly. */
 .orbit-square:nth-child(n + 29):nth-child(-n + 40) {
     --orbit-radius-x: 78vw;
     --orbit-radius-y: 80vh;
@@ -236,7 +236,15 @@ main {
     --orbit-delay: -48s;
 }
 
-/* 큐브마다 시작 위치, 기울기, 회전 속도와 방향을 다르게 설정 */
+/* Keep the largest cubes visible around the monitor's edges. */
+@media (min-width: 1025px) {
+    .orbit-square:nth-child(n + 29):nth-child(-n + 40) {
+        --orbit-radius-x: 58vw;
+        --orbit-radius-y: 60vh;
+    }
+}
+
+/* Each cube starts at its own place and has its own angle and spin phase. */
 .orbit-square:nth-child(1) { --orbit-start: 0%; --square-start-angle: 137.5deg; --spin-duration: 27s; --spin-delay: -7.31s; --spin-direction: normal; }
 .orbit-square:nth-child(2) { --orbit-start: 25%; --square-start-angle: 275deg; --spin-duration: 29s; --spin-delay: -14.62s; --spin-direction: reverse; }
 .orbit-square:nth-child(3) { --orbit-start: 50%; --square-start-angle: 52.5deg; --spin-duration: 31s; --spin-delay: -21.93s; --spin-direction: normal; }
@@ -670,7 +678,6 @@ main {
 
     filter: brightness(1.02);
 }
-
 
 /* =========================================================
    MAP INFO AREA
