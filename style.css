@@ -1350,6 +1350,49 @@ body.impossible-theme #detail-page .history-change.entry {
     color: #f87171;
 }
 
+body.impossible-theme #detail-page .detail-thumbnail,
+body.impossible-theme #detail-page .info-card,
+body.impossible-theme #detail-page .history-box {
+    border-color: rgba(248, 113, 113, 0.30);
+}
+
+body.impossible-theme #detail-page .history-header {
+    border-bottom-color: rgba(248, 113, 113, 0.22);
+}
+
+body.impossible-theme #detail-page .rank-history-item {
+    border-bottom-color: rgba(248, 113, 113, 0.16);
+}
+
+body.impossible-theme #detail-page .back-button {
+    border-color: rgba(248, 113, 113, 0.35);
+    background: #171014;
+    color: #fecaca;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.12s ease;
+}
+
+body.impossible-theme #detail-page .back-button:hover,
+body.impossible-theme #detail-page .back-button:focus-visible {
+    color: #ffffff;
+    border-color: rgba(252, 165, 165, 0.90);
+    background: #291116;
+    box-shadow:
+        0 0 12px rgba(248, 113, 113, 0.42),
+        0 0 28px rgba(220, 38, 38, 0.25);
+}
+
+body.impossible-theme #detail-page .back-button:active {
+    transform: scale(0.98);
+    box-shadow:
+        0 0 16px rgba(248, 113, 113, 0.58),
+        0 0 34px rgba(220, 38, 38, 0.34);
+}
+
 body.impossible-theme #impossible-ranking-page .level-card {
     border-color: rgba(248, 113, 113, 0.38);
 }
