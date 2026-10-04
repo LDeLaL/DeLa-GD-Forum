@@ -223,6 +223,8 @@ const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
 let isChangingPage = false;
 let isOpeningLevel = false;
 let cardClickAudioContext = null;
+let cardClickCompressor = null;
+let cardClickMasterGain = null;
 
 
 function playCardClickSound() {
@@ -245,8 +247,23 @@ function playCardClickSound() {
         const now = cardClickAudioContext.currentTime;
         const sampleRate = cardClickAudioContext.sampleRate;
 
-        // A short filtered noise burst gives the click its mechanical texture.
-        const clickDuration = 0.045;
+        if (!cardClickCompressor) {
+            cardClickCompressor = cardClickAudioContext.createDynamicsCompressor();
+            cardClickCompressor.threshold.setValueAtTime(-8, now);
+            cardClickCompressor.knee.setValueAtTime(8, now);
+            cardClickCompressor.ratio.setValueAtTime(4, now);
+            cardClickCompressor.attack.setValueAtTime(0.001, now);
+            cardClickCompressor.release.setValueAtTime(0.06, now);
+
+            cardClickMasterGain = cardClickAudioContext.createGain();
+            cardClickMasterGain.gain.setValueAtTime(1.7, now);
+
+            cardClickCompressor.connect(cardClickMasterGain);
+            cardClickMasterGain.connect(cardClickAudioContext.destination);
+        }
+
+        // A short, rapidly decaying noise burst creates the sharp mouse-click attack.
+        const clickDuration = 0.028;
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clickDuration),
@@ -255,7 +272,7 @@ function playCardClickSound() {
         const clickSamples = clickBuffer.getChannelData(0);
 
         for (let index = 0; index < clickSamples.length; index++) {
-            const fade = 1 - index / clickSamples.length;
+            const fade = Math.pow(1 - index / clickSamples.length, 2.5);
             clickSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -264,42 +281,60 @@ function playCardClickSound() {
 
         const highPass = cardClickAudioContext.createBiquadFilter();
         highPass.type = "highpass";
-        highPass.frequency.setValueAtTime(650, now);
+        highPass.frequency.setValueAtTime(420, now);
 
         const lowPass = cardClickAudioContext.createBiquadFilter();
         lowPass.type = "lowpass";
-        lowPass.frequency.setValueAtTime(6200, now);
+        lowPass.frequency.setValueAtTime(7200, now);
 
         const noiseVolume = cardClickAudioContext.createGain();
         noiseVolume.gain.setValueAtTime(0.0001, now);
-        noiseVolume.gain.exponentialRampToValueAtTime(0.24, now + 0.0015);
+        noiseVolume.gain.exponentialRampToValueAtTime(0.75, now + 0.001);
         noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + clickDuration);
 
         noise.connect(highPass);
         highPass.connect(lowPass);
         lowPass.connect(noiseVolume);
-        noiseVolume.connect(cardClickAudioContext.destination);
+        noiseVolume.connect(cardClickCompressor);
 
         noise.start(now);
         noise.stop(now + clickDuration);
 
-        // A very brief descending tone adds a crisp switch-like snap.
+        // A tiny high click gives the transient a distinct button-switch snap.
         const oscillator = cardClickAudioContext.createOscillator();
         const toneVolume = cardClickAudioContext.createGain();
 
         oscillator.type = "triangle";
-        oscillator.frequency.setValueAtTime(1250, now);
-        oscillator.frequency.exponentialRampToValueAtTime(470, now + 0.018);
+        oscillator.frequency.setValueAtTime(1550, now);
+        oscillator.frequency.exponentialRampToValueAtTime(620, now + 0.016);
 
         toneVolume.gain.setValueAtTime(0.0001, now);
-        toneVolume.gain.exponentialRampToValueAtTime(0.10, now + 0.0015);
-        toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+        toneVolume.gain.exponentialRampToValueAtTime(0.16, now + 0.001);
+        toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.028);
 
         oscillator.connect(toneVolume);
-        toneVolume.connect(cardClickAudioContext.destination);
+        toneVolume.connect(cardClickCompressor);
 
         oscillator.start(now);
-        oscillator.stop(now + 0.032);
+        oscillator.stop(now + 0.03);
+
+        // A quiet low-frequency tap supplies the physical mouse-button body.
+        const thump = cardClickAudioContext.createOscillator();
+        const thumpVolume = cardClickAudioContext.createGain();
+
+        thump.type = "sine";
+        thump.frequency.setValueAtTime(210, now);
+        thump.frequency.exponentialRampToValueAtTime(125, now + 0.022);
+
+        thumpVolume.gain.setValueAtTime(0.0001, now);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.18, now + 0.001);
+        thumpVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+        thump.connect(thumpVolume);
+        thumpVolume.connect(cardClickCompressor);
+
+        thump.start(now);
+        thump.stop(now + 0.037);
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
