@@ -238,6 +238,8 @@ const impossibleRankingGrid = document.getElementById("impossible-ranking-grid")
 const searchInput = document.getElementById("search-input");
 const impossibleSearchInput = document.getElementById("impossible-search-input");
 const difficultyFilter = document.getElementById("difficulty-filter");
+const themeToggle = document.getElementById("theme-toggle");
+const cubesToggle = document.getElementById("cubes-toggle");
 
 const appPages = [
     rankingPage,
@@ -262,6 +264,92 @@ let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
 let cardClickLimiter = null;
+
+
+/* =========================================================
+   DISPLAY PREFERENCES
+   ========================================================= */
+
+function readDisplayPreference(key) {
+    try {
+        return window.localStorage.getItem(key);
+    } catch (error) {
+        return null;
+    }
+}
+
+
+function saveDisplayPreference(key, value) {
+    try {
+        window.localStorage.setItem(key, value);
+    } catch (error) {
+        // Keep display controls usable when storage is unavailable.
+    }
+}
+
+
+function applyColorTheme(theme) {
+    const isLight = theme === "light";
+    document.body.classList.toggle("light-theme", isLight);
+
+    if (!themeToggle) {
+        return;
+    }
+
+    const nextModeLabel = isLight ? "다크" : "라이트";
+    const accessibleLabel = `${nextModeLabel} 모드로 전환`;
+
+    themeToggle.innerHTML = `
+        <span aria-hidden="true">${isLight ? "☾" : "☼"}</span>
+        <span class="display-option-label">${nextModeLabel}</span>
+    `;
+    themeToggle.setAttribute("aria-label", accessibleLabel);
+    themeToggle.title = accessibleLabel;
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+}
+
+
+function applyMovingCubes(enabled) {
+    document.body.classList.toggle("cubes-hidden", !enabled);
+
+    if (!cubesToggle) {
+        return;
+    }
+
+    const actionLabel = enabled ? "움직이는 큐브 끄기" : "움직이는 큐브 켜기";
+
+    cubesToggle.innerHTML = `
+        <span aria-hidden="true">${enabled ? "✦" : "◇"}</span>
+        <span class="display-option-label">${enabled ? "큐브 끄기" : "큐브 켜기"}</span>
+    `;
+    cubesToggle.setAttribute("aria-label", actionLabel);
+    cubesToggle.title = actionLabel;
+    cubesToggle.setAttribute("aria-pressed", String(enabled));
+}
+
+
+function initializeDisplayPreferences() {
+    const savedTheme = readDisplayPreference("dela-gd-theme");
+    const savedCubes = readDisplayPreference("dela-gd-moving-cubes");
+
+    applyColorTheme(savedTheme === "light" ? "light" : "dark");
+    // Keep the moving background off by default; it can be enabled from the header.
+    applyMovingCubes(savedCubes === "on");
+
+    themeToggle?.addEventListener("click", () => {
+        const nextTheme = document.body.classList.contains("light-theme")
+            ? "dark"
+            : "light";
+        applyColorTheme(nextTheme);
+        saveDisplayPreference("dela-gd-theme", nextTheme);
+    });
+
+    cubesToggle?.addEventListener("click", () => {
+        const shouldEnable = document.body.classList.contains("cubes-hidden");
+        applyMovingCubes(shouldEnable);
+        saveDisplayPreference("dela-gd-moving-cubes", shouldEnable ? "on" : "off");
+    });
+}
 
 
 function playCardClickSound() {
@@ -786,6 +874,7 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
     lastListPage = sourceLevels === impossibleLevels
         ? impossibleRankingPage
         : rankingPage;
+    detailPage.classList.toggle("rank-one-entry", level.rank === 1);
     document.body.classList.toggle(
         "impossible-theme",
         lastListPage === impossibleRankingPage
@@ -996,6 +1085,7 @@ document.querySelectorAll(".nav button").forEach(button => {
    INITIAL LOAD
    ========================================================= */
 
+initializeDisplayPreferences();
 displayLevels();
 displayImpossibleLevels();
 animateInitialPage();
