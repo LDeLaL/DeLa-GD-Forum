@@ -192,22 +192,56 @@ const levels = [
 ];
 
 
+const impossibleLevels = [
+    {
+        rank: 1,
+        name: "Beyond Luck",
+        image: "images/file_0000000059c482068cee01a230a4e1ce.png",
+
+        registrationDate: "2026년 10월 4일",
+        registrationNumber: "《1》",
+        registrationRank: "#1",
+        forumFirst: "Beyond Luck",
+
+        length: "∞",
+        objects: "744",
+        designScale: "3.8",
+        song: "Promise (Reprise)",
+        songStrikethrough: true,
+
+        history: [
+            {
+                date: "2026년 10월 4일",
+                change: "−",
+                rank: "#1",
+                reason: "등재됨",
+                type: "entry"
+            }
+        ]
+    }
+];
+
+
 /* =========================================================
    DOM ELEMENTS
    ========================================================= */
 
 const rankingPage = document.getElementById("ranking-page");
+const impossibleRankingPage = document.getElementById("impossible-ranking-page");
 const detailPage = document.getElementById("detail-page");
 const recordsPage = document.getElementById("records-page");
 const aboutPage = document.getElementById("about-page");
 
 const rankingGrid = document.getElementById("ranking-grid");
+const impossibleRankingGrid = document.getElementById("impossible-ranking-grid");
 
 const searchInput = document.getElementById("search-input");
+const impossibleSearchInput = document.getElementById("impossible-search-input");
 const difficultyFilter = document.getElementById("difficulty-filter");
 
 const appPages = [
     rankingPage,
+    impossibleRankingPage,
     detailPage,
     recordsPage,
     aboutPage
@@ -222,6 +256,7 @@ const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
 
 let isChangingPage = false;
 let isOpeningLevel = false;
+let lastListPage = rankingPage;
 let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
@@ -650,23 +685,77 @@ function displayLevels() {
 }
 
 
+function displayImpossibleLevels() {
+
+    const searchText = impossibleSearchInput.value
+        .trim()
+        .toLowerCase();
+
+    const filteredLevels = impossibleLevels.filter(level =>
+        level.name.toLowerCase().includes(searchText)
+    );
+
+    impossibleRankingGrid.innerHTML = "";
+
+    if (filteredLevels.length === 0) {
+        impossibleRankingGrid.innerHTML = `
+            <div class="empty-message">
+                No levels found.
+            </div>
+        `;
+        return;
+    }
+
+    filteredLevels.forEach(level => {
+        const card = document.createElement("article");
+        card.className = "level-card";
+        card.onclick = () => {
+            openLevel(level.rank, card, impossibleLevels);
+        };
+
+        card.innerHTML = `
+            <div class="level-thumbnail">
+                <img
+                    src="${level.image}"
+                    alt="${level.name}"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="level-info">
+                <div class="level-title-row">
+                    <div class="level-rank">#${level.rank}</div>
+                    <div class="level-name">${level.name}</div>
+                </div>
+            </div>
+        `;
+
+        impossibleRankingGrid.appendChild(card);
+    });
+}
+
+
 /* =========================================================
    OPEN LEVEL
    ========================================================= */
 
-function openLevel(rank, clickedCard) {
+function openLevel(rank, clickedCard, sourceLevels = levels) {
 
     if (isOpeningLevel || isChangingPage) {
         return;
     }
 
-    const level = levels.find(
+    const level = sourceLevels.find(
         item => item.rank === rank
     );
 
     if (!level) {
         return;
     }
+
+    lastListPage = sourceLevels === impossibleLevels
+        ? impossibleRankingPage
+        : rankingPage;
 
     playCardClickSound();
     isOpeningLevel = true;
@@ -701,8 +790,9 @@ function openLevel(rank, clickedCard) {
         document.getElementById("detail-name").textContent =
             level.name;
 
-        document.getElementById("detail-difficulty").textContent =
-            level.difficulty;
+        const detailDifficulty = document.getElementById("detail-difficulty");
+        detailDifficulty.textContent = level.difficulty || "";
+        detailDifficulty.classList.toggle("hidden", !level.difficulty);
 
 
         /* Registration */
@@ -723,7 +813,11 @@ function openLevel(rank, clickedCard) {
         /* Level Information */
 
         document.getElementById("detail-absolute").textContent =
-            level.absoluteDifficulty;
+            level.absoluteDifficulty || "";
+        document.getElementById("detail-absolute-card").classList.toggle(
+            "hidden",
+            !level.absoluteDifficulty
+        );
 
         document.getElementById("detail-length").textContent =
             level.length;
@@ -734,8 +828,11 @@ function openLevel(rank, clickedCard) {
         document.getElementById("detail-design").textContent =
             level.designScale;
 
-        document.getElementById("detail-song").textContent =
-            level.song;
+        const detailSong = document.getElementById("detail-song");
+        detailSong.textContent = level.song;
+        detailSong.style.textDecoration = level.songStrikethrough
+            ? "line-through"
+            : "";
 
 
         /* Rank History */
@@ -793,6 +890,16 @@ function goHome() {
 }
 
 
+function showImpossibleList() {
+    changePage(impossibleRankingPage);
+}
+
+
+function goBackToList() {
+    changePage(lastListPage);
+}
+
+
 /* =========================================================
    RECORDS
    ========================================================= */
@@ -818,6 +925,11 @@ function showAbout() {
 searchInput.addEventListener(
     "input",
     displayLevels
+);
+
+impossibleSearchInput.addEventListener(
+    "input",
+    displayImpossibleLevels
 );
 
 
@@ -847,4 +959,5 @@ if (detailBackButton) {
    ========================================================= */
 
 displayLevels();
+displayImpossibleLevels();
 animateInitialPage();
