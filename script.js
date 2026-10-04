@@ -257,6 +257,7 @@ const PAGE_ENTER_DURATION = prefersReducedMotion ? 0 : 1150;
 let isChangingPage = false;
 let isOpeningLevel = false;
 let lastListPage = rankingPage;
+let queuedPage = null;
 let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
@@ -513,11 +514,33 @@ function playPageTurnSound() {
    PAGE TRANSITIONS
    ========================================================= */
 
+function syncPageTheme(targetPage) {
+
+    const isImpossibleTheme =
+        targetPage === impossibleRankingPage ||
+        (targetPage === detailPage && lastListPage === impossibleRankingPage);
+
+    const isListTheme =
+        targetPage === rankingPage ||
+        (targetPage === detailPage && lastListPage === rankingPage);
+
+    document.body.classList.toggle("impossible-theme", isImpossibleTheme);
+    document.body.classList.toggle("list-theme", isListTheme);
+}
+
+
 function changePage(targetPage) {
 
-    if (!targetPage || isChangingPage) {
+    if (!targetPage) {
         return;
     }
+
+    if (isChangingPage) {
+        queuedPage = targetPage;
+        return;
+    }
+
+    syncPageTheme(targetPage);
 
     const currentPage = appPages.find(
         page => !page.classList.contains("hidden")
@@ -555,6 +578,13 @@ function changePage(targetPage) {
         window.setTimeout(() => {
             targetPage.classList.remove("page-entering");
             isChangingPage = false;
+
+            const nextPage = queuedPage;
+            queuedPage = null;
+
+            if (nextPage && nextPage !== targetPage) {
+                changePage(nextPage);
+            }
         }, PAGE_ENTER_DURATION);
 
     }, currentPage ? PAGE_LEAVE_DURATION : 0);
@@ -890,22 +920,16 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
    ========================================================= */
 
 function goHome() {
-    document.body.classList.remove("impossible-theme");
     changePage(rankingPage);
 }
 
 
 function showImpossibleList() {
-    document.body.classList.add("impossible-theme");
     changePage(impossibleRankingPage);
 }
 
 
 function goBackToList() {
-    document.body.classList.toggle(
-        "impossible-theme",
-        lastListPage === impossibleRankingPage
-    );
     changePage(lastListPage);
 }
 
@@ -915,7 +939,6 @@ function goBackToList() {
    ========================================================= */
 
 function showRecords() {
-    document.body.classList.remove("impossible-theme");
     changePage(recordsPage);
 }
 
@@ -925,7 +948,6 @@ function showRecords() {
    ========================================================= */
 
 function showAbout() {
-    document.body.classList.remove("impossible-theme");
     changePage(aboutPage);
 }
 
@@ -964,6 +986,10 @@ const detailBackButton = detailPage.querySelector(".back-button");
 if (detailBackButton) {
     detailBackButton.addEventListener("click", playCardClickSound);
 }
+
+document.querySelectorAll(".nav button").forEach(button => {
+    button.addEventListener("click", playCardClickSound);
+});
 
 
 /* =========================================================
