@@ -1549,8 +1549,79 @@ body.impossible-theme #impossible-list-nav {
     transform: scale(0.97);
 }
 
+.ambient-square-field {
+    opacity: 1;
+    visibility: visible;
+    transition:
+        opacity 560ms cubic-bezier(0.22, 0.75, 0.28, 1),
+        visibility 0s linear 0s;
+}
+
 body.cubes-hidden .ambient-square-field {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 560ms cubic-bezier(0.22, 0.75, 0.28, 1),
+        visibility 0s linear 560ms;
+}
+
+/* Smoothly blend the theme colors and gradient text when the mode changes. */
+body.theme-transition,
+body.theme-transition *,
+body.theme-transition *::before,
+body.theme-transition *::after {
+    transition-property:
+        color,
+        background-color,
+        background-image,
+        border-color,
+        box-shadow,
+        text-shadow,
+        filter,
+        fill,
+        stroke,
+        -webkit-text-fill-color;
+    transition-duration: 680ms !important;
+    transition-timing-function: cubic-bezier(0.22, 0.75, 0.28, 1) !important;
+}
+
+body.theme-transition::after {
+    content: "";
+    position: fixed;
+    z-index: 2001;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        118deg,
+        rgba(168, 85, 247, 0.18) 0%,
+        rgba(255, 255, 255, 0.06) 42%,
+        rgba(220, 38, 38, 0.08) 100%
+    );
+    opacity: 0;
+    animation: theme-gradient-wash 720ms ease-in-out both;
+}
+
+body.light-theme.theme-transition::after {
+    background: linear-gradient(
+        118deg,
+        rgba(255, 255, 255, 0.48) 0%,
+        rgba(196, 181, 253, 0.16) 48%,
+        rgba(254, 202, 202, 0.12) 100%
+    );
+}
+
+@keyframes theme-gradient-wash {
+    0% {
+        opacity: 0;
+        transform: translateX(-2%) scale(1.02);
+    }
+    32% {
+        opacity: 0.72;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(2%) scale(1);
+    }
 }
 
 /* A warm, one-time reveal marks the number-one level on its detail page. */
@@ -2027,6 +2098,18 @@ body.light-theme #detail-page.page-entering.rank-one-entry .detail-rank {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    body.theme-transition,
+    body.theme-transition *,
+    body.theme-transition *::before,
+    body.theme-transition *::after,
+    .ambient-square-field {
+        transition-duration: 1ms !important;
+    }
+
+    body.theme-transition::after {
+        animation: none !important;
+    }
+
     #detail-page.page-entering.rank-one-entry .detail-container::before,
     #detail-page.page-entering.rank-one-entry .detail-thumbnail,
     #detail-page.page-entering.rank-one-entry .detail-thumbnail img,
