@@ -1,4 +1,4 @@
-/* =========================================================
+\/* =========================================================
    DeLa GD Forum
    Main JavaScript
    ========================================================= */
@@ -230,7 +230,6 @@ const rankingPage = document.getElementById("ranking-page");
 const impossibleRankingPage = document.getElementById("impossible-ranking-page");
 const timeMachinePage = document.getElementById("time-machine-page");
 const detailPage = document.getElementById("detail-page");
-const recordsPage = document.getElementById("records-page");
 const aboutPage = document.getElementById("about-page");
 
 const rankingGrid = document.getElementById("ranking-grid");
@@ -250,14 +249,17 @@ const timeMachineSortSelect = document.getElementById("time-machine-sort");
 const timeMachineSummary = document.getElementById("time-machine-summary");
 const themeToggle = document.getElementById("theme-toggle");
 const cubesToggle = document.getElementById("cubes-toggle");
+const viewModeToggle = document.getElementById("view-mode-toggle");
 const transitionSelect = document.getElementById("transition-select");
+const thumbnailLightbox = document.getElementById("thumbnail-lightbox");
+const thumbnailLightboxImage = document.getElementById("thumbnail-lightbox-image");
+const thumbnailLightboxClose = document.getElementById("thumbnail-lightbox-close");
 
 const appPages = [
     rankingPage,
     impossibleRankingPage,
     timeMachinePage,
     detailPage,
-    recordsPage,
     aboutPage
 ];
 
@@ -279,6 +281,8 @@ let cardClickLimiter = null;
 let themeTransitionTimeout = null;
 let rankOneTransitionTimeout = null;
 let timeMachineLevels = [];
+let thumbnailLightboxTrigger = null;
+let thumbnailLightboxCloseTimeout = null;
 const gridRenderAnimations = new WeakMap();
 
 
@@ -341,6 +345,17 @@ function applyMovingCubes(enabled) {
     cubesToggle.setAttribute("aria-label", actionLabel);
     cubesToggle.title = actionLabel;
     cubesToggle.setAttribute("aria-pressed", String(enabled));
+}
+
+
+function applySimpleListView(enabled) {
+    document.body.classList.toggle("simple-list-view", enabled);
+
+    if (!viewModeToggle) {
+        return;
+    }
+
+    viewModeToggle.setAttribute("aria-pressed", String(enabled));
 }
 
 
@@ -513,11 +528,13 @@ function initializeDisplayPreferences() {
     const savedTheme = readDisplayPreference("dela-gd-theme");
     const savedCubes = readDisplayPreference("dela-gd-moving-cubes");
     const savedTransition = readDisplayPreference("dela-gd-page-transition");
+    const savedSimpleListView = readDisplayPreference("dela-gd-simple-list-view");
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
     applyPageTransition(savedTransition || "default");
     // Keep the moving background on by default unless it was explicitly turned off.
     applyMovingCubes(savedCubes !== "off");
+    applySimpleListView(savedSimpleListView === "on");
 
     themeToggle?.addEventListener("click", () => {
         const nextTheme = document.body.classList.contains("light-theme")
@@ -532,6 +549,12 @@ function initializeDisplayPreferences() {
         const shouldEnable = document.body.classList.contains("cubes-hidden");
         applyMovingCubes(shouldEnable);
         saveDisplayPreference("dela-gd-moving-cubes", shouldEnable ? "on" : "off");
+    });
+
+    viewModeToggle?.addEventListener("click", () => {
+        const shouldEnable = !document.body.classList.contains("simple-list-view");
+        applySimpleListView(shouldEnable);
+        saveDisplayPreference("dela-gd-simple-list-view", shouldEnable ? "on" : "off");
     });
 
     transitionSelect?.addEventListener("change", () => {
@@ -974,7 +997,9 @@ function createLevelCard(level, sourceLevels, searchText = "") {
     card.onclick = () => openLevel(level.rank, card, sourceLevels);
     card.innerHTML = `
         <div class="level-thumbnail">
-            <img src="${safeImage}" alt="${safeName}" loading="lazy">
+            <button class="thumbnail-zoom-button" type="button" aria-label="${safeName} 썸네일 크게 보기">
+                <img src="${safeImage}" alt="" loading="lazy">
+            </button>
         </div>
         <div class="level-info">
             <div class="level-title-row">
@@ -987,6 +1012,12 @@ function createLevelCard(level, sourceLevels, searchText = "") {
             </div>
         </div>
     `;
+
+    const thumbnailButton = card.querySelector(".thumbnail-zoom-button");
+    thumbnailButton?.addEventListener("click", event => {
+        event.stopPropagation();
+        openThumbnailLightbox(level, thumbnailButton);
+    });
 
     return card;
 }
@@ -1270,6 +1301,56 @@ function showTimeMachine() {
 }
 
 
+function openThumbnailLightbox(level, trigger) {
+    if (!thumbnailLightbox || !thumbnailLightboxImage) {
+        return;
+    }
+
+    if (thumbnailLightboxCloseTimeout) {
+        window.clearTimeout(thumbnailLightboxCloseTimeout);
+        thumbnailLightboxCloseTimeout = null;
+    }
+
+    thumbnailLightboxTrigger = trigger || null;
+    thumbnailLightboxImage.src = level.image;
+    thumbnailLightboxImage.alt = level.name;
+    thumbnailLightbox.classList.remove("hidden");
+    document.body.classList.add("thumbnail-lightbox-open");
+
+    window.requestAnimationFrame(() => {
+        thumbnailLightbox.classList.add("is-open");
+    });
+
+    thumbnailLightboxClose?.focus({ preventScroll: true });
+}
+
+
+function closeThumbnailLightbox() {
+    if (!thumbnailLightbox || thumbnailLightbox.classList.contains("hidden")) {
+        return;
+    }
+
+    thumbnailLightbox.classList.remove("is-open");
+    document.body.classList.remove("thumbnail-lightbox-open");
+
+    if (thumbnailLightboxCloseTimeout) {
+        window.clearTimeout(thumbnailLightboxCloseTimeout);
+    }
+
+    thumbnailLightboxCloseTimeout = window.setTimeout(() => {
+        thumbnailLightbox.classList.add("hidden");
+        thumbnailLightboxImage.removeAttribute("src");
+
+        if (thumbnailLightboxTrigger?.isConnected) {
+            thumbnailLightboxTrigger.focus({ preventScroll: true });
+        }
+
+        thumbnailLightboxTrigger = null;
+        thumbnailLightboxCloseTimeout = null;
+    }, 360);
+}
+
+
 /* =========================================================
    OPEN LEVEL
    ========================================================= */
@@ -1449,15 +1530,6 @@ function goBackToList() {
 
 
 /* =========================================================
-   RECORDS
-   ========================================================= */
-
-function showRecords() {
-    changePage(recordsPage);
-}
-
-
-/* =========================================================
    ABOUT
    ========================================================= */
 
@@ -1508,6 +1580,18 @@ const detailBackButton = detailPage.querySelector(".back-button");
 if (detailBackButton) {
     detailBackButton.addEventListener("click", playCardClickSound);
 }
+
+thumbnailLightboxClose?.addEventListener("click", closeThumbnailLightbox);
+thumbnailLightbox?.addEventListener("click", event => {
+    if (event.target === thumbnailLightbox) {
+        closeThumbnailLightbox();
+    }
+});
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && thumbnailLightbox && !thumbnailLightbox.classList.contains("hidden")) {
+        closeThumbnailLightbox();
+    }
+});
 
 document.querySelectorAll(".nav button").forEach(button => {
     button.addEventListener("click", playCardClickSound);
