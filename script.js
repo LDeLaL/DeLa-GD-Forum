@@ -284,6 +284,9 @@ let timeMachineLevels = [];
 let thumbnailLightboxTrigger = null;
 let thumbnailLightboxCloseTimeout = null;
 const gridRenderAnimations = new WeakMap();
+const listModeAnimations = new WeakMap();
+const listModeContentAnimations = new WeakMap();
+let listModeTransitionId = 0;
 
 
 /* =========================================================
@@ -348,25 +351,173 @@ function applyMovingCubes(enabled) {
 }
 
 
-function applySimpleListView(enabled) {
-    document.body.classList.toggle("simple-list-view", enabled);
+function cancelListModeAnimation(element, animationRegistry) {
+    const activeAnimation = animationRegistry.get(element);
 
-    if (!viewModeToggle) {
-        return;
+    if (activeAnimation) {
+        activeAnimation.cancel();
+        animationRegistry.delete(element);
+    }
+}
+
+
+function playListModeAnimation(element, keyframes, options, animationRegistry) {
+    if (!element || typeof element.animate !== "function") {
+        return null;
     }
 
-    const label = enabled ? "썸네일 보기" : "간단 보기";
-    const accessibleLabel = enabled
-        ? "썸네일이 있는 목록으로 전환"
-        : "순위와 이름만 간단히 보기";
+    cancelListModeAnimation(element, animationRegistry);
 
-    viewModeToggle.innerHTML = `
-        <span aria-hidden="true">${enabled ? "▣" : "☷"}</span>
-        <span class="display-option-label">${label}</span>
-    `;
-    viewModeToggle.setAttribute("aria-label", accessibleLabel);
-    viewModeToggle.title = accessibleLabel;
-    viewModeToggle.setAttribute("aria-pressed", String(enabled));
+    const animation = element.animate(keyframes, options);
+    animationRegistry.set(element, animation);
+    animation.onfinish = () => {
+        if (animationRegistry.get(element) === animation) {
+            animationRegistry.delete(element);
+        }
+    };
+
+    return animation;
+}
+
+
+async function applySimpleListView(enabled, animate = false) {
+    const transitionId = ++listModeTransitionId;
+    const shouldAnimate = animate && !prefersReducedMotion;
+    const visibleCards = shouldAnimate
+        ? [...document.querySelectorAll(".ranking-grid .level-card")]
+            .filter(card => card.getClientRects().length > 0)
+        : [];
+
+    visibleCards.forEach(card => {
+        cancelListModeAnimation(card, listModeAnimations);
+        card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
+            cancelListModeAnimation(element, listModeContentAnimations);
+        });
+    });
+
+    const previousRects = new Map(
+        visibleCards.map(card => [card, card.getBoundingClientRect()])
+    );
+
+    if (viewModeToggle) {
+        const label = enabled ? "썸네일 보기" : "간단 보기";
+        const accessibleLabel = enabled
+            ? "썸네일이 있는 목록으로 전환"
+            : "순위와 이름만 간단히 보기";
+
+        viewModeToggle.innerHTML = `
+            <span aria-hidden="true">${enabled ? "▣" : "☷"}</span>
+            <span class="display-option-label">${label}</span>
+        `;
+        viewModeToggle.setAttribute("aria-label", accessibleLabel);
+        viewModeToggle.title = accessibleLabel;
+        viewModeToggle.setAttribute("aria-pressed", String(enabled));
+    }
+
+    let fadeOutAnimations = [];
+    if (shouldAnimate && enabled && visibleCards.length > 0) {
+
+        visibleCards.forEach(card => {
+            card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
+                if (!element.getClientRects().length) {
+                    return;
+                }
+
+                const currentOpacity = Number.parseFloat(
+                    window.getComputedStyle(element).opacity
+                );
+                const animation = playListModeAnimation(element, [
+                    { opacity: Number.isFinite(currentOpacity) ? currentOpacity : 1 },
+                    { opacity: 0 }
+                ], {
+                    duration: 190,
+                    easing: "ease-out",
+                    fill: "forwards"
+                }, listModeContentAnimations);
+
+                if (animation) {
+                    fadeOutAnimations.push(animation);
+                }
+            });
+        });
+
+        await Promise.all(fadeOutAnimations.map(animation =>
+            animation.finished.catch(() => null)
+        ));
+
+        if (transitionId !== listModeTransitionId) {
+            return;
+        }
+    }
+
+    document.body.classList.toggle("simple-list-view", enabled);
+
+    if (enabled) {
+        fadeOutAnimations.forEach(animation => animation.cancel());
+        visibleCards.forEach(card => {
+            card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
+                cancelListModeAnimation(element, listModeContentAnimations);
+            });
+        });
+    }
+
+    let animationIndex = 0;
+    previousRects.forEach((previousRect, card) => {
+        const index = animationIndex++;
+        const nextRect = card.getBoundingClientRect();
+
+        if (!nextRect.width || !nextRect.height) {
+            return;
+        }
+
+        const translateX = previousRect.left - nextRect.left;
+        const translateY = previousRect.top - nextRect.top;
+        const scaleX = previousRect.width / nextRect.width;
+        const scaleY = previousRect.height / nextRect.height;
+
+        if (
+            Math.abs(translateX) < 0.5 &&
+            Math.abs(translateY) < 0.5 &&
+            Math.abs(scaleX - 1) < 0.01 &&
+            Math.abs(scaleY - 1) < 0.01
+        ) {
+            return;
+        }
+
+        playListModeAnimation(card, [
+            {
+                transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`,
+                transformOrigin: "top left"
+            },
+            {
+                transform: "translate(0, 0) scale(1, 1)",
+                transformOrigin: "top left"
+            }
+        ], {
+            duration: 520,
+            delay: Math.min(index, 8) * 24,
+            easing: "cubic-bezier(0.2, 0.75, 0.25, 1)"
+        }, listModeAnimations);
+    });
+
+    if (shouldAnimate && !enabled) {
+        visibleCards.forEach((card, index) => {
+            card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
+                if (!element.getClientRects().length) {
+                    return;
+                }
+
+                playListModeAnimation(element, [
+                    { opacity: 0, transform: "translateY(7px) scale(0.985)" },
+                    { opacity: 1, transform: "translateY(0) scale(1)" }
+                ], {
+                    duration: 360,
+                    delay: Math.min(index, 8) * 24,
+                    easing: "cubic-bezier(0.2, 0.75, 0.25, 1)"
+                }, listModeContentAnimations);
+            });
+        });
+    }
 }
 
 
@@ -544,8 +695,6 @@ function initializeDisplayPreferences() {
     applyPageTransition(savedTransition || "default");
     // Keep the moving background on by default unless it was explicitly turned off.
     applyMovingCubes(savedCubes !== "off");
-
-    // Always start with thumbnails visible, even if an older simple-view setting was saved.
     applySimpleListView(false);
 
     themeToggle?.addEventListener("click", () => {
@@ -564,8 +713,8 @@ function initializeDisplayPreferences() {
     });
 
     viewModeToggle?.addEventListener("click", () => {
-        const shouldEnable = !document.body.classList.contains("simple-list-view");
-        applySimpleListView(shouldEnable);
+        const shouldEnable = viewModeToggle.getAttribute("aria-pressed") !== "true";
+        applySimpleListView(shouldEnable, true);
     });
 
     transitionSelect?.addEventListener("change", () => {
