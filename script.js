@@ -1,4 +1,4 @@
-\/* =========================================================
+/* =========================================================
    DeLa GD Forum
    Main JavaScript
    ========================================================= */
@@ -355,6 +355,17 @@ function applySimpleListView(enabled) {
         return;
     }
 
+    const label = enabled ? "썸네일 보기" : "간단 보기";
+    const accessibleLabel = enabled
+        ? "썸네일이 있는 목록으로 전환"
+        : "순위와 이름만 간단히 보기";
+
+    viewModeToggle.innerHTML = `
+        <span aria-hidden="true">${enabled ? "▣" : "☷"}</span>
+        <span class="display-option-label">${label}</span>
+    `;
+    viewModeToggle.setAttribute("aria-label", accessibleLabel);
+    viewModeToggle.title = accessibleLabel;
     viewModeToggle.setAttribute("aria-pressed", String(enabled));
 }
 
@@ -528,13 +539,14 @@ function initializeDisplayPreferences() {
     const savedTheme = readDisplayPreference("dela-gd-theme");
     const savedCubes = readDisplayPreference("dela-gd-moving-cubes");
     const savedTransition = readDisplayPreference("dela-gd-page-transition");
-    const savedSimpleListView = readDisplayPreference("dela-gd-simple-list-view");
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
     applyPageTransition(savedTransition || "default");
     // Keep the moving background on by default unless it was explicitly turned off.
     applyMovingCubes(savedCubes !== "off");
-    applySimpleListView(savedSimpleListView === "on");
+
+    // Always start with thumbnails visible, even if an older simple-view setting was saved.
+    applySimpleListView(false);
 
     themeToggle?.addEventListener("click", () => {
         const nextTheme = document.body.classList.contains("light-theme")
@@ -554,7 +566,6 @@ function initializeDisplayPreferences() {
     viewModeToggle?.addEventListener("click", () => {
         const shouldEnable = !document.body.classList.contains("simple-list-view");
         applySimpleListView(shouldEnable);
-        saveDisplayPreference("dela-gd-simple-list-view", shouldEnable ? "on" : "off");
     });
 
     transitionSelect?.addEventListener("change", () => {
@@ -1350,7 +1361,6 @@ function closeThumbnailLightbox() {
     }, 360);
 }
 
-
 /* =========================================================
    OPEN LEVEL
    ========================================================= */
@@ -1592,7 +1602,6 @@ document.addEventListener("keydown", event => {
         closeThumbnailLightbox();
     }
 });
-
 document.querySelectorAll(".nav button").forEach(button => {
     button.addEventListener("click", playCardClickSound);
 });
