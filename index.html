@@ -63,6 +63,8 @@
     </svg>
 </div>
 
+<div class="detail-particles" aria-hidden="true"></div>
+
 <header class="site-header">
     <div class="header-inner">
         <div class="logo" onclick="goHome()">DeLa GD Forum</div>
@@ -70,6 +72,7 @@
         <nav class="nav">
             <button id="list-nav" onclick="goHome()">LIST</button>
             <button id="impossible-list-nav" onclick="showImpossibleList()">IMPOSSIBLE LIST</button>
+            <button id="time-machine-nav" onclick="showTimeMachine()">TIME MACHINE</button>
             <button onclick="showRecords()">RECORDS</button>
             <button onclick="showAbout()">ABOUT</button>
         </nav>
@@ -96,14 +99,22 @@
                 <span aria-hidden="true">✦</span>
                 <span class="display-option-label">큐브 끄기</span>
             </button>
+            <label class="display-option-button transition-control" title="페이지 전환 효과">
+                <span aria-hidden="true">↗</span>
+                <span class="display-option-label">전환</span>
+                <select id="transition-select" aria-label="페이지 전환 효과">
+                    <option value="default">기본</option>
+                    <option value="fade">페이드</option>
+                    <option value="slide">슬라이드</option>
+                    <option value="zoom">확대</option>
+                </select>
+            </label>
         </div>
     </div>
 </header>
 
 
 <main>
-
-    <!-- ==================== RANKING PAGE ==================== -->
 
     <section id="ranking-page">
 
@@ -114,7 +125,6 @@
         </div>
 
         <div class="controls">
-
             <div class="search-box">
                 <input
                     type="text"
@@ -136,14 +146,19 @@
                 </select>
             </div>
 
+            <div class="filter-box sort-filter-box">
+                <select id="sort-select" aria-label="맵 정렬 기준">
+                    <option value="rank">랭킹 순</option>
+                    <option value="objects">오브젝트 수</option>
+                    <option value="designScale">디자인 척도</option>
+                </select>
+            </div>
         </div>
 
         <div id="ranking-grid" class="ranking-grid"></div>
 
     </section>
 
-
-    <!-- ==================== IMPOSSIBLE LIST PAGE ==================== -->
 
     <section id="impossible-ranking-page" class="hidden">
 
@@ -154,7 +169,6 @@
         </div>
 
         <div class="controls">
-
             <div class="search-box">
                 <input
                     type="text"
@@ -164,6 +178,13 @@
                 >
             </div>
 
+            <div class="filter-box sort-filter-box">
+                <select id="impossible-sort-select" aria-label="맵 정렬 기준">
+                    <option value="rank">랭킹 순</option>
+                    <option value="objects">오브젝트 수</option>
+                    <option value="designScale">디자인 척도</option>
+                </select>
+            </div>
         </div>
 
         <div id="impossible-ranking-grid" class="ranking-grid"></div>
@@ -171,7 +192,43 @@
     </section>
 
 
-    <!-- ==================== DETAIL PAGE ==================== -->
+    <section id="time-machine-page" class="hidden">
+
+        <div class="hero">
+            <div class="hero-small">DeLa GD Forum</div>
+            <h1>TIME MACHINE</h1>
+            <p>Explore the ranking as it appeared on a past date</p>
+        </div>
+
+        <div class="controls time-machine-controls">
+            <label class="filter-box labeled-filter">
+                <span class="control-label">기준 날짜</span>
+                <select id="time-machine-date" aria-label="기준 날짜"></select>
+            </label>
+
+            <label class="filter-box labeled-filter">
+                <span class="control-label">목록</span>
+                <select id="time-machine-list" aria-label="표시할 목록">
+                    <option value="list">LIST</option>
+                    <option value="impossible">IMPOSSIBLE LIST</option>
+                </select>
+            </label>
+
+            <label class="filter-box labeled-filter sort-filter-box">
+                <span class="control-label">정렬</span>
+                <select id="time-machine-sort" aria-label="맵 정렬 기준">
+                    <option value="rank">랭킹 순</option>
+                    <option value="objects">오브젝트 수</option>
+                    <option value="designScale">디자인 척도</option>
+                </select>
+            </label>
+        </div>
+
+        <p id="time-machine-summary" class="time-machine-summary"></p>
+        <div id="time-machine-grid" class="ranking-grid"></div>
+
+    </section>
+
 
     <section id="detail-page" class="hidden">
 
@@ -181,31 +238,20 @@
                 ← Back to List
             </button>
 
-            <!-- 큰 썸네일 -->
             <div class="detail-thumbnail">
                 <img id="detail-image" src="" alt="">
             </div>
 
-            <!-- 제목 -->
             <div class="detail-title-area">
-
                 <div class="detail-rank" id="detail-rank"></div>
-
                 <h1 id="detail-name"></h1>
-
                 <div class="detail-difficulty" id="detail-difficulty"></div>
-
             </div>
 
-
-            <!-- Registration Information -->
-
             <div class="detail-section">
-
                 <h2>Registration Information</h2>
 
                 <div class="info-grid">
-
                     <div class="info-card">
                         <span>Registration Date</span>
                         <strong id="detail-date"></strong>
@@ -225,20 +271,13 @@
                         <span>Forum #1 at Registration</span>
                         <strong id="detail-forum-first"></strong>
                     </div>
-
                 </div>
-
             </div>
 
-
-            <!-- Level Information -->
-
             <div class="detail-section">
-
                 <h2>Level Information</h2>
 
                 <div class="info-grid">
-
                     <div class="info-card" id="detail-absolute-card">
                         <span>Absolute Difficulty</span>
                         <strong id="detail-absolute"></strong>
@@ -263,20 +302,13 @@
                         <span>Song</span>
                         <strong id="detail-song"></strong>
                     </div>
-
                 </div>
-
             </div>
 
-
-            <!-- Rank History -->
-
             <div class="detail-section">
-
                 <h2>Rank History</h2>
 
                 <div class="history-box">
-
                     <div class="history-header">
                         <span>Date</span>
                         <span>Change</span>
@@ -285,9 +317,7 @@
                     </div>
 
                     <div id="rank-history"></div>
-
                 </div>
-
             </div>
 
         </div>
@@ -295,49 +325,22 @@
     </section>
 
 
-    <!-- ==================== RECORDS ==================== -->
-
     <section id="records-page" class="simple-page hidden">
-
         <div class="simple-page-inner">
-
-            <button class="back-button" onclick="goHome()">
-                ← Back to List
-            </button>
-
+            <button class="back-button" onclick="goHome()">← Back to List</button>
             <h1>RECORDS</h1>
-
-            <p>
-                Player records and achievements will be available here.
-            </p>
-
+            <p>Player records and achievements will be available here.</p>
         </div>
-
     </section>
 
 
-    <!-- ==================== ABOUT ==================== -->
-
     <section id="about-page" class="simple-page hidden">
-
         <div class="simple-page-inner">
-
-            <button class="back-button" onclick="goHome()">
-                ← Back to List
-            </button>
-
+            <button class="back-button" onclick="goHome()">← Back to List</button>
             <h1>ABOUT</h1>
-
-            <p>
-                DeLa GD Forum is a Geometry Dash level ranking forum.
-            </p>
-
-            <p>
-                Levels are ranked and verified by DeLa.
-            </p>
-
+            <p>DeLa GD Forum is a Geometry Dash level ranking forum.</p>
+            <p>Levels are ranked and verified by DeLa.</p>
         </div>
-
     </section>
 
 </main>
