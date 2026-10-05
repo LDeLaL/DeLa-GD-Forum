@@ -469,9 +469,15 @@ body.theme-transition::after{animation:none !important;}
 }
 .date-year-filter{width:145px;}
 .date-month-filter,.date-day-filter{width:120px;}
-.level-info{align-items:flex-start;}
+.level-info{align-items:stretch;}
 .level-rank{min-height:36px;}
-.level-name{width:100%;flex:0 0 auto;margin-top:9px;}
+.level-title-row{display:flex;align-items:center;flex-wrap:nowrap;gap:12px;width:100%;min-width:0;}
+.level-name{width:auto;min-width:0;flex:1 1 auto;display:flex;align-items:center;margin-top:0;}
+.level-preview-row{margin-top:10px;}
+.ranking-grid[data-card-transition="true"] .level-card.list-card-entering{animation:level-card-list-enter 420ms cubic-bezier(0.18,0.7,0.24,1) both;animation-delay:calc(var(--card-order,0) * 32ms);}
+@keyframes level-card-list-enter{from{opacity:0;transform:translateY(13px) scale(0.992);filter:blur(2px);}
+to{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+}
 @media (max-width:900px){.date-year-filter,.date-month-filter,.date-day-filter{flex:1 1 110px;}
 }
 @media (max-width:700px){.date-year-filter,.date-month-filter,.date-day-filter{width:100%;flex-basis:100%;}
