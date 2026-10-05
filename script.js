@@ -265,6 +265,7 @@ let cardClickCompressor = null;
 let cardClickMasterGain = null;
 let cardClickLimiter = null;
 let themeTransitionTimeout = null;
+let rankOneTransitionTimeout = null;
 
 
 /* =========================================================
@@ -342,6 +343,28 @@ function startThemeTransition() {
         document.body.classList.remove("theme-transition");
         themeTransitionTimeout = null;
     }, 760);
+}
+
+
+function showRankOneTransition(isRankOne) {
+    if (rankOneTransitionTimeout) {
+        window.clearTimeout(rankOneTransitionTimeout);
+        rankOneTransitionTimeout = null;
+    }
+
+    document.body.classList.remove("rank-one-transition-active");
+
+    if (!isRankOne) {
+        return;
+    }
+
+    void document.body.offsetWidth;
+    document.body.classList.add("rank-one-transition-active");
+
+    rankOneTransitionTimeout = window.setTimeout(() => {
+        document.body.classList.remove("rank-one-transition-active");
+        rankOneTransitionTimeout = null;
+    }, 900);
 }
 
 
@@ -897,6 +920,7 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         "impossible-theme",
         lastListPage === impossibleRankingPage
     );
+    showRankOneTransition(level.rank === 1);
 
     playCardClickSound();
     isOpeningLevel = true;
