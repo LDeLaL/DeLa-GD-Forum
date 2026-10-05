@@ -9,20 +9,25 @@
    ========================================================= */
 
 const levels = [
+
     {
         rank: 1,
         name: "Qlixsyn",
         difficulty: "Hard Demon",
+
         image: "images/1000007894.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《1》",
         registrationRank: "#1",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "14.8",
         length: "19초",
         objects: "24,657",
         designScale: "2.1",
         song: "Classical VIP",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -33,20 +38,26 @@ const levels = [
             }
         ]
     },
+
+
     {
         rank: 2,
         name: "EYESwork",
         difficulty: "Hard Demon",
+
         image: "images/1000006550.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《2》",
         registrationRank: "#2",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "14",
         length: "16초",
         objects: "3,408",
         designScale: "1.9",
         song: "Society",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -57,20 +68,26 @@ const levels = [
             }
         ]
     },
+
+
     {
         rank: 3,
         name: "Unnerfed Glamorous",
         difficulty: "Hard Demon",
+
         image: "images/1000006513.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《3》",
         registrationRank: "#3",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "10.3",
         length: "42초",
         objects: "2,077",
         designScale: "1.3",
         song: "Eden",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -81,20 +98,26 @@ const levels = [
             }
         ]
     },
+
+
     {
         rank: 4,
         name: "DELUSION",
         difficulty: "Medium Demon",
+
         image: "images/1000009821.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《4》",
         registrationRank: "#4",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "10",
         length: "22초",
         objects: "23,863",
         designScale: "1.9",
         song: "Turn The Lights Off",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -105,20 +128,26 @@ const levels = [
             }
         ]
     },
+
+
     {
         rank: 5,
         name: "D",
         difficulty: "Insane",
+
         image: "images/1000009785.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《5》",
         registrationRank: "#5",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "9",
         length: "3초",
         objects: "27",
         designScale: "1.6",
         song: "Creo - Flow",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -129,20 +158,26 @@ const levels = [
             }
         ]
     },
+
+
     {
         rank: 6,
         name: "5",
         difficulty: "Insane",
+
         image: "images/1000009784.jpg",
+
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《6》",
         registrationRank: "#6",
         forumFirst: "Qlixsyn",
+
         absoluteDifficulty: "5",
         length: "3초",
         objects: "207",
         designScale: "3",
         song: "—",
+
         history: [
             {
                 date: "2026년 10월 3일",
@@ -153,6 +188,7 @@ const levels = [
             }
         ]
     }
+
 ];
 
 
@@ -161,15 +197,18 @@ const impossibleLevels = [
         rank: 1,
         name: "Beyond Luck",
         image: "images/file_0000000059c482068cee01a230a4e1ce.png",
+
         registrationDate: "2026년 10월 4일",
         registrationNumber: "《1》",
         registrationRank: "#1",
         forumFirst: "Beyond Luck",
+
         length: "∞",
         objects: "744",
         designScale: "3.8",
         song: "Promise (Reprise)",
         songStrikethrough: true,
+
         history: [
             {
                 date: "2026년 10월 4일",
@@ -203,7 +242,9 @@ const impossibleSearchInput = document.getElementById("impossible-search-input")
 const difficultyFilter = document.getElementById("difficulty-filter");
 const sortSelect = document.getElementById("sort-select");
 const impossibleSortSelect = document.getElementById("impossible-sort-select");
-const timeMachineDateSelect = document.getElementById("time-machine-date");
+const timeMachineYearSelect = document.getElementById("time-machine-year");
+const timeMachineMonthSelect = document.getElementById("time-machine-month");
+const timeMachineDaySelect = document.getElementById("time-machine-day");
 const timeMachineListSelect = document.getElementById("time-machine-list");
 const timeMachineSortSelect = document.getElementById("time-machine-sort");
 const timeMachineSummary = document.getElementById("time-machine-summary");
@@ -349,7 +390,6 @@ function applyPageTransition(style) {
         "page-transition-slide",
         "page-transition-zoom"
     );
-
     if (selectedStyle !== "default") {
         document.body.classList.add(`page-transition-${selectedStyle}`);
     }
@@ -475,6 +515,7 @@ function initializeDisplayPreferences() {
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
     applyPageTransition(savedTransition || "default");
+    // Keep the moving background on by default unless it was explicitly turned off.
     applyMovingCubes(savedCubes !== "off");
 
     themeToggle?.addEventListener("click", () => {
@@ -542,6 +583,7 @@ function playCardClickSound() {
             cardClickLimiter.connect(cardClickAudioContext.destination);
         }
 
+        // A brief, bright transient gives the key switch a crisp keyboard-like attack.
         const clickDuration = 0.028;
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
@@ -579,6 +621,7 @@ function playCardClickSound() {
         noise.start(now);
         noise.stop(now + clickDuration);
 
+        // The high switch snap makes the sound feel like a keyboard key press.
         const oscillator = cardClickAudioContext.createOscillator();
         const toneVolume = cardClickAudioContext.createGain();
 
@@ -596,6 +639,7 @@ function playCardClickSound() {
         oscillator.start(now);
         oscillator.stop(now + 0.016);
 
+        // The short, lower clack adds the keycap's physical bottom-out sound.
         const clackStart = now + 0.008;
         const clackDuration = 0.045;
         const clackBuffer = cardClickAudioContext.createBuffer(
@@ -632,6 +676,7 @@ function playCardClickSound() {
         clack.start(clackStart);
         clack.stop(clackStart + clackDuration);
 
+        // A restrained low tap rounds out the keyboard clack without a pop.
         const thump = cardClickAudioContext.createOscillator();
         const thumpVolume = cardClickAudioContext.createGain();
 
@@ -655,6 +700,8 @@ function playCardClickSound() {
 
 
 function playPageTurnSound() {
+
+    // The level click already creates and unlocks this shared audio chain.
     if (!cardClickAudioContext || !cardClickCompressor) {
         return;
     }
@@ -692,7 +739,10 @@ function playPageTurnSound() {
         turnLowPass.type = "lowpass";
         turnLowPass.frequency.setValueAtTime(1500, now);
         turnLowPass.frequency.exponentialRampToValueAtTime(4200, now + 0.22);
-        turnLowPass.frequency.exponentialRampToValueAtTime(1700, now + turnDuration);
+        turnLowPass.frequency.exponentialRampToValueAtTime(
+            1700,
+            now + turnDuration
+        );
 
         const turnVolume = cardClickAudioContext.createGain();
         turnVolume.gain.setValueAtTime(0.0001, now);
@@ -705,17 +755,24 @@ function playPageTurnSound() {
         turnLowPass.connect(turnVolume);
         turnVolume.connect(cardClickCompressor);
 
+        // A lower, airy layer adds the soft "whoosh" under the paper swish.
         const whooshLowPass = cardClickAudioContext.createBiquadFilter();
         whooshLowPass.type = "lowpass";
         whooshLowPass.frequency.setValueAtTime(700, now);
         whooshLowPass.frequency.exponentialRampToValueAtTime(1150, now + 0.2);
-        whooshLowPass.frequency.exponentialRampToValueAtTime(420, now + turnDuration);
+        whooshLowPass.frequency.exponentialRampToValueAtTime(
+            420,
+            now + turnDuration
+        );
 
         const whooshVolume = cardClickAudioContext.createGain();
         whooshVolume.gain.setValueAtTime(0.0001, now);
         whooshVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.12);
         whooshVolume.gain.exponentialRampToValueAtTime(0.34, now + 0.25);
-        whooshVolume.gain.exponentialRampToValueAtTime(0.0001, now + turnDuration);
+        whooshVolume.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + turnDuration
+        );
 
         turnNoise.connect(whooshLowPass);
         whooshLowPass.connect(whooshVolume);
@@ -734,6 +791,7 @@ function playPageTurnSound() {
    ========================================================= */
 
 function syncPageTheme(targetPage) {
+
     const isImpossibleTheme =
         targetPage === impossibleRankingPage ||
         (targetPage === detailPage && lastListPage === impossibleRankingPage);
@@ -754,6 +812,7 @@ function syncPageTheme(targetPage) {
 
 
 function changePage(targetPage) {
+
     if (!targetPage) {
         return;
     }
@@ -780,6 +839,7 @@ function changePage(targetPage) {
     }
 
     window.setTimeout(() => {
+
         if (currentPage) {
             currentPage.classList.add("hidden");
             currentPage.classList.remove("page-leaving");
@@ -788,6 +848,7 @@ function changePage(targetPage) {
         syncPageTheme(targetPage);
         targetPage.classList.remove("hidden", "page-leaving", "page-entering");
 
+        // Restart the entrance animation whenever a page is shown again.
         void targetPage.offsetWidth;
         targetPage.classList.add("page-entering");
 
@@ -807,11 +868,13 @@ function changePage(targetPage) {
                 changePage(nextPage);
             }
         }, PAGE_ENTER_DURATION);
+
     }, currentPage ? PAGE_LEAVE_DURATION : 0);
 }
 
 
 function animateInitialPage() {
+
     if (prefersReducedMotion) {
         return;
     }
@@ -868,7 +931,6 @@ function highlightedLevelName(name, searchText = "") {
     }
 
     const matchEnd = matchStart + query.length;
-
     return `${escapeHTML(safeName.slice(0, matchStart))}` +
         `<mark class="search-highlight">${escapeHTML(safeName.slice(matchStart, matchEnd))}</mark>` +
         `${escapeHTML(safeName.slice(matchEnd))}`;
@@ -886,13 +948,11 @@ function sortLevels(levelItems, sortMode = "rank") {
 
     if (sortMode === "objects") {
         sorted.sort((left, right) =>
-            numericValue(right.objects) - numericValue(left.objects) ||
-            left.rank - right.rank
+            numericValue(right.objects) - numericValue(left.objects) || left.rank - right.rank
         );
     } else if (sortMode === "designScale") {
         sorted.sort((left, right) =>
-            numericValue(right.designScale) - numericValue(left.designScale) ||
-            left.rank - right.rank
+            numericValue(right.designScale) - numericValue(left.designScale) || left.rank - right.rank
         );
     } else {
         sorted.sort((left, right) => left.rank - right.rank);
@@ -911,18 +971,17 @@ function createLevelCard(level, sourceLevels, searchText = "") {
 
     card.className = "level-card";
     card.onclick = () => openLevel(level.rank, card, sourceLevels);
-
     card.innerHTML = `
         <div class="level-thumbnail">
             <img src="${safeImage}" alt="${safeName}" loading="lazy">
         </div>
         <div class="level-info">
-            <div class="level-title-row">
-                <div class="level-rank">#${level.rank}</div>
+            <div class="level-rank">#${level.rank}</div>
+            <div class="level-preview-row">
                 <div class="level-registration-number" title="등재 번호">등재 ${safeRegistrationNumber}</div>
-                <div class="level-name">${highlightedLevelName(level.name, searchText)}</div>
+                ${safeDifficulty ? `<div class="level-difficulty-preview">${safeDifficulty}</div>` : ""}
             </div>
-            ${safeDifficulty ? `<div class="level-difficulty">${safeDifficulty}</div>` : ""}
+            <div class="level-name">${highlightedLevelName(level.name, searchText)}</div>
         </div>
     `;
 
@@ -951,14 +1010,10 @@ function renderLevelCards(grid, levelItems, sourceLevels, searchText = "") {
 function displayLevels() {
     const searchText = searchInput.value.trim();
     const selectedDifficulty = difficultyFilter.value;
-
     const filteredLevels = levels.filter(level => {
-        const matchesSearch =
-            level.name.toLowerCase().includes(searchText.toLowerCase());
+        const matchesSearch = level.name.toLowerCase().includes(searchText.toLowerCase());
         const matchesDifficulty =
-            selectedDifficulty === "all" ||
-            level.difficulty === selectedDifficulty;
-
+            selectedDifficulty === "all" || level.difficulty === selectedDifficulty;
         return matchesSearch && matchesDifficulty;
     });
 
@@ -973,7 +1028,6 @@ function displayLevels() {
 
 function displayImpossibleLevels() {
     const searchText = impossibleSearchInput.value.trim();
-
     const filteredLevels = impossibleLevels.filter(level =>
         level.name.toLowerCase().includes(searchText.toLowerCase())
     );
@@ -1000,9 +1054,7 @@ function koreanDateToISO(dateText) {
 
 function isoDateToKorean(dateISO) {
     const parts = String(dateISO || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    return parts
-        ? `${parts[1]}년 ${Number(parts[2])}월 ${Number(parts[3])}일`
-        : dateISO;
+    return parts ? `${parts[1]}년 ${Number(parts[2])}월 ${Number(parts[3])}일` : dateISO;
 }
 
 
@@ -1012,7 +1064,7 @@ function allRankingLists() {
 
 
 function initializeTimeMachineDates() {
-    if (!timeMachineDateSelect) {
+    if (!timeMachineYearSelect || !timeMachineMonthSelect || !timeMachineDaySelect) {
         return;
     }
 
@@ -1022,16 +1074,67 @@ function initializeTimeMachineDates() {
             ...level.history.map(entry => koreanDateToISO(entry.date))
         ]))
         .filter(Boolean);
-
     const uniqueDates = [...new Set(eventDates)].sort();
+    const years = [...new Set(uniqueDates.map(dateISO => dateISO.slice(0, 4)))];
 
-    timeMachineDateSelect.innerHTML = uniqueDates.map(dateISO =>
-        `<option value="${dateISO}">${isoDateToKorean(dateISO)}</option>`
+    timeMachineYearSelect.innerHTML = years.map(year =>
+        `<option value="${year}">${year}년</option>`
     ).join("");
 
+    timeMachineMonthSelect.innerHTML = Array.from({ length: 12 }, (_, index) => {
+        const month = String(index + 1).padStart(2, "0");
+        return `<option value="${month}">${index + 1}월</option>`;
+    }).join("");
+
     if (uniqueDates.length > 0) {
-        timeMachineDateSelect.value = uniqueDates[uniqueDates.length - 1];
+        const [year, month, day] = uniqueDates[uniqueDates.length - 1].split("-");
+        timeMachineYearSelect.value = year;
+        timeMachineMonthSelect.value = month;
+        updateTimeMachineDayOptions(Number(day));
     }
+}
+
+
+function updateTimeMachineDayOptions(preferredDay) {
+    if (!timeMachineYearSelect || !timeMachineMonthSelect || !timeMachineDaySelect) {
+        return;
+    }
+
+    const year = Number(timeMachineYearSelect.value);
+    const month = Number(timeMachineMonthSelect.value);
+
+    if (!year || !month) {
+        timeMachineDaySelect.innerHTML = "";
+        return;
+    }
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const currentDay = Number(timeMachineDaySelect.value);
+    const dayToSelect = Math.min(
+        Math.max(Number(preferredDay) || currentDay || 1, 1),
+        daysInMonth
+    );
+
+    timeMachineDaySelect.innerHTML = Array.from({ length: daysInMonth }, (_, index) => {
+        const day = String(index + 1).padStart(2, "0");
+        return `<option value="${day}">${index + 1}일</option>`;
+    }).join("");
+    timeMachineDaySelect.value = String(dayToSelect).padStart(2, "0");
+}
+
+
+function getSelectedTimeMachineDate() {
+    const year = timeMachineYearSelect?.value;
+    const month = timeMachineMonthSelect?.value;
+    const day = timeMachineDaySelect?.value;
+
+    return year && month && day ? `${year}-${month}-${day}` : "";
+}
+
+
+function handleTimeMachineCalendarChange() {
+    updateTimeMachineDayOptions();
+    displayTimeMachine();
 }
 
 
@@ -1069,15 +1172,16 @@ function buildTimeMachineSnapshot(sourceList, dateISO) {
 
 
 function displayTimeMachine() {
-    const dateISO = timeMachineDateSelect.value;
+    const dateISO = getSelectedTimeMachineDate();
     const isImpossibleList = timeMachineListSelect.value === "impossible";
     const sourceList = isImpossibleList ? impossibleLevels : levels;
     const selectedDateLevels = buildTimeMachineSnapshot(sourceList, dateISO);
     const sortMode = timeMachineSortSelect.value;
 
     timeMachineLevels = sortLevels(selectedDateLevels, sortMode);
-    timeMachineSummary.textContent =
-        `${isoDateToKorean(dateISO)} 기준 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"} · ${timeMachineLevels.length}개 맵`;
+    timeMachineSummary.textContent = dateISO
+        ? `${isoDateToKorean(dateISO)} 기준 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"} · ${timeMachineLevels.length}개 맵`
+        : `날짜를 선택해 주세요 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"}`;
 
     renderLevelCards(timeMachineGrid, timeMachineLevels, timeMachineLevels);
 }
@@ -1094,11 +1198,14 @@ function showTimeMachine() {
    ========================================================= */
 
 function openLevel(rank, clickedCard, sourceLevels = levels) {
+
     if (isOpeningLevel || isChangingPage) {
         return;
     }
 
-    const level = sourceLevels.find(item => item.rank === rank);
+    const level = sourceLevels.find(
+        item => item.rank === rank
+    );
 
     if (!level) {
         return;
@@ -1111,17 +1218,13 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
     } else {
         lastListPage = rankingPage;
     }
-
     detailPage.classList.toggle("rank-one-entry", level.rank === 1);
     document.body.classList.toggle(
         "impossible-theme",
         lastListPage === impossibleRankingPage
     );
     document.body.classList.toggle("list-theme", lastListPage === rankingPage);
-    document.body.classList.toggle(
-        "time-machine-theme",
-        lastListPage === timeMachinePage
-    );
+    document.body.classList.toggle("time-machine-theme", lastListPage === timeMachinePage);
     showRankOneTransition(level.rank === 1);
 
     playCardClickSound();
@@ -1140,24 +1243,45 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
     window.setTimeout(() => {
         changePage(detailPage);
 
-        const detailImage = document.getElementById("detail-image");
+        /* Image */
+
+        const detailImage =
+            document.getElementById("detail-image");
+
         detailImage.src = level.image;
         detailImage.alt = level.name;
         applyThumbnailPalette(detailImage);
 
-        document.getElementById("detail-rank").textContent = `#${level.rank}`;
-        document.getElementById("detail-name").textContent = level.name;
+
+        /* Title */
+
+        document.getElementById("detail-rank").textContent =
+            `#${level.rank}`;
+
+        document.getElementById("detail-name").textContent =
+            level.name;
 
         const detailDifficulty = document.getElementById("detail-difficulty");
         detailDifficulty.textContent = level.difficulty || "";
         detailDifficulty.classList.toggle("hidden", !level.difficulty);
 
-        document.getElementById("detail-date").textContent = level.registrationDate;
-        document.getElementById("detail-number").textContent = level.registrationNumber;
+
+        /* Registration */
+
+        document.getElementById("detail-date").textContent =
+            level.registrationDate;
+
+        document.getElementById("detail-number").textContent =
+            level.registrationNumber;
+
         document.getElementById("detail-registration-rank").textContent =
             level.registrationRank;
+
         document.getElementById("detail-forum-first").textContent =
             level.forumFirst;
+
+
+        /* Level Information */
 
         document.getElementById("detail-absolute").textContent =
             level.absoluteDifficulty || "";
@@ -1166,9 +1290,14 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
             !level.absoluteDifficulty
         );
 
-        document.getElementById("detail-length").textContent = level.length;
-        document.getElementById("detail-objects").textContent = level.objects;
-        document.getElementById("detail-design").textContent = level.designScale;
+        document.getElementById("detail-length").textContent =
+            level.length;
+
+        document.getElementById("detail-objects").textContent =
+            level.objects;
+
+        document.getElementById("detail-design").textContent =
+            level.designScale;
 
         const detailSong = document.getElementById("detail-song");
         detailSong.textContent = level.song;
@@ -1176,20 +1305,41 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
             ? "line-through"
             : "";
 
-        const historyContainer = document.getElementById("rank-history");
+
+        /* Rank History */
+
+        const historyContainer =
+            document.getElementById("rank-history");
+
         historyContainer.innerHTML = "";
 
+
         level.history.forEach(entry => {
+
             const row = document.createElement("div");
+
             row.className = "rank-history-item";
+
+
             row.innerHTML = `
+
                 <span>${entry.date}</span>
-                <span class="history-change ${entry.type}">${entry.change}</span>
+
+                <span class="history-change ${entry.type}">
+                    ${entry.change}
+                </span>
+
                 <span>${entry.rank}</span>
+
                 <span>${entry.reason}</span>
+
             `;
+
+
             historyContainer.appendChild(row);
+
         });
+
 
         window.scrollTo({
             top: 0,
@@ -1197,6 +1347,7 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         });
 
         isOpeningLevel = false;
+
     }, flashDelay);
 }
 
@@ -1242,17 +1393,38 @@ function showAbout() {
    SEARCH
    ========================================================= */
 
-searchInput.addEventListener("input", displayLevels);
-impossibleSearchInput.addEventListener("input", displayImpossibleLevels);
+searchInput.addEventListener(
+    "input",
+    displayLevels
+);
+
+impossibleSearchInput.addEventListener(
+    "input",
+    displayImpossibleLevels
+);
 
 sortSelect.addEventListener("change", displayLevels);
 impossibleSortSelect.addEventListener("change", displayImpossibleLevels);
-timeMachineDateSelect.addEventListener("change", displayTimeMachine);
+timeMachineYearSelect.addEventListener("change", handleTimeMachineCalendarChange);
+timeMachineMonthSelect.addEventListener("change", handleTimeMachineCalendarChange);
+timeMachineDaySelect.addEventListener("change", displayTimeMachine);
 timeMachineListSelect.addEventListener("change", displayTimeMachine);
 timeMachineSortSelect.addEventListener("change", displayTimeMachine);
 
-difficultyFilter.addEventListener("change", displayLevels);
 
+/* =========================================================
+   DIFFICULTY FILTER
+   ========================================================= */
+
+difficultyFilter.addEventListener(
+    "change",
+    displayLevels
+);
+
+
+/* =========================================================
+   DETAIL BACK BUTTON SOUND
+   ========================================================= */
 
 const detailBackButton = detailPage.querySelector(".back-button");
 
