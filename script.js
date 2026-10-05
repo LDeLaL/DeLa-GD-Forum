@@ -9,25 +9,20 @@
    ========================================================= */
 
 const levels = [
-
     {
         rank: 1,
         name: "Qlixsyn",
         difficulty: "Hard Demon",
-
         image: "images/1000007894.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《1》",
         registrationRank: "#1",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "14.8",
         length: "19초",
         objects: "24,657",
         designScale: "2.1",
         song: "Classical VIP",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -38,26 +33,20 @@ const levels = [
             }
         ]
     },
-
-
     {
         rank: 2,
         name: "EYESwork",
         difficulty: "Hard Demon",
-
         image: "images/1000006550.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《2》",
         registrationRank: "#2",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "14",
         length: "16초",
         objects: "3,408",
         designScale: "1.9",
         song: "Society",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -68,26 +57,20 @@ const levels = [
             }
         ]
     },
-
-
     {
         rank: 3,
         name: "Unnerfed Glamorous",
         difficulty: "Hard Demon",
-
         image: "images/1000006513.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《3》",
         registrationRank: "#3",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "10.3",
         length: "42초",
         objects: "2,077",
         designScale: "1.3",
         song: "Eden",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -98,26 +81,20 @@ const levels = [
             }
         ]
     },
-
-
     {
         rank: 4,
         name: "DELUSION",
         difficulty: "Medium Demon",
-
         image: "images/1000009821.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《4》",
         registrationRank: "#4",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "10",
         length: "22초",
         objects: "23,863",
         designScale: "1.9",
         song: "Turn The Lights Off",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -128,26 +105,20 @@ const levels = [
             }
         ]
     },
-
-
     {
         rank: 5,
         name: "D",
         difficulty: "Insane",
-
         image: "images/1000009785.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《5》",
         registrationRank: "#5",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "9",
         length: "3초",
         objects: "27",
         designScale: "1.6",
         song: "Creo - Flow",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -158,26 +129,20 @@ const levels = [
             }
         ]
     },
-
-
     {
         rank: 6,
         name: "5",
         difficulty: "Insane",
-
         image: "images/1000009784.jpg",
-
         registrationDate: "2026년 10월 3일",
         registrationNumber: "《6》",
         registrationRank: "#6",
         forumFirst: "Qlixsyn",
-
         absoluteDifficulty: "5",
         length: "3초",
         objects: "207",
         designScale: "3",
         song: "—",
-
         history: [
             {
                 date: "2026년 10월 3일",
@@ -188,7 +153,6 @@ const levels = [
             }
         ]
     }
-
 ];
 
 
@@ -197,18 +161,15 @@ const impossibleLevels = [
         rank: 1,
         name: "Beyond Luck",
         image: "images/file_0000000059c482068cee01a230a4e1ce.png",
-
         registrationDate: "2026년 10월 4일",
         registrationNumber: "《1》",
         registrationRank: "#1",
         forumFirst: "Beyond Luck",
-
         length: "∞",
         objects: "744",
         designScale: "3.8",
         song: "Promise (Reprise)",
         songStrikethrough: true,
-
         history: [
             {
                 date: "2026년 10월 4일",
@@ -228,22 +189,32 @@ const impossibleLevels = [
 
 const rankingPage = document.getElementById("ranking-page");
 const impossibleRankingPage = document.getElementById("impossible-ranking-page");
+const timeMachinePage = document.getElementById("time-machine-page");
 const detailPage = document.getElementById("detail-page");
 const recordsPage = document.getElementById("records-page");
 const aboutPage = document.getElementById("about-page");
 
 const rankingGrid = document.getElementById("ranking-grid");
 const impossibleRankingGrid = document.getElementById("impossible-ranking-grid");
+const timeMachineGrid = document.getElementById("time-machine-grid");
 
 const searchInput = document.getElementById("search-input");
 const impossibleSearchInput = document.getElementById("impossible-search-input");
 const difficultyFilter = document.getElementById("difficulty-filter");
+const sortSelect = document.getElementById("sort-select");
+const impossibleSortSelect = document.getElementById("impossible-sort-select");
+const timeMachineDateSelect = document.getElementById("time-machine-date");
+const timeMachineListSelect = document.getElementById("time-machine-list");
+const timeMachineSortSelect = document.getElementById("time-machine-sort");
+const timeMachineSummary = document.getElementById("time-machine-summary");
 const themeToggle = document.getElementById("theme-toggle");
 const cubesToggle = document.getElementById("cubes-toggle");
+const transitionSelect = document.getElementById("transition-select");
 
 const appPages = [
     rankingPage,
     impossibleRankingPage,
+    timeMachinePage,
     detailPage,
     recordsPage,
     aboutPage
@@ -266,6 +237,7 @@ let cardClickMasterGain = null;
 let cardClickLimiter = null;
 let themeTransitionTimeout = null;
 let rankOneTransitionTimeout = null;
+let timeMachineLevels = [];
 
 
 /* =========================================================
@@ -368,12 +340,141 @@ function showRankOneTransition(isRankOne) {
 }
 
 
+function applyPageTransition(style) {
+    const allowedStyles = ["default", "fade", "slide", "zoom"];
+    const selectedStyle = allowedStyles.includes(style) ? style : "default";
+
+    document.body.classList.remove(
+        "page-transition-fade",
+        "page-transition-slide",
+        "page-transition-zoom"
+    );
+
+    if (selectedStyle !== "default") {
+        document.body.classList.add(`page-transition-${selectedStyle}`);
+    }
+
+    if (transitionSelect) {
+        transitionSelect.value = selectedStyle;
+    }
+}
+
+
+function initializeDetailParticles() {
+    const particleField = document.querySelector(".detail-particles");
+
+    if (!particleField || particleField.childElementCount > 0) {
+        return;
+    }
+
+    for (let index = 0; index < 18; index++) {
+        const particle = document.createElement("span");
+        const x = (index * 47 + 13) % 100;
+        const y = (index * 67 + 19) % 100;
+        const size = 3 + (index % 4) * 2;
+        const duration = 6 + (index % 6) * 1.3;
+        const delay = -((index * 1.7) % duration);
+        const driftX = ((index % 5) - 2) * 22;
+        const driftY = -34 - (index % 4) * 16;
+
+        particle.className = "detail-particle";
+        particle.style.setProperty("--particle-x", `${x}%`);
+        particle.style.setProperty("--particle-y", `${y}%`);
+        particle.style.setProperty("--particle-size", `${size}px`);
+        particle.style.setProperty("--particle-duration", `${duration}s`);
+        particle.style.setProperty("--particle-delay", `${delay}s`);
+        particle.style.setProperty("--particle-drift-x", `${driftX}px`);
+        particle.style.setProperty("--particle-drift-y", `${driftY}px`);
+        particleField.appendChild(particle);
+    }
+}
+
+
+function applyThumbnailPalette(image) {
+    const particleField = document.querySelector(".detail-particles");
+
+    if (!particleField || !image) {
+        return;
+    }
+
+    const useFallbackColor = () => {
+        particleField.style.setProperty("--detail-accent-rgb", "168, 85, 247");
+    };
+
+    const sampleImageColor = () => {
+        if (!image.complete || !image.naturalWidth || !image.naturalHeight) {
+            useFallbackColor();
+            return;
+        }
+
+        try {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d", { willReadFrequently: true });
+
+            if (!context) {
+                useFallbackColor();
+                return;
+            }
+
+            canvas.width = 12;
+            canvas.height = 12;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+            const colorTotal = [0, 0, 0];
+            let samples = 0;
+
+            for (let y = 3; y < 9; y++) {
+                for (let x = 3; x < 9; x++) {
+                    const pixelIndex = (y * canvas.width + x) * 4;
+
+                    if (pixels[pixelIndex + 3] < 100) {
+                        continue;
+                    }
+
+                    colorTotal[0] += pixels[pixelIndex];
+                    colorTotal[1] += pixels[pixelIndex + 1];
+                    colorTotal[2] += pixels[pixelIndex + 2];
+                    samples++;
+                }
+            }
+
+            if (!samples) {
+                useFallbackColor();
+                return;
+            }
+
+            const accent = colorTotal.map(channel =>
+                Math.max(70, Math.min(245, Math.round((channel / samples) * 1.28)))
+            );
+
+            particleField.style.setProperty(
+                "--detail-accent-rgb",
+                accent.join(", ")
+            );
+        } catch (error) {
+            // Keep the ambient particles working if canvas sampling is unavailable.
+            useFallbackColor();
+        }
+    };
+
+    useFallbackColor();
+
+    if (image.complete) {
+        sampleImageColor();
+    } else {
+        image.addEventListener("load", sampleImageColor, { once: true });
+    }
+}
+
+
 function initializeDisplayPreferences() {
     const savedTheme = readDisplayPreference("dela-gd-theme");
     const savedCubes = readDisplayPreference("dela-gd-moving-cubes");
+    const savedTransition = readDisplayPreference("dela-gd-page-transition");
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
-    // Keep the moving background on by default unless it was explicitly turned off.
+    applyPageTransition(savedTransition || "default");
     applyMovingCubes(savedCubes !== "off");
 
     themeToggle?.addEventListener("click", () => {
@@ -389,6 +490,11 @@ function initializeDisplayPreferences() {
         const shouldEnable = document.body.classList.contains("cubes-hidden");
         applyMovingCubes(shouldEnable);
         saveDisplayPreference("dela-gd-moving-cubes", shouldEnable ? "on" : "off");
+    });
+
+    transitionSelect?.addEventListener("change", () => {
+        applyPageTransition(transitionSelect.value);
+        saveDisplayPreference("dela-gd-page-transition", transitionSelect.value);
     });
 }
 
@@ -436,7 +542,6 @@ function playCardClickSound() {
             cardClickLimiter.connect(cardClickAudioContext.destination);
         }
 
-        // A brief, bright transient gives the key switch a crisp keyboard-like attack.
         const clickDuration = 0.028;
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
@@ -474,7 +579,6 @@ function playCardClickSound() {
         noise.start(now);
         noise.stop(now + clickDuration);
 
-        // The high switch snap makes the sound feel like a keyboard key press.
         const oscillator = cardClickAudioContext.createOscillator();
         const toneVolume = cardClickAudioContext.createGain();
 
@@ -492,7 +596,6 @@ function playCardClickSound() {
         oscillator.start(now);
         oscillator.stop(now + 0.016);
 
-        // The short, lower clack adds the keycap's physical bottom-out sound.
         const clackStart = now + 0.008;
         const clackDuration = 0.045;
         const clackBuffer = cardClickAudioContext.createBuffer(
@@ -529,7 +632,6 @@ function playCardClickSound() {
         clack.start(clackStart);
         clack.stop(clackStart + clackDuration);
 
-        // A restrained low tap rounds out the keyboard clack without a pop.
         const thump = cardClickAudioContext.createOscillator();
         const thumpVolume = cardClickAudioContext.createGain();
 
@@ -553,8 +655,6 @@ function playCardClickSound() {
 
 
 function playPageTurnSound() {
-
-    // The level click already creates and unlocks this shared audio chain.
     if (!cardClickAudioContext || !cardClickCompressor) {
         return;
     }
@@ -592,10 +692,7 @@ function playPageTurnSound() {
         turnLowPass.type = "lowpass";
         turnLowPass.frequency.setValueAtTime(1500, now);
         turnLowPass.frequency.exponentialRampToValueAtTime(4200, now + 0.22);
-        turnLowPass.frequency.exponentialRampToValueAtTime(
-            1700,
-            now + turnDuration
-        );
+        turnLowPass.frequency.exponentialRampToValueAtTime(1700, now + turnDuration);
 
         const turnVolume = cardClickAudioContext.createGain();
         turnVolume.gain.setValueAtTime(0.0001, now);
@@ -608,24 +705,17 @@ function playPageTurnSound() {
         turnLowPass.connect(turnVolume);
         turnVolume.connect(cardClickCompressor);
 
-        // A lower, airy layer adds the soft "whoosh" under the paper swish.
         const whooshLowPass = cardClickAudioContext.createBiquadFilter();
         whooshLowPass.type = "lowpass";
         whooshLowPass.frequency.setValueAtTime(700, now);
         whooshLowPass.frequency.exponentialRampToValueAtTime(1150, now + 0.2);
-        whooshLowPass.frequency.exponentialRampToValueAtTime(
-            420,
-            now + turnDuration
-        );
+        whooshLowPass.frequency.exponentialRampToValueAtTime(420, now + turnDuration);
 
         const whooshVolume = cardClickAudioContext.createGain();
         whooshVolume.gain.setValueAtTime(0.0001, now);
         whooshVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.12);
         whooshVolume.gain.exponentialRampToValueAtTime(0.34, now + 0.25);
-        whooshVolume.gain.exponentialRampToValueAtTime(
-            0.0001,
-            now + turnDuration
-        );
+        whooshVolume.gain.exponentialRampToValueAtTime(0.0001, now + turnDuration);
 
         turnNoise.connect(whooshLowPass);
         whooshLowPass.connect(whooshVolume);
@@ -644,7 +734,6 @@ function playPageTurnSound() {
    ========================================================= */
 
 function syncPageTheme(targetPage) {
-
     const isImpossibleTheme =
         targetPage === impossibleRankingPage ||
         (targetPage === detailPage && lastListPage === impossibleRankingPage);
@@ -653,13 +742,18 @@ function syncPageTheme(targetPage) {
         targetPage === rankingPage ||
         (targetPage === detailPage && lastListPage === rankingPage);
 
+    const isTimeMachineTheme =
+        targetPage === timeMachinePage ||
+        (targetPage === detailPage && lastListPage === timeMachinePage);
+
     document.body.classList.toggle("impossible-theme", isImpossibleTheme);
     document.body.classList.toggle("list-theme", isListTheme);
+    document.body.classList.toggle("time-machine-theme", isTimeMachineTheme);
+    document.body.classList.toggle("map-particles-active", targetPage === detailPage);
 }
 
 
 function changePage(targetPage) {
-
     if (!targetPage) {
         return;
     }
@@ -686,7 +780,6 @@ function changePage(targetPage) {
     }
 
     window.setTimeout(() => {
-
         if (currentPage) {
             currentPage.classList.add("hidden");
             currentPage.classList.remove("page-leaving");
@@ -695,7 +788,6 @@ function changePage(targetPage) {
         syncPageTheme(targetPage);
         targetPage.classList.remove("hidden", "page-leaving", "page-entering");
 
-        // Restart the entrance animation whenever a page is shown again.
         void targetPage.offsetWidth;
         targetPage.classList.add("page-entering");
 
@@ -715,13 +807,11 @@ function changePage(targetPage) {
                 changePage(nextPage);
             }
         }, PAGE_ENTER_DURATION);
-
     }, currentPage ? PAGE_LEAVE_DURATION : 0);
 }
 
 
 function animateInitialPage() {
-
     if (prefersReducedMotion) {
         return;
     }
@@ -752,145 +842,250 @@ function animateInitialPage() {
    DISPLAY LEVELS
    ========================================================= */
 
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+
+function highlightedLevelName(name, searchText = "") {
+    const safeName = String(name);
+    const query = searchText.trim();
+
+    if (!query) {
+        return escapeHTML(safeName);
+    }
+
+    const matchStart = safeName.toLowerCase().indexOf(query.toLowerCase());
+
+    if (matchStart < 0) {
+        return escapeHTML(safeName);
+    }
+
+    const matchEnd = matchStart + query.length;
+
+    return `${escapeHTML(safeName.slice(0, matchStart))}` +
+        `<mark class="search-highlight">${escapeHTML(safeName.slice(matchStart, matchEnd))}</mark>` +
+        `${escapeHTML(safeName.slice(matchEnd))}`;
+}
+
+
+function numericValue(value) {
+    const parsed = Number.parseFloat(String(value ?? "").replace(/[^0-9.-]/g, ""));
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+
+function sortLevels(levelItems, sortMode = "rank") {
+    const sorted = [...levelItems];
+
+    if (sortMode === "objects") {
+        sorted.sort((left, right) =>
+            numericValue(right.objects) - numericValue(left.objects) ||
+            left.rank - right.rank
+        );
+    } else if (sortMode === "designScale") {
+        sorted.sort((left, right) =>
+            numericValue(right.designScale) - numericValue(left.designScale) ||
+            left.rank - right.rank
+        );
+    } else {
+        sorted.sort((left, right) => left.rank - right.rank);
+    }
+
+    return sorted;
+}
+
+
+function createLevelCard(level, sourceLevels, searchText = "") {
+    const card = document.createElement("article");
+    const safeImage = escapeHTML(level.image);
+    const safeName = escapeHTML(level.name);
+    const safeRegistrationNumber = escapeHTML(level.registrationNumber || "—");
+    const safeDifficulty = escapeHTML(level.difficulty || "");
+
+    card.className = "level-card";
+    card.onclick = () => openLevel(level.rank, card, sourceLevels);
+
+    card.innerHTML = `
+        <div class="level-thumbnail">
+            <img src="${safeImage}" alt="${safeName}" loading="lazy">
+        </div>
+        <div class="level-info">
+            <div class="level-title-row">
+                <div class="level-rank">#${level.rank}</div>
+                <div class="level-registration-number" title="등재 번호">등재 ${safeRegistrationNumber}</div>
+                <div class="level-name">${highlightedLevelName(level.name, searchText)}</div>
+            </div>
+            ${safeDifficulty ? `<div class="level-difficulty">${safeDifficulty}</div>` : ""}
+        </div>
+    `;
+
+    return card;
+}
+
+
+function renderLevelCards(grid, levelItems, sourceLevels, searchText = "") {
+    grid.innerHTML = "";
+
+    if (levelItems.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-message">
+                No levels found.
+            </div>
+        `;
+        return;
+    }
+
+    levelItems.forEach(level => {
+        grid.appendChild(createLevelCard(level, sourceLevels, searchText));
+    });
+}
+
+
 function displayLevels() {
-
-    const searchText = searchInput.value
-        .trim()
-        .toLowerCase();
-
+    const searchText = searchInput.value.trim();
     const selectedDifficulty = difficultyFilter.value;
 
-
     const filteredLevels = levels.filter(level => {
-
         const matchesSearch =
-            level.name
-                .toLowerCase()
-                .includes(searchText);
-
+            level.name.toLowerCase().includes(searchText.toLowerCase());
         const matchesDifficulty =
             selectedDifficulty === "all" ||
             level.difficulty === selectedDifficulty;
 
         return matchesSearch && matchesDifficulty;
-
     });
 
-
-    rankingGrid.innerHTML = "";
-
-
-    if (filteredLevels.length === 0) {
-
-        rankingGrid.innerHTML = `
-            <div class="empty-message">
-                No levels found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    filteredLevels.forEach(level => {
-
-        const card = document.createElement("article");
-
-        card.className = "level-card";
-
-        card.onclick = () => {
-            openLevel(level.rank, card);
-        };
-
-
-        card.innerHTML = `
-
-            <div class="level-thumbnail">
-
-                <img
-                    src="${level.image}"
-                    alt="${level.name}"
-                    loading="lazy"
-                >
-
-            </div>
-
-
-            <div class="level-info">
-
-                <div class="level-title-row">
-                    <div class="level-rank">
-                        #${level.rank}
-                    </div>
-
-                    <div class="level-name">
-                        ${level.name}
-                    </div>
-                </div>
-
-                <div class="level-difficulty">
-                    ${level.difficulty}
-                </div>
-
-            </div>
-
-        `;
-
-
-        rankingGrid.appendChild(card);
-
-    });
-
+    renderLevelCards(
+        rankingGrid,
+        sortLevels(filteredLevels, sortSelect.value),
+        levels,
+        searchText
+    );
 }
 
 
 function displayImpossibleLevels() {
-
-    const searchText = impossibleSearchInput.value
-        .trim()
-        .toLowerCase();
+    const searchText = impossibleSearchInput.value.trim();
 
     const filteredLevels = impossibleLevels.filter(level =>
-        level.name.toLowerCase().includes(searchText)
+        level.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
-    impossibleRankingGrid.innerHTML = "";
+    renderLevelCards(
+        impossibleRankingGrid,
+        sortLevels(filteredLevels, impossibleSortSelect.value),
+        impossibleLevels,
+        searchText
+    );
+}
 
-    if (filteredLevels.length === 0) {
-        impossibleRankingGrid.innerHTML = `
-            <div class="empty-message">
-                No levels found.
-            </div>
-        `;
+
+function koreanDateToISO(dateText) {
+    const parts = String(dateText || "").match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+
+    if (!parts) {
+        return "";
+    }
+
+    return `${parts[1]}-${parts[2].padStart(2, "0")}-${parts[3].padStart(2, "0")}`;
+}
+
+
+function isoDateToKorean(dateISO) {
+    const parts = String(dateISO || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return parts
+        ? `${parts[1]}년 ${Number(parts[2])}월 ${Number(parts[3])}일`
+        : dateISO;
+}
+
+
+function allRankingLists() {
+    return [levels, impossibleLevels];
+}
+
+
+function initializeTimeMachineDates() {
+    if (!timeMachineDateSelect) {
         return;
     }
 
-    filteredLevels.forEach(level => {
-        const card = document.createElement("article");
-        card.className = "level-card";
-        card.onclick = () => {
-            openLevel(level.rank, card, impossibleLevels);
-        };
+    const eventDates = allRankingLists()
+        .flatMap(list => list.flatMap(level => [
+            koreanDateToISO(level.registrationDate),
+            ...level.history.map(entry => koreanDateToISO(entry.date))
+        ]))
+        .filter(Boolean);
 
-        card.innerHTML = `
-            <div class="level-thumbnail">
-                <img
-                    src="${level.image}"
-                    alt="${level.name}"
-                    loading="lazy"
-                >
-            </div>
+    const uniqueDates = [...new Set(eventDates)].sort();
 
-            <div class="level-info">
-                <div class="level-title-row">
-                    <div class="level-rank">#${level.rank}</div>
-                    <div class="level-name">${level.name}</div>
-                </div>
-            </div>
-        `;
+    timeMachineDateSelect.innerHTML = uniqueDates.map(dateISO =>
+        `<option value="${dateISO}">${isoDateToKorean(dateISO)}</option>`
+    ).join("");
 
-        impossibleRankingGrid.appendChild(card);
-    });
+    if (uniqueDates.length > 0) {
+        timeMachineDateSelect.value = uniqueDates[uniqueDates.length - 1];
+    }
+}
+
+
+function levelRankAsOfDate(level, dateISO) {
+    if (!dateISO || koreanDateToISO(level.registrationDate) > dateISO) {
+        return null;
+    }
+
+    const datedHistory = level.history
+        .map(entry => ({
+            ...entry,
+            isoDate: koreanDateToISO(entry.date)
+        }))
+        .filter(entry => entry.isoDate && entry.isoDate <= dateISO)
+        .sort((left, right) => left.isoDate.localeCompare(right.isoDate));
+
+    if (datedHistory.length === 0) {
+        return null;
+    }
+
+    const rankMatch = String(datedHistory[datedHistory.length - 1].rank).match(/\d+/);
+    return rankMatch ? Number(rankMatch[0]) : null;
+}
+
+
+function buildTimeMachineSnapshot(sourceList, dateISO) {
+    return sourceList
+        .map(level => {
+            const historicalRank = levelRankAsOfDate(level, dateISO);
+            return historicalRank === null ? null : { ...level, rank: historicalRank };
+        })
+        .filter(Boolean)
+        .sort((left, right) => left.rank - right.rank);
+}
+
+
+function displayTimeMachine() {
+    const dateISO = timeMachineDateSelect.value;
+    const isImpossibleList = timeMachineListSelect.value === "impossible";
+    const sourceList = isImpossibleList ? impossibleLevels : levels;
+    const selectedDateLevels = buildTimeMachineSnapshot(sourceList, dateISO);
+    const sortMode = timeMachineSortSelect.value;
+
+    timeMachineLevels = sortLevels(selectedDateLevels, sortMode);
+    timeMachineSummary.textContent =
+        `${isoDateToKorean(dateISO)} 기준 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"} · ${timeMachineLevels.length}개 맵`;
+
+    renderLevelCards(timeMachineGrid, timeMachineLevels, timeMachineLevels);
+}
+
+
+function showTimeMachine() {
+    displayTimeMachine();
+    changePage(timeMachinePage);
 }
 
 
@@ -899,26 +1094,33 @@ function displayImpossibleLevels() {
    ========================================================= */
 
 function openLevel(rank, clickedCard, sourceLevels = levels) {
-
     if (isOpeningLevel || isChangingPage) {
         return;
     }
 
-    const level = sourceLevels.find(
-        item => item.rank === rank
-    );
+    const level = sourceLevels.find(item => item.rank === rank);
 
     if (!level) {
         return;
     }
 
-    lastListPage = sourceLevels === impossibleLevels
-        ? impossibleRankingPage
-        : rankingPage;
+    if (sourceLevels === impossibleLevels) {
+        lastListPage = impossibleRankingPage;
+    } else if (sourceLevels === timeMachineLevels) {
+        lastListPage = timeMachinePage;
+    } else {
+        lastListPage = rankingPage;
+    }
+
     detailPage.classList.toggle("rank-one-entry", level.rank === 1);
     document.body.classList.toggle(
         "impossible-theme",
         lastListPage === impossibleRankingPage
+    );
+    document.body.classList.toggle("list-theme", lastListPage === rankingPage);
+    document.body.classList.toggle(
+        "time-machine-theme",
+        lastListPage === timeMachinePage
     );
     showRankOneTransition(level.rank === 1);
 
@@ -938,44 +1140,24 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
     window.setTimeout(() => {
         changePage(detailPage);
 
-        /* Image */
-
-        const detailImage =
-            document.getElementById("detail-image");
-
+        const detailImage = document.getElementById("detail-image");
         detailImage.src = level.image;
         detailImage.alt = level.name;
+        applyThumbnailPalette(detailImage);
 
-
-        /* Title */
-
-        document.getElementById("detail-rank").textContent =
-            `#${level.rank}`;
-
-        document.getElementById("detail-name").textContent =
-            level.name;
+        document.getElementById("detail-rank").textContent = `#${level.rank}`;
+        document.getElementById("detail-name").textContent = level.name;
 
         const detailDifficulty = document.getElementById("detail-difficulty");
         detailDifficulty.textContent = level.difficulty || "";
         detailDifficulty.classList.toggle("hidden", !level.difficulty);
 
-
-        /* Registration */
-
-        document.getElementById("detail-date").textContent =
-            level.registrationDate;
-
-        document.getElementById("detail-number").textContent =
-            level.registrationNumber;
-
+        document.getElementById("detail-date").textContent = level.registrationDate;
+        document.getElementById("detail-number").textContent = level.registrationNumber;
         document.getElementById("detail-registration-rank").textContent =
             level.registrationRank;
-
         document.getElementById("detail-forum-first").textContent =
             level.forumFirst;
-
-
-        /* Level Information */
 
         document.getElementById("detail-absolute").textContent =
             level.absoluteDifficulty || "";
@@ -984,14 +1166,9 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
             !level.absoluteDifficulty
         );
 
-        document.getElementById("detail-length").textContent =
-            level.length;
-
-        document.getElementById("detail-objects").textContent =
-            level.objects;
-
-        document.getElementById("detail-design").textContent =
-            level.designScale;
+        document.getElementById("detail-length").textContent = level.length;
+        document.getElementById("detail-objects").textContent = level.objects;
+        document.getElementById("detail-design").textContent = level.designScale;
 
         const detailSong = document.getElementById("detail-song");
         detailSong.textContent = level.song;
@@ -999,41 +1176,20 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
             ? "line-through"
             : "";
 
-
-        /* Rank History */
-
-        const historyContainer =
-            document.getElementById("rank-history");
-
+        const historyContainer = document.getElementById("rank-history");
         historyContainer.innerHTML = "";
 
-
         level.history.forEach(entry => {
-
             const row = document.createElement("div");
-
             row.className = "rank-history-item";
-
-
             row.innerHTML = `
-
                 <span>${entry.date}</span>
-
-                <span class="history-change ${entry.type}">
-                    ${entry.change}
-                </span>
-
+                <span class="history-change ${entry.type}">${entry.change}</span>
                 <span>${entry.rank}</span>
-
                 <span>${entry.reason}</span>
-
             `;
-
-
             historyContainer.appendChild(row);
-
         });
-
 
         window.scrollTo({
             top: 0,
@@ -1041,7 +1197,6 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         });
 
         isOpeningLevel = false;
-
     }, flashDelay);
 }
 
@@ -1087,30 +1242,17 @@ function showAbout() {
    SEARCH
    ========================================================= */
 
-searchInput.addEventListener(
-    "input",
-    displayLevels
-);
+searchInput.addEventListener("input", displayLevels);
+impossibleSearchInput.addEventListener("input", displayImpossibleLevels);
 
-impossibleSearchInput.addEventListener(
-    "input",
-    displayImpossibleLevels
-);
+sortSelect.addEventListener("change", displayLevels);
+impossibleSortSelect.addEventListener("change", displayImpossibleLevels);
+timeMachineDateSelect.addEventListener("change", displayTimeMachine);
+timeMachineListSelect.addEventListener("change", displayTimeMachine);
+timeMachineSortSelect.addEventListener("change", displayTimeMachine);
 
+difficultyFilter.addEventListener("change", displayLevels);
 
-/* =========================================================
-   DIFFICULTY FILTER
-   ========================================================= */
-
-difficultyFilter.addEventListener(
-    "change",
-    displayLevels
-);
-
-
-/* =========================================================
-   DETAIL BACK BUTTON SOUND
-   ========================================================= */
 
 const detailBackButton = detailPage.querySelector(".back-button");
 
@@ -1128,6 +1270,9 @@ document.querySelectorAll(".nav button").forEach(button => {
    ========================================================= */
 
 initializeDisplayPreferences();
+initializeTimeMachineDates();
+initializeDetailParticles();
 displayLevels();
 displayImpossibleLevels();
+displayTimeMachine();
 animateInitialPage();
