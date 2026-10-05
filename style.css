@@ -1,4 +1,4 @@
-\* {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -1303,13 +1303,15 @@ body.light-theme.impossible-theme #detail-page.page-entering.rank-one-entry .det
     max-width: 1150px;
     margin: 0 auto;
 
-    padding: 75px 30px 45px;
+    padding: 60px 30px 45px;
 
     text-align: center;
 }
 
 .hero-small {
     display: inline-block;
+    position: relative;
+    top: 6px;
 
     background: linear-gradient(100deg, #c084fc 0%, #f0dcff 48%, #a855f7 100%);
     background-clip: text;
@@ -1869,9 +1871,9 @@ body.light-theme.impossible-theme #detail-page.page-entering.rank-one-entry .det
 }
 
 .info-card {
-    min-height: 82px;
+    min-height: 94px;
 
-    padding: 17px 18px;
+    padding: 18px 20px;
 
     border: 1px solid rgba(170, 120, 220, 0.12);
 
@@ -1889,15 +1891,17 @@ body.light-theme.impossible-theme #detail-page.page-entering.rank-one-entry .det
 
     color: #777281;
 
-    font-size: 12px;
+    font-size: 14px;
 
-    margin-bottom: 7px;
+    margin-bottom: 9px;
 }
 
 .info-card strong {
     color: #f5f1fa;
 
-    font-size: 15px;
+    font-size: 18px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 /* =========================
@@ -2034,7 +2038,7 @@ footer {
     }
 
     .hero {
-        padding: 55px 20px 35px;
+        padding: 47px 20px 35px;
     }
 
     .hero h1 {
