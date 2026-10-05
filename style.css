@@ -412,7 +412,6 @@ main {
 #ranking-page.page-entering .level-card:nth-child(6) { animation-delay: 490ms; }
 
 #detail-page.page-entering .detail-container,
-#records-page.page-entering .simple-page-inner,
 #about-page.page-entering .simple-page-inner {
     animation: soft-page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 60ms both;
 }
@@ -429,7 +428,6 @@ main {
     #ranking-page.page-entering .level-card,
     #impossible-ranking-page.page-entering .level-card,
     #detail-page.page-entering .detail-container,
-    #records-page.page-entering .simple-page-inner,
     #about-page.page-entering .simple-page-inner {
         animation-duration: 1ms !important;
         animation-delay: 0ms !important;
@@ -3040,4 +3038,166 @@ body.light-theme #detail-page.page-entering.rank-one-entry .detail-rank {
     .level-info {
         padding: 15px 16px;
     }
+}
+
+/* Simple list view keeps only each map's rank and name. */
+body.simple-list-view .ranking-grid {
+    gap: 18px;
+    padding-top: 30px;
+}
+
+body.simple-list-view .level-thumbnail,
+body.simple-list-view .level-preview-row {
+    display: none;
+}
+
+body.simple-list-view .level-info {
+    min-height: 64px;
+    padding: 12px 20px;
+    border-left: 0;
+    border-radius: 17px;
+}
+
+body.simple-list-view .level-rank {
+    min-height: 36px;
+}
+
+@media (max-width: 700px) {
+    body.simple-list-view .level-info {
+        min-height: 58px;
+        padding: 10px 13px;
+    }
+}
+
+/* Thumbnail lightbox */
+body.thumbnail-lightbox-open {
+    overflow: hidden;
+}
+
+.thumbnail-zoom-button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    line-height: 0;
+    cursor: zoom-in;
+}
+
+.thumbnail-zoom-button:focus-visible {
+    outline: 2px solid rgba(233, 213, 255, 0.95);
+    outline-offset: -4px;
+}
+
+.thumbnail-lightbox {
+    position: fixed;
+    z-index: 3000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 7vh 7vw;
+    background: rgba(7, 6, 11, 0.88);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    cursor: zoom-out;
+    transition:
+        opacity 320ms ease,
+        visibility 0s linear 360ms;
+}
+
+.thumbnail-lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.thumbnail-lightbox img {
+    display: block;
+    max-width: min(1120px, 100%);
+    max-height: 86vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.56),
+        0 0 36px rgba(168, 85, 247, 0.18);
+    opacity: 0;
+    transform: scale(0.82);
+    transition:
+        opacity 300ms ease,
+        transform 420ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.thumbnail-lightbox.is-open img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.thumbnail-lightbox-close {
+    position: absolute;
+    top: max(18px, env(safe-area-inset-top));
+    right: max(18px, env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    background: rgba(20, 17, 27, 0.78);
+    color: #fff;
+    font: inherit;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background 180ms ease,
+        transform 180ms ease;
+}
+
+.thumbnail-lightbox-close:hover,
+.thumbnail-lightbox-close:focus-visible {
+    background: rgba(102, 58, 147, 0.92);
+    outline: none;
+    transform: scale(1.06);
+}
+
+@media (max-width: 700px) {
+    .thumbnail-lightbox {
+        padding: 6vh 4vw;
+    }
+
+    .thumbnail-lightbox img {
+        max-width: 100%;
+        max-height: 80vh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .thumbnail-lightbox,
+    .thumbnail-lightbox img,
+    .thumbnail-lightbox-close {
+        transition-duration: 1ms !important;
+    }
+
+    .thumbnail-lightbox img {
+        transform: none;
+    }
+}
+
+#view-mode-toggle[aria-pressed="true"] {
+    border-color: rgba(198, 127, 255, 0.58);
+    background: rgba(104, 56, 145, 0.48);
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.24);
+}
+
+body.light-theme #view-mode-toggle[aria-pressed="true"] {
+    border-color: rgba(147, 75, 215, 0.48);
+    background: #f0e4fa;
+    color: #5b2185;
+    box-shadow: 0 0 14px rgba(147, 75, 215, 0.14);
 }
