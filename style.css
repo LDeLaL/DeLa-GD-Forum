@@ -1,4 +1,4 @@
-* {
+\* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -3039,7 +3039,6 @@ body.light-theme #detail-page.page-entering.rank-one-entry .detail-rank {
         padding: 15px 16px;
     }
 }
-
 /* Simple list view keeps only each map's rank and name. */
 body.simple-list-view .ranking-grid {
     gap: 18px;
@@ -3187,7 +3186,6 @@ body.thumbnail-lightbox-open {
         transform: none;
     }
 }
-
 #view-mode-toggle[aria-pressed="true"] {
     border-color: rgba(198, 127, 255, 0.58);
     background: rgba(104, 56, 145, 0.48);
