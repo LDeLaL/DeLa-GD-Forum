@@ -50,7 +50,6 @@
 <span class="orbit-square"></span>
 <span class="orbit-square"></span>
 <span class="orbit-square"></span>
-<span class="orbit-square"></span>
 </div>
 <div class="rank-one-transition" aria-hidden="true">
 <svg viewBox="0 0 64 64" focusable="false">
@@ -67,7 +66,6 @@
 <button id="list-nav" onclick="goHome()">LIST</button>
 <button id="impossible-list-nav" onclick="showImpossibleList()">IMPOSSIBLE LIST</button>
 <button id="time-machine-nav" onclick="showTimeMachine()">TIME MACHINE</button>
-<button onclick="showRecords()">RECORDS</button>
 <button onclick="showAbout()">ABOUT</button>
 </nav>
 <div class="display-options" aria-label="화면 설정">
@@ -78,6 +76,10 @@
 <button id="cubes-toggle" class="display-option-button" type="button" aria-label="움직이는 큐브 끄기" title="움직이는 큐브 끄기" aria-pressed="true">
 <span aria-hidden="true">✦</span>
 <span class="display-option-label">큐브 끄기</span>
+</button>
+<button id="view-mode-toggle" class="display-option-button" type="button" aria-label="간단 보기" title="간단 보기" aria-pressed="false">
+<span aria-hidden="true">☷</span>
+<span class="display-option-label">간단 보기</span>
 </button>
 <label class="display-option-button transition-control" title="페이지 전환 효과">
 <span aria-hidden="true">↗</span>
@@ -223,13 +225,6 @@
 </div>
 </div>
 </section>
-<section id="records-page" class="simple-page hidden">
-<div class="simple-page-inner">
-<button class="back-button" onclick="goHome()">← Back to List</button>
-<h1>RECORDS</h1>
-<p>Player records and achievements will be available here.</p>
-</div>
-</section>
 <section id="about-page" class="simple-page hidden">
 <div class="simple-page-inner">
 <button class="back-button" onclick="goHome()">← Back to List</button>
@@ -239,6 +234,10 @@
 </div>
 </section>
 </main>
+<div id="thumbnail-lightbox" class="thumbnail-lightbox hidden" role="dialog" aria-modal="true" aria-label="썸네일 확대 보기">
+    <button id="thumbnail-lightbox-close" class="thumbnail-lightbox-close" type="button" aria-label="닫기">×</button>
+    <img id="thumbnail-lightbox-image" src="" alt="">
+</div>
 <footer><p>© 2026 DeLa GD Forum</p></footer>
 <script src="script.js"></script>
 </body>
