@@ -1,8 +1,36 @@
-/* Map data extracted from the original script.js. Map entries are unchanged. */
+/* Map data for DeLa GD Forum. */
 window.FORUM_LEVELS = [
-
     {
         rank: 1,
+        name: "FROSTPHOBIA",
+        difficulty: "Extreme Demon",
+
+        image: "images/FROSTPHOBIA_natural_split_hue_inversion.png",
+
+        registrationDate: "2026년 10월 30일",
+        registrationNumber: "《7》",
+        registrationRank: "#1",
+        forumFirst: "FROSTPHOBIA",
+
+        absoluteDifficulty: "38.8",
+        length: "27초",
+        objects: "38,297",
+        designScale: "2.1",
+        song: "-Miami Hotline- Vol.3",
+
+        history: [
+            {
+                date: "2026년 10월 30일",
+                change: "−",
+                rank: "#1",
+                reason: "등재됨",
+                type: "entry"
+            }
+        ]
+    },
+
+    {
+        rank: 2,
         name: "Qlixsyn",
         difficulty: "Hard Demon",
 
@@ -26,13 +54,19 @@ window.FORUM_LEVELS = [
                 rank: "#1",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#2",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     },
 
-
     {
-        rank: 2,
+        rank: 3,
         name: "EYESwork",
         difficulty: "Hard Demon",
 
@@ -56,13 +90,19 @@ window.FORUM_LEVELS = [
                 rank: "#2",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#3",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     },
 
-
     {
-        rank: 3,
+        rank: 4,
         name: "Unnerfed Glamorous",
         difficulty: "Hard Demon",
 
@@ -86,13 +126,19 @@ window.FORUM_LEVELS = [
                 rank: "#3",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#4",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     },
 
-
     {
-        rank: 4,
+        rank: 5,
         name: "DELUSION",
         difficulty: "Medium Demon",
 
@@ -116,13 +162,19 @@ window.FORUM_LEVELS = [
                 rank: "#4",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#5",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     },
 
-
     {
-        rank: 5,
+        rank: 6,
         name: "D",
         difficulty: "Insane",
 
@@ -146,13 +198,19 @@ window.FORUM_LEVELS = [
                 rank: "#5",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#6",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     },
 
-
     {
-        rank: 6,
+        rank: 7,
         name: "5",
         difficulty: "Insane",
 
@@ -176,8 +234,14 @@ window.FORUM_LEVELS = [
                 rank: "#6",
                 reason: "등재됨",
                 type: "entry"
+            },
+            {
+                date: "2026년 10월 30일",
+                change: "↓ 1",
+                rank: "#7",
+                reason: "FROSTPHOBIA 등재로 인한 순위 변동",
+                type: "change"
             }
         ]
     }
-
 ];
