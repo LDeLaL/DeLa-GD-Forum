@@ -15,7 +15,7 @@ window.FORUM_LEVELS = [
         absoluteDifficulty: "38.8",
         length: "27초",
         objects: "38,297",
-        designScale: "2.1",
+        designScale: "3.5",
         song: "-Miami Hotline- Vol.3",
 
         history: [
