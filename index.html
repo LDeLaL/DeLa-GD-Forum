@@ -1,247 +1,929 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeLa GD Forum</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DeLa GD Forum</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="list-theme">
-<div class="ambient-square-field" aria-hidden="true">
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-<span class="orbit-square"></span>
-</div>
-<div class="rank-one-transition" aria-hidden="true">
-<svg viewBox="0 0 64 64" focusable="false">
-<path d="M7 18 19 29 31 9l12 20 14-12-6 29H13L7 18Zm8 32h36v5H15v-5Z" fill="currentColor"/>
-<path d="M11 23 20 31 31 13 42 31 53 22" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="31" cy="38" r="3" fill="rgba(255,255,255,.88)"/>
-</svg>
-</div>
-<div class="detail-particles" aria-hidden="true"></div>
-<header class="site-header">
-<div class="header-inner">
-<div class="logo" onclick="goHome()">DeLa GD Forum</div>
-<nav class="nav">
-<button id="list-nav" onclick="goHome()">LIST</button>
-<button id="impossible-list-nav" onclick="showImpossibleList()">IMPOSSIBLE LIST</button>
-<button id="time-machine-nav" onclick="showTimeMachine()">TIME MACHINE</button>
-<button onclick="showAbout()">ABOUT</button>
-</nav>
-<div class="display-options" aria-label="화면 설정">
-<button id="theme-toggle" class="display-option-button" type="button" aria-label="라이트 모드로 전환" title="라이트 모드로 전환">
-<span aria-hidden="true">☼</span>
-<span class="display-option-label">라이트</span>
-</button>
-<button id="cubes-toggle" class="display-option-button" type="button" aria-label="움직이는 큐브 끄기" title="움직이는 큐브 끄기" aria-pressed="true">
-<span aria-hidden="true">✦</span>
-<span class="display-option-label">큐브 끄기</span>
-</button>
-<button id="view-mode-toggle" class="display-option-button" type="button" aria-label="간단 보기" title="간단 보기" aria-pressed="false">
-<span aria-hidden="true">☷</span>
-<span class="display-option-label">간단 보기</span>
-</button>
-<label class="display-option-button transition-control" title="페이지 전환 효과">
-<span aria-hidden="true">↗</span>
-<span class="display-option-label">전환</span>
-<select id="transition-select" aria-label="페이지 전환 효과">
-<option value="default">기본</option>
-<option value="fade">페이드</option>
-<option value="slide">슬라이드</option>
-<option value="zoom">확대</option>
-</select>
-</label>
-</div>
-</div>
-</header>
-<main>
-<section id="ranking-page">
-<div class="hero">
-<div class="hero-small">DeLa GD Forum</div>
-<h1>DEMONLIST</h1>
-<p>Geometry Dash Level Ranking</p>
-</div>
-<div class="controls">
-<div class="search-box">
-<input type="text" id="search-input" placeholder="Search levels..." autocomplete="off">
-</div>
-<div class="filter-box">
-<select id="difficulty-filter">
-<option value="all">All Difficulties</option>
-<option value="Extreme Demon">Extreme Demon</option>
-<option value="Insane Demon">Insane Demon</option>
-<option value="Hard Demon">Hard Demon</option>
-<option value="Medium Demon">Medium Demon</option>
-<option value="Easy Demon">Easy Demon</option>
-<option value="Insane">Insane</option>
-</select>
-</div>
-<div class="filter-box sort-filter-box">
-<select id="sort-select" aria-label="맵 정렬 기준">
-<option value="rank">랭킹 순</option>
-<option value="objects">오브젝트 수</option>
-<option value="designScale">디자인 척도</option>
-</select>
-</div>
-</div>
-<div id="ranking-grid" class="ranking-grid" data-card-transition="true"></div>
-</section>
-<section id="impossible-ranking-page" class="hidden">
-<div class="hero">
-<div class="hero-small">DeLa GD Forum</div>
-<h1>IMPOSSIBLE LIST</h1>
-<p>Geometry Dash Level Ranking</p>
-</div>
-<div class="controls">
-<div class="search-box">
-<input type="text" id="impossible-search-input" placeholder="Search levels..." autocomplete="off">
-</div>
-<div class="filter-box sort-filter-box">
-<select id="impossible-sort-select" aria-label="맵 정렬 기준">
-<option value="rank">랭킹 순</option>
-<option value="objects">오브젝트 수</option>
-<option value="designScale">디자인 척도</option>
-</select>
-</div>
-</div>
-<div id="impossible-ranking-grid" class="ranking-grid" data-card-transition="true"></div>
-</section>
-<section id="time-machine-page" class="hidden">
-<div class="hero">
-<div class="hero-small">DeLa GD Forum</div>
-<h1>TIME MACHINE</h1>
-<p>Explore the ranking as it appeared on a past date</p>
-</div>
-<div class="controls time-machine-controls">
-<label class="filter-box labeled-filter date-part-filter date-year-filter">
-<span class="control-label">연도</span>
-<select id="time-machine-year" aria-label="기준 연도"></select>
-</label>
-<label class="filter-box labeled-filter date-part-filter date-month-filter">
-<span class="control-label">월</span>
-<select id="time-machine-month" aria-label="기준 월"></select>
-</label>
-<label class="filter-box labeled-filter date-part-filter date-day-filter">
-<span class="control-label">일</span>
-<select id="time-machine-day" aria-label="기준 일"></select>
-</label>
-<label class="filter-box labeled-filter">
-<span class="control-label">목록</span>
-<select id="time-machine-list" aria-label="표시할 목록">
-<option value="list">LIST</option>
-<option value="impossible">IMPOSSIBLE LIST</option>
-</select>
-</label>
-<label class="filter-box labeled-filter sort-filter-box">
-<span class="control-label">정렬</span>
-<select id="time-machine-sort" aria-label="맵 정렬 기준">
-<option value="rank">랭킹 순</option>
-<option value="objects">오브젝트 수</option>
-<option value="designScale">디자인 척도</option>
-</select>
-</label>
-</div>
-<p id="time-machine-summary" class="time-machine-summary"></p>
-<div id="time-machine-grid" class="ranking-grid" data-card-transition="true"></div>
-</section>
-<section id="detail-page" class="hidden">
-<div class="detail-container">
-<button class="back-button" onclick="goBackToList()">← Back to List</button>
-<div class="detail-thumbnail">
-<img id="detail-image" src="" alt="">
-</div>
-<div class="detail-title-area">
-<div class="detail-rank" id="detail-rank"></div>
-<h1 id="detail-name"></h1>
-<div class="detail-difficulty" id="detail-difficulty"></div>
-</div>
-<div class="detail-section">
-<h2>Registration Information</h2>
-<div class="info-grid">
-<div class="info-card"><span>Registration Date</span><strong id="detail-date"></strong></div>
-<div class="info-card"><span>Registration Number</span><strong id="detail-number"></strong></div>
-<div class="info-card"><span>Rank at Registration</span><strong id="detail-registration-rank"></strong></div>
-<div class="info-card"><span>Forum #1 at Registration</span><strong id="detail-forum-first"></strong></div>
-</div>
-</div>
-<div class="detail-section">
-<h2>Level Information</h2>
-<div class="info-grid">
-<div class="info-card" id="detail-absolute-card"><span>Absolute Difficulty</span><strong id="detail-absolute"></strong></div>
-<div class="info-card"><span>Level Length</span><strong id="detail-length"></strong></div>
-<div class="info-card"><span>Object Count</span><strong id="detail-objects"></strong></div>
-<div class="info-card"><span>Design Scale</span><strong id="detail-design"></strong></div>
-<div class="info-card wide"><span>Song</span><strong id="detail-song"></strong></div>
-</div>
-</div>
-<div class="detail-section">
-<h2>Rank History</h2>
-<div class="history-box">
-<div class="history-header">
-<span>Date</span><span>Change</span><span>Rank</span><span>Reason</span>
-</div>
-<div id="rank-history"></div>
-</div>
-</div>
-</div>
-</section>
-<section id="about-page" class="simple-page hidden">
-<div class="simple-page-inner">
-<button class="back-button" onclick="goHome()">← Back to List</button>
-<h1>ABOUT</h1>
-<p>DeLa GD Forum is a Geometry Dash level ranking forum.</p>
-<p>Levels are ranked and verified by DeLa.</p>
-</div>
-</section>
-</main>
-<div id="thumbnail-lightbox" class="thumbnail-lightbox hidden" role="dialog" aria-modal="true" aria-label="썸네일 확대 보기">
-    <button id="thumbnail-lightbox-close" class="thumbnail-lightbox-close" type="button" aria-label="닫기">×</button>
-    <img id="thumbnail-lightbox-image" src="" alt="">
-</div>
-<footer><p>© 2026 DeLa GD Forum</p></footer>
-<script src="levels.js"></script>
-<script src="impossible-levels.js"></script>
-<script src="script.js"></script>
+
+    <!-- =====================================================
+         BACKGROUND CUBES
+    ====================================================== -->
+
+    <div class="ambient-square-field" aria-hidden="true">
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+        <span class="orbit-square"></span>
+    </div>
+
+
+    <!-- =====================================================
+         RANK ONE TRANSITION
+    ====================================================== -->
+
+    <div class="rank-one-transition" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none">
+            <path
+                d="M15 72 L8 30 L34 48 L50 12 L66 48 L92 30 L85 72 Z"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linejoin="round"
+            />
+            <path
+                d="M18 82 H82"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+            />
+            <circle cx="8" cy="30" r="4" fill="currentColor"/>
+            <circle cx="50" cy="12" r="4" fill="currentColor"/>
+            <circle cx="92" cy="30" r="4" fill="currentColor"/>
+        </svg>
+    </div>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="site-header">
+
+        <div class="header-inner">
+
+            <div class="logo" onclick="goHome()">
+                DeLa GD Forum
+            </div>
+
+
+            <nav class="nav">
+
+                <button
+                    id="list-nav"
+                    type="button"
+                    onclick="goHome()"
+                >
+                    LIST
+                </button>
+
+                <button
+                    id="xplus-list-nav"
+                    type="button"
+                    onclick="showXplusList()"
+                >
+                    LIST X+
+                </button>
+
+                <button
+                    id="impossible-list-nav"
+                    type="button"
+                    onclick="showImpossibleList()"
+                >
+                    IMPOSSIBLE LIST
+                </button>
+
+                <button
+                    id="time-machine-nav"
+                    type="button"
+                    onclick="showTimeMachine()"
+                >
+                    TIME MACHINE
+                </button>
+
+                <button
+                    id="about-nav"
+                    type="button"
+                    onclick="showAbout()"
+                >
+                    ABOUT
+                </button>
+
+            </nav>
+
+
+            <!-- DISPLAY OPTIONS -->
+
+            <div class="display-options">
+
+                <button
+                    id="theme-toggle"
+                    class="display-option-button"
+                    type="button"
+                    aria-label="라이트 모드로 전환"
+                >
+                    <span aria-hidden="true">☼</span>
+                    <span class="display-option-label">라이트</span>
+                </button>
+
+                <button
+                    id="cubes-toggle"
+                    class="display-option-button"
+                    type="button"
+                    aria-label="움직이는 큐브 끄기"
+                    aria-pressed="true"
+                >
+                    <span aria-hidden="true">✦</span>
+                    <span class="display-option-label">큐브 끄기</span>
+                </button>
+
+                <button
+                    id="view-mode-toggle"
+                    class="display-option-button"
+                    type="button"
+                    aria-label="간단 보기"
+                    aria-pressed="false"
+                >
+                    <span aria-hidden="true">☷</span>
+                    <span class="display-option-label">간단 보기</span>
+                </button>
+
+                <label class="display-option-button transition-control">
+                    <span aria-hidden="true">↔</span>
+
+                    <span class="display-option-label">전환</span>
+
+                    <select id="transition-select">
+                        <option value="default">기본</option>
+                        <option value="fade">Fade</option>
+                        <option value="slide">Slide</option>
+                        <option value="zoom">Zoom</option>
+                    </select>
+                </label>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- DETAIL PARTICLES -->
+
+    <div class="detail-particles" aria-hidden="true"></div>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             NORMAL LIST
+        ================================================== -->
+
+        <section id="ranking-page">
+
+            <div class="hero">
+
+                <div class="hero-small">
+                    DeLa GD Forum
+                </div>
+
+                <h1>LIST</h1>
+
+                <p>
+                    Ranked Geometry Dash Levels
+                </p>
+
+            </div>
+
+
+            <div class="controls">
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search levels..."
+                        autocomplete="off"
+                    >
+                </div>
+
+
+                <div class="filter-box">
+                    <select id="difficulty-filter">
+
+                        <option value="all">
+                            All Difficulties
+                        </option>
+
+                        <option value="Extreme Demon">
+                            Extreme Demon
+                        </option>
+
+                        <option value="Hard Demon">
+                            Hard Demon
+                        </option>
+
+                        <option value="Medium Demon">
+                            Medium Demon
+                        </option>
+
+                        <option value="Easy Demon">
+                            Easy Demon
+                        </option>
+
+                        <option value="Insane">
+                            Insane
+                        </option>
+
+                        <option value="Hard">
+                            Hard
+                        </option>
+
+                        <option value="Normal">
+                            Normal
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="filter-box">
+                    <select id="sort-select">
+
+                        <option value="rank">
+                            Sort by Rank
+                        </option>
+
+                        <option value="objects">
+                            Sort by Objects
+                        </option>
+
+                        <option value="designScale">
+                            Sort by Design Scale
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div
+                id="ranking-grid"
+                class="ranking-grid"
+                data-card-transition="true"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LIST X+
+        ================================================== -->
+
+        <section id="xplus-ranking-page" class="hidden">
+
+            <div class="hero">
+
+                <div class="hero-small">
+                    DeLa GD Forum
+                </div>
+
+                <h1>LIST X+</h1>
+
+                <p>
+                    Extended Ranking List
+                </p>
+
+            </div>
+
+
+            <div class="controls">
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="xplus-search-input"
+                        placeholder="Search levels..."
+                        autocomplete="off"
+                    >
+                </div>
+
+
+                <div class="filter-box">
+                    <select id="xplus-difficulty-filter">
+
+                        <option value="all">
+                            All Difficulties
+                        </option>
+
+                        <option value="Extreme Demon">
+                            Extreme Demon
+                        </option>
+
+                        <option value="Hard Demon">
+                            Hard Demon
+                        </option>
+
+                        <option value="Medium Demon">
+                            Medium Demon
+                        </option>
+
+                        <option value="Easy Demon">
+                            Easy Demon
+                        </option>
+
+                        <option value="Insane">
+                            Insane
+                        </option>
+
+                        <option value="Hard">
+                            Hard
+                        </option>
+
+                        <option value="Normal">
+                            Normal
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="filter-box">
+                    <select id="xplus-sort-select">
+
+                        <option value="rank">
+                            Sort by Rank
+                        </option>
+
+                        <option value="objects">
+                            Sort by Objects
+                        </option>
+
+                        <option value="designScale">
+                            Sort by Design Scale
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div
+                id="xplus-ranking-grid"
+                class="ranking-grid"
+                data-card-transition="true"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             IMPOSSIBLE LIST
+        ================================================== -->
+
+        <section
+            id="impossible-ranking-page"
+            class="hidden"
+        >
+
+            <div class="hero">
+
+                <div class="hero-small">
+                    DeLa GD Forum
+                </div>
+
+                <h1>IMPOSSIBLE LIST</h1>
+
+                <p>
+                    Impossible Geometry Dash Levels
+                </p>
+
+            </div>
+
+
+            <div class="controls">
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="impossible-search-input"
+                        placeholder="Search levels..."
+                        autocomplete="off"
+                    >
+                </div>
+
+
+                <div class="filter-box">
+                    <select id="impossible-sort-select">
+
+                        <option value="rank">
+                            Sort by Rank
+                        </option>
+
+                        <option value="objects">
+                            Sort by Objects
+                        </option>
+
+                        <option value="designScale">
+                            Sort by Design Scale
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div
+                id="impossible-ranking-grid"
+                class="ranking-grid"
+                data-card-transition="true"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TIME MACHINE
+        ================================================== -->
+
+        <section
+            id="time-machine-page"
+            class="hidden"
+        >
+
+            <div class="hero">
+
+                <div class="hero-small">
+                    DeLa GD Forum
+                </div>
+
+                <h1>TIME MACHINE</h1>
+
+                <p>
+                    Explore Previous Rankings
+                </p>
+
+            </div>
+
+
+            <div class="controls time-machine-controls">
+
+                <div class="filter-box labeled-filter date-year-filter">
+
+                    <span class="control-label">
+                        YEAR
+                    </span>
+
+                    <select id="time-machine-year"></select>
+
+                </div>
+
+
+                <div class="filter-box labeled-filter date-month-filter">
+
+                    <span class="control-label">
+                        MONTH
+                    </span>
+
+                    <select id="time-machine-month"></select>
+
+                </div>
+
+
+                <div class="filter-box labeled-filter date-day-filter">
+
+                    <span class="control-label">
+                        DAY
+                    </span>
+
+                    <select id="time-machine-day"></select>
+
+                </div>
+
+
+                <div class="filter-box labeled-filter">
+
+                    <span class="control-label">
+                        LIST
+                    </span>
+
+                    <select id="time-machine-list">
+
+                        <option value="list">
+                            LIST
+                        </option>
+
+                        <option value="xplus">
+                            LIST X+
+                        </option>
+
+                        <option value="impossible">
+                            IMPOSSIBLE LIST
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-box labeled-filter sort-filter-box">
+
+                    <span class="control-label">
+                        SORT
+                    </span>
+
+                    <select id="time-machine-sort">
+
+                        <option value="rank">
+                            Sort by Rank
+                        </option>
+
+                        <option value="objects">
+                            Sort by Objects
+                        </option>
+
+                        <option value="designScale">
+                            Sort by Design Scale
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="time-machine-summary"
+                class="time-machine-summary"
+            ></div>
+
+
+            <div
+                id="time-machine-grid"
+                class="ranking-grid"
+                data-card-transition="true"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LEVEL DETAIL
+        ================================================== -->
+
+        <section
+            id="detail-page"
+            class="hidden"
+        >
+
+            <div class="detail-container">
+
+                <button
+                    class="back-button"
+                    type="button"
+                    onclick="goBackToList()"
+                >
+                    ← Back to List
+                </button>
+
+
+                <!-- THUMBNAIL -->
+
+                <div class="detail-thumbnail">
+
+                    <img
+                        id="detail-image"
+                        src=""
+                        alt=""
+                    >
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <div class="detail-title-area">
+
+                    <div
+                        id="detail-rank"
+                        class="detail-rank"
+                    ></div>
+
+                    <h1 id="detail-name"></h1>
+
+                    <div
+                        id="detail-difficulty"
+                        class="detail-difficulty"
+                    ></div>
+
+                </div>
+
+
+                <!-- REGISTRATION INFORMATION -->
+
+                <section class="detail-section">
+
+                    <h2>
+                        Registration Information
+                    </h2>
+
+                    <div class="info-grid">
+
+                        <div class="info-card">
+
+                            <span>
+                                Registration Date
+                            </span>
+
+                            <strong id="detail-date"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Registration Number
+                            </span>
+
+                            <strong id="detail-number"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Registration Rank
+                            </span>
+
+                            <strong id="detail-registration-rank"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Forum First
+                            </span>
+
+                            <strong id="detail-forum-first"></strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- LEVEL INFORMATION -->
+
+                <section class="detail-section">
+
+                    <h2>
+                        Level Information
+                    </h2>
+
+                    <div class="info-grid">
+
+                        <div
+                            class="info-card"
+                            id="detail-absolute-card"
+                        >
+
+                            <span>
+                                Absolute Difficulty
+                            </span>
+
+                            <strong id="detail-absolute"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Length
+                            </span>
+
+                            <strong id="detail-length"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Object Count
+                            </span>
+
+                            <strong id="detail-objects"></strong>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span>
+                                Design Scale
+                            </span>
+
+                            <strong id="detail-design"></strong>
+
+                        </div>
+
+
+                        <div class="info-card wide">
+
+                            <span>
+                                Song
+                            </span>
+
+                            <strong id="detail-song"></strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- RANK HISTORY -->
+
+                <section class="detail-section">
+
+                    <h2>
+                        Rank History
+                    </h2>
+
+                    <div class="history-box">
+
+                        <div class="history-header">
+
+                            <span>Date</span>
+
+                            <span>Change</span>
+
+                            <span>Rank</span>
+
+                            <span>Reason</span>
+
+                        </div>
+
+
+                        <div id="rank-history"></div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ABOUT
+        ================================================== -->
+
+        <section
+            id="about-page"
+            class="simple-page hidden"
+        >
+
+            <div class="simple-page-inner">
+
+                <button
+                    class="back-button"
+                    type="button"
+                    onclick="goHome()"
+                >
+                    ← Back to List
+                </button>
+
+                <h1>ABOUT</h1>
+
+                <p>
+                    Welcome to DeLa GD Forum.
+                </p>
+
+                <p>
+                    DeLa GD Forum is a Geometry Dash level ranking
+                    and information website.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         THUMBNAIL LIGHTBOX
+    ====================================================== -->
+
+    <div
+        id="thumbnail-lightbox"
+        class="thumbnail-lightbox hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Level Thumbnail"
+    >
+
+        <button
+            id="thumbnail-lightbox-close"
+            class="thumbnail-lightbox-close"
+            type="button"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+        <img
+            id="thumbnail-lightbox-image"
+            src=""
+            alt=""
+        >
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            DeLa GD Forum
+        </p>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         데이터 파일을 먼저 불러온 다음 메인 스크립트를 실행
+    ====================================================== -->
+
+    <script src="levels.js"></script>
+    <script src="xplus-levels.js"></script>
+    <script src="impossible-levels.js"></script>
+    <script src="script.js"></script>
+
 </body>
 </html>
