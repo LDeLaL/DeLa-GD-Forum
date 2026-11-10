@@ -1,4 +1,3 @@
-
 /* =========================================================
    DeLa GD Forum
    Main JavaScript
@@ -9,9 +8,8 @@
    LEVEL DATA
    ========================================================= */
 
-/* Read the map data from the files loaded before this file. */
+/* Read the map data from the two files loaded before this file. */
 const levels = window.FORUM_LEVELS || [];
-const xplusLevels = window.FORUM_XPLUS_LEVELS || levels;
 const impossibleLevels = window.FORUM_IMPOSSIBLE_LEVELS || [];
 
 
@@ -20,54 +18,41 @@ const impossibleLevels = window.FORUM_IMPOSSIBLE_LEVELS || [];
    ========================================================= */
 
 const rankingPage = document.getElementById("ranking-page");
-const xplusRankingPage = document.getElementById("xplus-ranking-page");
 const impossibleRankingPage = document.getElementById("impossible-ranking-page");
 const timeMachinePage = document.getElementById("time-machine-page");
 const detailPage = document.getElementById("detail-page");
 const aboutPage = document.getElementById("about-page");
 
 const rankingGrid = document.getElementById("ranking-grid");
-const xplusRankingGrid = document.getElementById("xplus-ranking-grid");
 const impossibleRankingGrid = document.getElementById("impossible-ranking-grid");
 const timeMachineGrid = document.getElementById("time-machine-grid");
 
 const searchInput = document.getElementById("search-input");
-const xplusSearchInput = document.getElementById("xplus-search-input");
 const impossibleSearchInput = document.getElementById("impossible-search-input");
-
 const difficultyFilter = document.getElementById("difficulty-filter");
-const xplusDifficultyFilter = document.getElementById("xplus-difficulty-filter");
-
 const sortSelect = document.getElementById("sort-select");
-const xplusSortSelect = document.getElementById("xplus-sort-select");
 const impossibleSortSelect = document.getElementById("impossible-sort-select");
-
 const timeMachineYearSelect = document.getElementById("time-machine-year");
 const timeMachineMonthSelect = document.getElementById("time-machine-month");
 const timeMachineDaySelect = document.getElementById("time-machine-day");
 const timeMachineListSelect = document.getElementById("time-machine-list");
 const timeMachineSortSelect = document.getElementById("time-machine-sort");
 const timeMachineSummary = document.getElementById("time-machine-summary");
-
 const themeToggle = document.getElementById("theme-toggle");
 const cubesToggle = document.getElementById("cubes-toggle");
 const viewModeToggle = document.getElementById("view-mode-toggle");
 const transitionSelect = document.getElementById("transition-select");
-
 const thumbnailLightbox = document.getElementById("thumbnail-lightbox");
 const thumbnailLightboxImage = document.getElementById("thumbnail-lightbox-image");
 const thumbnailLightboxClose = document.getElementById("thumbnail-lightbox-close");
 
-
 const appPages = [
     rankingPage,
-    xplusRankingPage,
     impossibleRankingPage,
     timeMachinePage,
     detailPage,
     aboutPage
 ];
-
 
 const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -80,24 +65,18 @@ let isChangingPage = false;
 let isOpeningLevel = false;
 let lastListPage = rankingPage;
 let queuedPage = null;
-
 let cardClickAudioContext = null;
 let cardClickCompressor = null;
 let cardClickMasterGain = null;
 let cardClickLimiter = null;
-
 let themeTransitionTimeout = null;
 let rankOneTransitionTimeout = null;
-
 let timeMachineLevels = [];
-
 let thumbnailLightboxTrigger = null;
 let thumbnailLightboxCloseTimeout = null;
-
 const gridRenderAnimations = new WeakMap();
 const listModeAnimations = new WeakMap();
 const listModeContentAnimations = new WeakMap();
-
 let listModeTransitionId = 0;
 
 
@@ -125,7 +104,6 @@ function saveDisplayPreference(key, value) {
 
 function applyColorTheme(theme) {
     const isLight = theme === "light";
-
     document.body.classList.toggle("light-theme", isLight);
 
     if (!themeToggle) {
@@ -139,7 +117,6 @@ function applyColorTheme(theme) {
         <span aria-hidden="true">${isLight ? "☾" : "☼"}</span>
         <span class="display-option-label">${nextModeLabel}</span>
     `;
-
     themeToggle.setAttribute("aria-label", accessibleLabel);
     themeToggle.title = accessibleLabel;
     themeToggle.setAttribute("aria-pressed", String(isLight));
@@ -153,15 +130,12 @@ function applyMovingCubes(enabled) {
         return;
     }
 
-    const actionLabel = enabled
-        ? "움직이는 큐브 끄기"
-        : "움직이는 큐브 켜기";
+    const actionLabel = enabled ? "움직이는 큐브 끄기" : "움직이는 큐브 켜기";
 
     cubesToggle.innerHTML = `
         <span aria-hidden="true">${enabled ? "✦" : "◇"}</span>
         <span class="display-option-label">${enabled ? "큐브 끄기" : "큐브 켜기"}</span>
     `;
-
     cubesToggle.setAttribute("aria-label", actionLabel);
     cubesToggle.title = actionLabel;
     cubesToggle.setAttribute("aria-pressed", String(enabled));
@@ -186,9 +160,7 @@ function playListModeAnimation(element, keyframes, options, animationRegistry) {
     cancelListModeAnimation(element, animationRegistry);
 
     const animation = element.animate(keyframes, options);
-
     animationRegistry.set(element, animation);
-
     animation.onfinish = () => {
         if (animationRegistry.get(element) === animation) {
             animationRegistry.delete(element);
@@ -202,7 +174,6 @@ function playListModeAnimation(element, keyframes, options, animationRegistry) {
 async function applySimpleListView(enabled, animate = false) {
     const transitionId = ++listModeTransitionId;
     const shouldAnimate = animate && !prefersReducedMotion;
-
     const visibleCards = shouldAnimate
         ? [...document.querySelectorAll(".ranking-grid .level-card")]
             .filter(card => card.getClientRects().length > 0)
@@ -210,7 +181,6 @@ async function applySimpleListView(enabled, animate = false) {
 
     visibleCards.forEach(card => {
         cancelListModeAnimation(card, listModeAnimations);
-
         card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
             cancelListModeAnimation(element, listModeContentAnimations);
         });
@@ -222,7 +192,6 @@ async function applySimpleListView(enabled, animate = false) {
 
     if (viewModeToggle) {
         const label = enabled ? "썸네일 보기" : "간단 보기";
-
         const accessibleLabel = enabled
             ? "썸네일이 있는 목록으로 전환"
             : "순위와 이름만 간단히 보기";
@@ -231,15 +200,14 @@ async function applySimpleListView(enabled, animate = false) {
             <span aria-hidden="true">${enabled ? "▣" : "☷"}</span>
             <span class="display-option-label">${label}</span>
         `;
-
         viewModeToggle.setAttribute("aria-label", accessibleLabel);
         viewModeToggle.title = accessibleLabel;
         viewModeToggle.setAttribute("aria-pressed", String(enabled));
     }
 
     let fadeOutAnimations = [];
-
     if (shouldAnimate && enabled && visibleCards.length > 0) {
+
         visibleCards.forEach(card => {
             card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
                 if (!element.getClientRects().length) {
@@ -249,16 +217,9 @@ async function applySimpleListView(enabled, animate = false) {
                 const currentOpacity = Number.parseFloat(
                     window.getComputedStyle(element).opacity
                 );
-
                 const animation = playListModeAnimation(element, [
-                    {
-                        opacity: Number.isFinite(currentOpacity)
-                            ? currentOpacity
-                            : 1
-                    },
-                    {
-                        opacity: 0
-                    }
+                    { opacity: Number.isFinite(currentOpacity) ? currentOpacity : 1 },
+                    { opacity: 0 }
                 ], {
                     duration: 190,
                     easing: "ease-out",
@@ -271,11 +232,9 @@ async function applySimpleListView(enabled, animate = false) {
             });
         });
 
-        await Promise.all(
-            fadeOutAnimations.map(animation =>
-                animation.finished.catch(() => null)
-            )
-        );
+        await Promise.all(fadeOutAnimations.map(animation =>
+            animation.finished.catch(() => null)
+        ));
 
         if (transitionId !== listModeTransitionId) {
             return;
@@ -286,7 +245,6 @@ async function applySimpleListView(enabled, animate = false) {
 
     if (enabled) {
         fadeOutAnimations.forEach(animation => animation.cancel());
-
         visibleCards.forEach(card => {
             card.querySelectorAll(".level-thumbnail, .level-preview-row").forEach(element => {
                 cancelListModeAnimation(element, listModeContentAnimations);
@@ -295,7 +253,6 @@ async function applySimpleListView(enabled, animate = false) {
     }
 
     let animationIndex = 0;
-
     previousRects.forEach((previousRect, card) => {
         const index = animationIndex++;
         const nextRect = card.getBoundingClientRect();
@@ -342,14 +299,8 @@ async function applySimpleListView(enabled, animate = false) {
                 }
 
                 playListModeAnimation(element, [
-                    {
-                        opacity: 0,
-                        transform: "translateY(7px) scale(0.985)"
-                    },
-                    {
-                        opacity: 1,
-                        transform: "translateY(0) scale(1)"
-                    }
+                    { opacity: 0, transform: "translateY(7px) scale(0.985)" },
+                    { opacity: 1, transform: "translateY(0) scale(1)" }
                 ], {
                     duration: 360,
                     delay: Math.min(index, 8) * 24,
@@ -367,9 +318,7 @@ function startThemeTransition() {
     }
 
     document.body.classList.remove("theme-transition");
-
     void document.body.offsetWidth;
-
     document.body.classList.add("theme-transition");
 
     themeTransitionTimeout = window.setTimeout(() => {
@@ -392,7 +341,6 @@ function showRankOneTransition(isRankOne) {
     }
 
     void document.body.offsetWidth;
-
     document.body.classList.add("rank-one-transition-active");
 
     rankOneTransitionTimeout = window.setTimeout(() => {
@@ -404,17 +352,13 @@ function showRankOneTransition(isRankOne) {
 
 function applyPageTransition(style) {
     const allowedStyles = ["default", "fade", "slide", "zoom"];
-
-    const selectedStyle = allowedStyles.includes(style)
-        ? style
-        : "default";
+    const selectedStyle = allowedStyles.includes(style) ? style : "default";
 
     document.body.classList.remove(
         "page-transition-fade",
         "page-transition-slide",
         "page-transition-zoom"
     );
-
     if (selectedStyle !== "default") {
         document.body.classList.add(`page-transition-${selectedStyle}`);
     }
@@ -434,7 +378,6 @@ function initializeDetailParticles() {
 
     for (let index = 0; index < 18; index++) {
         const particle = document.createElement("span");
-
         const x = (index * 47 + 13) % 100;
         const y = (index * 67 + 19) % 100;
         const size = 3 + (index % 4) * 2;
@@ -444,7 +387,6 @@ function initializeDetailParticles() {
         const driftY = -34 - (index % 4) * 16;
 
         particle.className = "detail-particle";
-
         particle.style.setProperty("--particle-x", `${x}%`);
         particle.style.setProperty("--particle-y", `${y}%`);
         particle.style.setProperty("--particle-size", `${size}px`);
@@ -452,7 +394,6 @@ function initializeDetailParticles() {
         particle.style.setProperty("--particle-delay", `${delay}s`);
         particle.style.setProperty("--particle-drift-x", `${driftX}px`);
         particle.style.setProperty("--particle-drift-y", `${driftY}px`);
-
         particleField.appendChild(particle);
     }
 }
@@ -477,9 +418,7 @@ function applyThumbnailPalette(image) {
 
         try {
             const canvas = document.createElement("canvas");
-            const context = canvas.getContext("2d", {
-                willReadFrequently: true
-            });
+            const context = canvas.getContext("2d", { willReadFrequently: true });
 
             if (!context) {
                 useFallbackColor();
@@ -488,22 +427,9 @@ function applyThumbnailPalette(image) {
 
             canvas.width = 12;
             canvas.height = 12;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            context.drawImage(
-                image,
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            const pixels = context.getImageData(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            ).data;
-
+            const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
             const colorTotal = [0, 0, 0];
             let samples = 0;
 
@@ -518,7 +444,6 @@ function applyThumbnailPalette(image) {
                     colorTotal[0] += pixels[pixelIndex];
                     colorTotal[1] += pixels[pixelIndex + 1];
                     colorTotal[2] += pixels[pixelIndex + 2];
-
                     samples++;
                 }
             }
@@ -529,21 +454,15 @@ function applyThumbnailPalette(image) {
             }
 
             const accent = colorTotal.map(channel =>
-                Math.max(
-                    70,
-                    Math.min(
-                        245,
-                        Math.round((channel / samples) * 1.28)
-                    )
-                )
+                Math.max(70, Math.min(245, Math.round((channel / samples) * 1.28)))
             );
 
             particleField.style.setProperty(
                 "--detail-accent-rgb",
                 accent.join(", ")
             );
-
         } catch (error) {
+            // Keep the ambient particles working if canvas sampling is unavailable.
             useFallbackColor();
         }
     };
@@ -553,9 +472,7 @@ function applyThumbnailPalette(image) {
     if (image.complete) {
         sampleImageColor();
     } else {
-        image.addEventListener("load", sampleImageColor, {
-            once: true
-        });
+        image.addEventListener("load", sampleImageColor, { once: true });
     }
 }
 
@@ -567,7 +484,7 @@ function initializeDisplayPreferences() {
 
     applyColorTheme(savedTheme === "light" ? "light" : "dark");
     applyPageTransition(savedTransition || "default");
-
+    // Keep the moving background on by default unless it was explicitly turned off.
     applyMovingCubes(savedCubes !== "off");
     applySimpleListView(false);
 
@@ -575,49 +492,32 @@ function initializeDisplayPreferences() {
         const nextTheme = document.body.classList.contains("light-theme")
             ? "dark"
             : "light";
-
         startThemeTransition();
         applyColorTheme(nextTheme);
-
         saveDisplayPreference("dela-gd-theme", nextTheme);
     });
 
     cubesToggle?.addEventListener("click", () => {
         const shouldEnable = document.body.classList.contains("cubes-hidden");
-
         applyMovingCubes(shouldEnable);
-
-        saveDisplayPreference(
-            "dela-gd-moving-cubes",
-            shouldEnable ? "on" : "off"
-        );
+        saveDisplayPreference("dela-gd-moving-cubes", shouldEnable ? "on" : "off");
     });
 
     viewModeToggle?.addEventListener("click", () => {
-        const shouldEnable =
-            viewModeToggle.getAttribute("aria-pressed") !== "true";
-
+        const shouldEnable = viewModeToggle.getAttribute("aria-pressed") !== "true";
         applySimpleListView(shouldEnable, true);
     });
 
     transitionSelect?.addEventListener("change", () => {
         applyPageTransition(transitionSelect.value);
-
-        saveDisplayPreference(
-            "dela-gd-page-transition",
-            transitionSelect.value
-        );
+        saveDisplayPreference("dela-gd-page-transition", transitionSelect.value);
     });
 }
 
 
-/* =========================================================
-   CARD CLICK SOUND
-   ========================================================= */
-
 function playCardClickSound() {
-    const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
 
     if (!AudioContextClass) {
         return;
@@ -636,9 +536,7 @@ function playCardClickSound() {
         const sampleRate = cardClickAudioContext.sampleRate;
 
         if (!cardClickCompressor) {
-            cardClickCompressor =
-                cardClickAudioContext.createDynamicsCompressor();
-
+            cardClickCompressor = cardClickAudioContext.createDynamicsCompressor();
             cardClickCompressor.threshold.setValueAtTime(-14, now);
             cardClickCompressor.knee.setValueAtTime(6, now);
             cardClickCompressor.ratio.setValueAtTime(8, now);
@@ -648,9 +546,7 @@ function playCardClickSound() {
             cardClickMasterGain = cardClickAudioContext.createGain();
             cardClickMasterGain.gain.setValueAtTime(24, now);
 
-            cardClickLimiter =
-                cardClickAudioContext.createDynamicsCompressor();
-
+            cardClickLimiter = cardClickAudioContext.createDynamicsCompressor();
             cardClickLimiter.threshold.setValueAtTime(-1, now);
             cardClickLimiter.knee.setValueAtTime(0, now);
             cardClickLimiter.ratio.setValueAtTime(20, now);
@@ -662,22 +558,17 @@ function playCardClickSound() {
             cardClickLimiter.connect(cardClickAudioContext.destination);
         }
 
+        // A brief, bright transient gives the key switch a crisp keyboard-like attack.
         const clickDuration = 0.028;
-
         const clickBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clickDuration),
             sampleRate
         );
-
         const clickSamples = clickBuffer.getChannelData(0);
 
         for (let index = 0; index < clickSamples.length; index++) {
-            const fade = Math.pow(
-                1 - index / clickSamples.length,
-                2.2
-            );
-
+            const fade = Math.pow(1 - index / clickSamples.length, 2.2);
             clickSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -693,13 +584,9 @@ function playCardClickSound() {
         lowPass.frequency.setValueAtTime(9000, now);
 
         const noiseVolume = cardClickAudioContext.createGain();
-
         noiseVolume.gain.setValueAtTime(0.0001, now);
         noiseVolume.gain.exponentialRampToValueAtTime(0.9, now + 0.001);
-        noiseVolume.gain.exponentialRampToValueAtTime(
-            0.0001,
-            now + clickDuration
-        );
+        noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + clickDuration);
 
         noise.connect(highPass);
         highPass.connect(lowPass);
@@ -709,18 +596,13 @@ function playCardClickSound() {
         noise.start(now);
         noise.stop(now + clickDuration);
 
-
-        /* High switch snap */
-
+        // The high switch snap makes the sound feel like a keyboard key press.
         const oscillator = cardClickAudioContext.createOscillator();
         const toneVolume = cardClickAudioContext.createGain();
 
         oscillator.type = "triangle";
         oscillator.frequency.setValueAtTime(2850, now);
-        oscillator.frequency.exponentialRampToValueAtTime(
-            1450,
-            now + 0.008
-        );
+        oscillator.frequency.exponentialRampToValueAtTime(1450, now + 0.008);
 
         toneVolume.gain.setValueAtTime(0.0001, now);
         toneVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.001);
@@ -732,26 +614,18 @@ function playCardClickSound() {
         oscillator.start(now);
         oscillator.stop(now + 0.016);
 
-
-        /* Lower clack */
-
+        // The short, lower clack adds the keycap's physical bottom-out sound.
         const clackStart = now + 0.008;
         const clackDuration = 0.045;
-
         const clackBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * clackDuration),
             sampleRate
         );
-
         const clackSamples = clackBuffer.getChannelData(0);
 
         for (let index = 0; index < clackSamples.length; index++) {
-            const fade = Math.pow(
-                1 - index / clackSamples.length,
-                2.1
-            );
-
+            const fade = Math.pow(1 - index / clackSamples.length, 2.1);
             clackSamples[index] = (Math.random() * 2 - 1) * fade;
         }
 
@@ -763,12 +637,8 @@ function playCardClickSound() {
         clackFilter.frequency.setValueAtTime(2800, clackStart);
 
         const clackVolume = cardClickAudioContext.createGain();
-
         clackVolume.gain.setValueAtTime(0.0001, clackStart);
-        clackVolume.gain.exponentialRampToValueAtTime(
-            0.78,
-            clackStart + 0.001
-        );
+        clackVolume.gain.exponentialRampToValueAtTime(0.78, clackStart + 0.001);
         clackVolume.gain.exponentialRampToValueAtTime(
             0.0001,
             clackStart + clackDuration
@@ -781,9 +651,7 @@ function playCardClickSound() {
         clack.start(clackStart);
         clack.stop(clackStart + clackDuration);
 
-
-        /* Low tap */
-
+        // A restrained low tap rounds out the keyboard clack without a pop.
         const thump = cardClickAudioContext.createOscillator();
         const thumpVolume = cardClickAudioContext.createGain();
 
@@ -800,18 +668,15 @@ function playCardClickSound() {
 
         thump.start(now);
         thump.stop(now + 0.058);
-
     } catch (error) {
         // Keep the card interaction working if audio is unavailable.
     }
 }
 
 
-/* =========================================================
-   PAGE TURN SOUND
-   ========================================================= */
-
 function playPageTurnSound() {
+
+    // The level click already creates and unlocks this shared audio chain.
     if (!cardClickAudioContext || !cardClickCompressor) {
         return;
     }
@@ -824,22 +689,17 @@ function playPageTurnSound() {
         const now = cardClickAudioContext.currentTime;
         const sampleRate = cardClickAudioContext.sampleRate;
         const turnDuration = 0.62;
-
         const turnBuffer = cardClickAudioContext.createBuffer(
             1,
             Math.ceil(sampleRate * turnDuration),
             sampleRate
         );
-
         const turnSamples = turnBuffer.getChannelData(0);
         let softenedNoise = 0;
 
         for (let index = 0; index < turnSamples.length; index++) {
             const whiteNoise = Math.random() * 2 - 1;
-
-            softenedNoise =
-                softenedNoise * 0.88 + whiteNoise * 0.12;
-
+            softenedNoise = softenedNoise * 0.88 + whiteNoise * 0.12;
             turnSamples[index] = softenedNoise * 3;
         }
 
@@ -853,51 +713,34 @@ function playPageTurnSound() {
         const turnLowPass = cardClickAudioContext.createBiquadFilter();
         turnLowPass.type = "lowpass";
         turnLowPass.frequency.setValueAtTime(1500, now);
-
-        turnLowPass.frequency.exponentialRampToValueAtTime(
-            4200,
-            now + 0.22
-        );
-
+        turnLowPass.frequency.exponentialRampToValueAtTime(4200, now + 0.22);
         turnLowPass.frequency.exponentialRampToValueAtTime(
             1700,
             now + turnDuration
         );
 
         const turnVolume = cardClickAudioContext.createGain();
-
         turnVolume.gain.setValueAtTime(0.0001, now);
         turnVolume.gain.exponentialRampToValueAtTime(0.32, now + 0.08);
         turnVolume.gain.exponentialRampToValueAtTime(0.58, now + 0.22);
-        turnVolume.gain.exponentialRampToValueAtTime(
-            0.0001,
-            now + turnDuration
-        );
+        turnVolume.gain.exponentialRampToValueAtTime(0.0001, now + turnDuration);
 
         turnNoise.connect(turnHighPass);
         turnHighPass.connect(turnLowPass);
         turnLowPass.connect(turnVolume);
         turnVolume.connect(cardClickCompressor);
 
-
-        /* Lower airy layer */
-
+        // A lower, airy layer adds the soft "whoosh" under the paper swish.
         const whooshLowPass = cardClickAudioContext.createBiquadFilter();
         whooshLowPass.type = "lowpass";
         whooshLowPass.frequency.setValueAtTime(700, now);
-
-        whooshLowPass.frequency.exponentialRampToValueAtTime(
-            1150,
-            now + 0.2
-        );
-
+        whooshLowPass.frequency.exponentialRampToValueAtTime(1150, now + 0.2);
         whooshLowPass.frequency.exponentialRampToValueAtTime(
             420,
             now + turnDuration
         );
 
         const whooshVolume = cardClickAudioContext.createGain();
-
         whooshVolume.gain.setValueAtTime(0.0001, now);
         whooshVolume.gain.exponentialRampToValueAtTime(0.2, now + 0.12);
         whooshVolume.gain.exponentialRampToValueAtTime(0.34, now + 0.25);
@@ -912,7 +755,6 @@ function playPageTurnSound() {
 
         turnNoise.start(now);
         turnNoise.stop(now + turnDuration);
-
     } catch (error) {
         // Keep list navigation working if audio is unavailable.
     }
@@ -924,50 +766,28 @@ function playPageTurnSound() {
    ========================================================= */
 
 function syncPageTheme(targetPage) {
-    const themePage = targetPage === detailPage
-        ? lastListPage
-        : targetPage;
 
     const isImpossibleTheme =
-        themePage === impossibleRankingPage;
+        targetPage === impossibleRankingPage ||
+        (targetPage === detailPage && lastListPage === impossibleRankingPage);
 
     const isListTheme =
-        themePage === rankingPage;
-
-    const isXplusTheme =
-        themePage === xplusRankingPage;
+        targetPage === rankingPage ||
+        (targetPage === detailPage && lastListPage === rankingPage);
 
     const isTimeMachineTheme =
-        themePage === timeMachinePage;
+        targetPage === timeMachinePage ||
+        (targetPage === detailPage && lastListPage === timeMachinePage);
 
-    document.body.classList.toggle(
-        "impossible-theme",
-        isImpossibleTheme
-    );
-
-    document.body.classList.toggle(
-        "list-theme",
-        isListTheme
-    );
-
-    document.body.classList.toggle(
-        "xplus-theme",
-        isXplusTheme
-    );
-
-    document.body.classList.toggle(
-        "time-machine-theme",
-        isTimeMachineTheme
-    );
-
-    document.body.classList.toggle(
-        "map-particles-active",
-        targetPage === detailPage
-    );
+    document.body.classList.toggle("impossible-theme", isImpossibleTheme);
+    document.body.classList.toggle("list-theme", isListTheme);
+    document.body.classList.toggle("time-machine-theme", isTimeMachineTheme);
+    document.body.classList.toggle("map-particles-active", targetPage === detailPage);
 }
 
 
 function changePage(targetPage) {
+
     if (!targetPage) {
         return;
     }
@@ -978,7 +798,7 @@ function changePage(targetPage) {
     }
 
     const currentPage = appPages.find(
-        page => page && !page.classList.contains("hidden")
+        page => !page.classList.contains("hidden")
     );
 
     if (currentPage === targetPage) {
@@ -994,21 +814,17 @@ function changePage(targetPage) {
     }
 
     window.setTimeout(() => {
+
         if (currentPage) {
             currentPage.classList.add("hidden");
             currentPage.classList.remove("page-leaving");
         }
 
         syncPageTheme(targetPage);
+        targetPage.classList.remove("hidden", "page-leaving", "page-entering");
 
-        targetPage.classList.remove(
-            "hidden",
-            "page-leaving",
-            "page-entering"
-        );
-
+        // Restart the entrance animation whenever a page is shown again.
         void targetPage.offsetWidth;
-
         targetPage.classList.add("page-entering");
 
         window.scrollTo({
@@ -1018,7 +834,6 @@ function changePage(targetPage) {
 
         window.setTimeout(() => {
             targetPage.classList.remove("page-entering");
-
             isChangingPage = false;
 
             const nextPage = queuedPage;
@@ -1027,7 +842,6 @@ function changePage(targetPage) {
             if (nextPage && nextPage !== targetPage) {
                 changePage(nextPage);
             }
-
         }, PAGE_ENTER_DURATION);
 
     }, currentPage ? PAGE_LEAVE_DURATION : 0);
@@ -1035,6 +849,7 @@ function changePage(targetPage) {
 
 
 function animateInitialPage() {
+
     if (prefersReducedMotion) {
         return;
     }
@@ -1084,16 +899,13 @@ function highlightedLevelName(name, searchText = "") {
         return escapeHTML(safeName);
     }
 
-    const matchStart = safeName.toLowerCase().indexOf(
-        query.toLowerCase()
-    );
+    const matchStart = safeName.toLowerCase().indexOf(query.toLowerCase());
 
     if (matchStart < 0) {
         return escapeHTML(safeName);
     }
 
     const matchEnd = matchStart + query.length;
-
     return `${escapeHTML(safeName.slice(0, matchStart))}` +
         `<mark class="search-highlight">${escapeHTML(safeName.slice(matchStart, matchEnd))}</mark>` +
         `${escapeHTML(safeName.slice(matchEnd))}`;
@@ -1101,10 +913,7 @@ function highlightedLevelName(name, searchText = "") {
 
 
 function numericValue(value) {
-    const parsed = Number.parseFloat(
-        String(value ?? "").replace(/[^0-9.-]/g, "")
-    );
-
+    const parsed = Number.parseFloat(String(value ?? "").replace(/[^0-9.-]/g, ""));
     return Number.isFinite(parsed) ? parsed : 0;
 }
 
@@ -1114,22 +923,14 @@ function sortLevels(levelItems, sortMode = "rank") {
 
     if (sortMode === "objects") {
         sorted.sort((left, right) =>
-            numericValue(right.objects) -
-            numericValue(left.objects) ||
-            left.rank - right.rank
+            numericValue(right.objects) - numericValue(left.objects) || left.rank - right.rank
         );
-
     } else if (sortMode === "designScale") {
         sorted.sort((left, right) =>
-            numericValue(right.designScale) -
-            numericValue(left.designScale) ||
-            left.rank - right.rank
+            numericValue(right.designScale) - numericValue(left.designScale) || left.rank - right.rank
         );
-
     } else {
-        sorted.sort((left, right) =>
-            left.rank - right.rank
-        );
+        sorted.sort((left, right) => left.rank - right.rank);
     }
 
     return sorted;
@@ -1138,97 +939,42 @@ function sortLevels(levelItems, sortMode = "rank") {
 
 function createLevelCard(level, sourceLevels, searchText = "") {
     const card = document.createElement("article");
-
     const safeImage = escapeHTML(level.image);
     const safeName = escapeHTML(level.name);
-    const safeRegistrationNumber = escapeHTML(
-        level.registrationNumber || "—"
-    );
+    const safeRegistrationNumber = escapeHTML(level.registrationNumber || "—");
     const safeDifficulty = escapeHTML(level.difficulty || "");
 
     card.className = "level-card";
-
-    card.onclick = () => {
-        openLevel(level.rank, card, sourceLevels);
-    };
-
+    card.onclick = () => openLevel(level.rank, card, sourceLevels);
     card.innerHTML = `
         <div class="level-thumbnail">
-            <button
-                class="thumbnail-zoom-button"
-                type="button"
-                aria-label="${safeName} 썸네일 크게 보기"
-            >
-                <img
-                    src="${safeImage}"
-                    alt=""
-                    loading="lazy"
-                >
+            <button class="thumbnail-zoom-button" type="button" aria-label="${safeName} 썸네일 크게 보기">
+                <img src="${safeImage}" alt="" loading="lazy">
             </button>
         </div>
-
         <div class="level-info">
-
             <div class="level-title-row">
-
-                <div class="level-rank">
-                    #${level.rank}
-                </div>
-
-                <div class="level-name">
-                    ${highlightedLevelName(level.name, searchText)}
-                </div>
-
+                <div class="level-rank">#${level.rank}</div>
+                <div class="level-name">${highlightedLevelName(level.name, searchText)}</div>
             </div>
-
             <div class="level-preview-row">
-
-                <div
-                    class="level-registration-number"
-                    title="등재 번호"
-                >
-                    등재 ${safeRegistrationNumber}
-                </div>
-
-                ${
-                    safeDifficulty
-                        ? `<div class="level-difficulty-preview">${safeDifficulty}</div>`
-                        : ""
-                }
-
+                <div class="level-registration-number" title="등재 번호">등재 ${safeRegistrationNumber}</div>
+                ${safeDifficulty ? `<div class="level-difficulty-preview">${safeDifficulty}</div>` : ""}
             </div>
-
         </div>
     `;
 
-    const thumbnailButton = card.querySelector(
-        ".thumbnail-zoom-button"
-    );
-
+    const thumbnailButton = card.querySelector(".thumbnail-zoom-button");
     thumbnailButton?.addEventListener("click", event => {
         event.stopPropagation();
-
-        openThumbnailLightbox(
-            level,
-            thumbnailButton
-        );
+        openThumbnailLightbox(level, thumbnailButton);
     });
 
     return card;
 }
 
 
-function renderLevelCards(
-    grid,
-    levelItems,
-    sourceLevels,
-    searchText = "",
-    animateTransition = false
-) {
-    if (!grid) {
-        return;
-    }
-
+function renderLevelCards(grid, levelItems, sourceLevels, searchText = "", animateTransition = false) {
     const renderImmediately = () => {
         grid.innerHTML = "";
 
@@ -1238,42 +984,26 @@ function renderLevelCards(
                     No levels found.
                 </div>
             `;
-
             return;
         }
 
         levelItems.forEach((level, index) => {
-            const card = createLevelCard(
-                level,
-                sourceLevels,
-                searchText
-            );
+            const card = createLevelCard(level, sourceLevels, searchText);
 
             if (animateTransition) {
                 card.classList.add("list-card-entering");
-
-                card.style.setProperty(
-                    "--card-order",
-                    String(Math.min(index, 8))
-                );
-
+                card.style.setProperty("--card-order", String(Math.min(index, 8)));
                 card.addEventListener("animationend", event => {
-                    if (
-                        event.target === card &&
-                        event.animationName === "level-card-list-enter"
-                    ) {
+                    if (event.target === card && event.animationName === "level-card-list-enter") {
                         card.classList.remove("list-card-entering");
                         card.style.removeProperty("--card-order");
                     }
-                }, {
-                    once: true
-                });
+                }, { once: true });
             }
 
             grid.appendChild(card);
         });
     };
-
 
     if (
         !animateTransition ||
@@ -1282,47 +1012,33 @@ function renderLevelCards(
         typeof grid.animate !== "function"
     ) {
         const activeAnimation = gridRenderAnimations.get(grid);
-
         if (activeAnimation) {
             activeAnimation.cancel();
             gridRenderAnimations.delete(grid);
         }
-
         renderImmediately();
         return;
     }
 
-
     const previousAnimation = gridRenderAnimations.get(grid);
-
     if (previousAnimation) {
         previousAnimation.cancel();
     }
 
     const currentStyle = window.getComputedStyle(grid);
-
     const fadeOut = grid.animate([
         {
             opacity: currentStyle.opacity,
-            transform: currentStyle.transform === "none"
-                ? "translateY(0)"
-                : currentStyle.transform,
-            filter: currentStyle.filter === "none"
-                ? "blur(0px)"
-                : currentStyle.filter
+            transform: currentStyle.transform === "none" ? "translateY(0)" : currentStyle.transform,
+            filter: currentStyle.filter === "none" ? "blur(0px)" : currentStyle.filter
         },
-        {
-            opacity: 0.28,
-            transform: "translateY(9px)",
-            filter: "blur(2px)"
-        }
+        { opacity: 0.28, transform: "translateY(9px)", filter: "blur(2px)" }
     ], {
         duration: 135,
         easing: "cubic-bezier(0.4, 0, 1, 1)"
     });
 
     gridRenderAnimations.set(grid, fadeOut);
-
     fadeOut.onfinish = () => {
         if (gridRenderAnimations.get(grid) !== fadeOut) {
             return;
@@ -1331,23 +1047,14 @@ function renderLevelCards(
         renderImmediately();
 
         const fadeIn = grid.animate([
-            {
-                opacity: 0.28,
-                transform: "translateY(-8px)",
-                filter: "blur(2px)"
-            },
-            {
-                opacity: 1,
-                transform: "translateY(0)",
-                filter: "blur(0px)"
-            }
+            { opacity: 0.28, transform: "translateY(-8px)", filter: "blur(2px)" },
+            { opacity: 1, transform: "translateY(0)", filter: "blur(0px)" }
         ], {
             duration: 300,
             easing: "cubic-bezier(0.18, 0.7, 0.24, 1)"
         });
 
         gridRenderAnimations.set(grid, fadeIn);
-
         fadeIn.onfinish = () => {
             if (gridRenderAnimations.get(grid) === fadeIn) {
                 gridRenderAnimations.delete(grid);
@@ -1357,27 +1064,13 @@ function renderLevelCards(
 }
 
 
-/* =========================================================
-   NORMAL LIST
-   ========================================================= */
-
 function displayLevels(animateTransition = false) {
-    if (!rankingGrid || !searchInput || !difficultyFilter || !sortSelect) {
-        return;
-    }
-
     const searchText = searchInput.value.trim();
     const selectedDifficulty = difficultyFilter.value;
-
     const filteredLevels = levels.filter(level => {
-        const matchesSearch = level.name
-            .toLowerCase()
-            .includes(searchText.toLowerCase());
-
+        const matchesSearch = level.name.toLowerCase().includes(searchText.toLowerCase());
         const matchesDifficulty =
-            selectedDifficulty === "all" ||
-            level.difficulty === selectedDifficulty;
-
+            selectedDifficulty === "all" || level.difficulty === selectedDifficulty;
         return matchesSearch && matchesDifficulty;
     });
 
@@ -1391,60 +1084,8 @@ function displayLevels(animateTransition = false) {
 }
 
 
-/* =========================================================
-   LIST X+
-   ========================================================= */
-
-function displayXplusLevels(animateTransition = false) {
-    if (
-        !xplusRankingGrid ||
-        !xplusSearchInput ||
-        !xplusDifficultyFilter ||
-        !xplusSortSelect
-    ) {
-        return;
-    }
-
-    const searchText = xplusSearchInput.value.trim();
-    const selectedDifficulty = xplusDifficultyFilter.value;
-
-    const filteredLevels = xplusLevels.filter(level => {
-        const matchesSearch = level.name
-            .toLowerCase()
-            .includes(searchText.toLowerCase());
-
-        const matchesDifficulty =
-            selectedDifficulty === "all" ||
-            level.difficulty === selectedDifficulty;
-
-        return matchesSearch && matchesDifficulty;
-    });
-
-    renderLevelCards(
-        xplusRankingGrid,
-        sortLevels(filteredLevels, xplusSortSelect.value),
-        xplusLevels,
-        searchText,
-        animateTransition
-    );
-}
-
-
-/* =========================================================
-   IMPOSSIBLE LIST
-   ========================================================= */
-
 function displayImpossibleLevels(animateTransition = false) {
-    if (
-        !impossibleRankingGrid ||
-        !impossibleSearchInput ||
-        !impossibleSortSelect
-    ) {
-        return;
-    }
-
     const searchText = impossibleSearchInput.value.trim();
-
     const filteredLevels = impossibleLevels.filter(level =>
         level.name.toLowerCase().includes(searchText.toLowerCase())
     );
@@ -1459,14 +1100,8 @@ function displayImpossibleLevels(animateTransition = false) {
 }
 
 
-/* =========================================================
-   TIME MACHINE
-   ========================================================= */
-
 function koreanDateToISO(dateText) {
-    const parts = String(dateText || "").match(
-        /(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/
-    );
+    const parts = String(dateText || "").match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
 
     if (!parts) {
         return "";
@@ -1477,88 +1112,50 @@ function koreanDateToISO(dateText) {
 
 
 function isoDateToKorean(dateISO) {
-    const parts = String(dateISO || "").match(
-        /^(\d{4})-(\d{2})-(\d{2})$/
-    );
-
-    return parts
-        ? `${parts[1]}년 ${Number(parts[2])}월 ${Number(parts[3])}일`
-        : dateISO;
+    const parts = String(dateISO || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return parts ? `${parts[1]}년 ${Number(parts[2])}월 ${Number(parts[3])}일` : dateISO;
 }
 
 
 function allRankingLists() {
-    return [
-        levels,
-        xplusLevels,
-        impossibleLevels
-    ];
+    return [levels, impossibleLevels];
 }
 
 
 function initializeTimeMachineDates() {
-    if (
-        !timeMachineYearSelect ||
-        !timeMachineMonthSelect ||
-        !timeMachineDaySelect
-    ) {
+    if (!timeMachineYearSelect || !timeMachineMonthSelect || !timeMachineDaySelect) {
         return;
     }
 
     const eventDates = allRankingLists()
-        .flatMap(list =>
-            list.flatMap(level => [
-                koreanDateToISO(level.registrationDate),
-                ...level.history.map(entry =>
-                    koreanDateToISO(entry.date)
-                )
-            ])
-        )
+        .flatMap(list => list.flatMap(level => [
+            koreanDateToISO(level.registrationDate),
+            ...level.history.map(entry => koreanDateToISO(entry.date))
+        ]))
         .filter(Boolean);
-
     const uniqueDates = [...new Set(eventDates)].sort();
-
-    const years = [
-        ...new Set(
-            uniqueDates.map(dateISO => dateISO.slice(0, 4))
-        )
-    ];
+    const years = [...new Set(uniqueDates.map(dateISO => dateISO.slice(0, 4)))];
 
     timeMachineYearSelect.innerHTML = years.map(year =>
         `<option value="${year}">${year}년</option>`
     ).join("");
 
-    timeMachineMonthSelect.innerHTML = Array.from(
-        { length: 12 },
-        (_, index) => {
-            const month = String(index + 1).padStart(2, "0");
-
-            return `
-                <option value="${month}">
-                    ${index + 1}월
-                </option>
-            `;
-        }
-    ).join("");
+    timeMachineMonthSelect.innerHTML = Array.from({ length: 12 }, (_, index) => {
+        const month = String(index + 1).padStart(2, "0");
+        return `<option value="${month}">${index + 1}월</option>`;
+    }).join("");
 
     if (uniqueDates.length > 0) {
-        const [year, month, day] =
-            uniqueDates[uniqueDates.length - 1].split("-");
-
+        const [year, month, day] = uniqueDates[uniqueDates.length - 1].split("-");
         timeMachineYearSelect.value = year;
         timeMachineMonthSelect.value = month;
-
         updateTimeMachineDayOptions(Number(day));
     }
 }
 
 
 function updateTimeMachineDayOptions(preferredDay) {
-    if (
-        !timeMachineYearSelect ||
-        !timeMachineMonthSelect ||
-        !timeMachineDaySelect
-    ) {
+    if (!timeMachineYearSelect || !timeMachineMonthSelect || !timeMachineDaySelect) {
         return;
     }
 
@@ -1572,30 +1169,16 @@ function updateTimeMachineDayOptions(preferredDay) {
 
     const daysInMonth = new Date(year, month, 0).getDate();
     const currentDay = Number(timeMachineDaySelect.value);
-
     const dayToSelect = Math.min(
-        Math.max(
-            Number(preferredDay) || currentDay || 1,
-            1
-        ),
+        Math.max(Number(preferredDay) || currentDay || 1, 1),
         daysInMonth
     );
 
-    timeMachineDaySelect.innerHTML = Array.from(
-        { length: daysInMonth },
-        (_, index) => {
-            const day = String(index + 1).padStart(2, "0");
-
-            return `
-                <option value="${day}">
-                    ${index + 1}일
-                </option>
-            `;
-        }
-    ).join("");
-
-    timeMachineDaySelect.value =
-        String(dayToSelect).padStart(2, "0");
+    timeMachineDaySelect.innerHTML = Array.from({ length: daysInMonth }, (_, index) => {
+        const day = String(index + 1).padStart(2, "0");
+        return `<option value="${day}">${index + 1}일</option>`;
+    }).join("");
+    timeMachineDaySelect.value = String(dayToSelect).padStart(2, "0");
 }
 
 
@@ -1604,9 +1187,7 @@ function getSelectedTimeMachineDate() {
     const month = timeMachineMonthSelect?.value;
     const day = timeMachineDaySelect?.value;
 
-    return year && month && day
-        ? `${year}-${month}-${day}`
-        : "";
+    return year && month && day ? `${year}-${month}-${day}` : "";
 }
 
 
@@ -1617,10 +1198,7 @@ function handleTimeMachineCalendarChange() {
 
 
 function levelRankAsOfDate(level, dateISO) {
-    if (
-        !dateISO ||
-        koreanDateToISO(level.registrationDate) > dateISO
-    ) {
+    if (!dateISO || koreanDateToISO(level.registrationDate) > dateISO) {
         return null;
     }
 
@@ -1629,25 +1207,15 @@ function levelRankAsOfDate(level, dateISO) {
             ...entry,
             isoDate: koreanDateToISO(entry.date)
         }))
-        .filter(entry =>
-            entry.isoDate &&
-            entry.isoDate <= dateISO
-        )
-        .sort((left, right) =>
-            left.isoDate.localeCompare(right.isoDate)
-        );
+        .filter(entry => entry.isoDate && entry.isoDate <= dateISO)
+        .sort((left, right) => left.isoDate.localeCompare(right.isoDate));
 
     if (datedHistory.length === 0) {
         return null;
     }
 
-    const rankMatch = String(
-        datedHistory[datedHistory.length - 1].rank
-    ).match(/\d+/);
-
-    return rankMatch
-        ? Number(rankMatch[0])
-        : null;
+    const rankMatch = String(datedHistory[datedHistory.length - 1].rank).match(/\d+/);
+    return rankMatch ? Number(rankMatch[0]) : null;
 }
 
 
@@ -1655,72 +1223,26 @@ function buildTimeMachineSnapshot(sourceList, dateISO) {
     return sourceList
         .map(level => {
             const historicalRank = levelRankAsOfDate(level, dateISO);
-
-            return historicalRank === null
-                ? null
-                : {
-                    ...level,
-                    rank: historicalRank
-                };
+            return historicalRank === null ? null : { ...level, rank: historicalRank };
         })
         .filter(Boolean)
-        .sort((left, right) =>
-            left.rank - right.rank
-        );
+        .sort((left, right) => left.rank - right.rank);
 }
 
 
 function displayTimeMachine(animateTransition = false) {
-    if (
-        !timeMachineListSelect ||
-        !timeMachineSortSelect ||
-        !timeMachineSummary
-    ) {
-        return;
-    }
-
     const dateISO = getSelectedTimeMachineDate();
-
-    const selectedList = timeMachineListSelect.value;
-
-    const isImpossibleList = selectedList === "impossible";
-    const isXplusList = selectedList === "xplus";
-
-    const sourceList = isImpossibleList
-        ? impossibleLevels
-        : isXplusList
-            ? xplusLevels
-            : levels;
-
-    const selectedDateLevels = buildTimeMachineSnapshot(
-        sourceList,
-        dateISO
-    );
-
+    const isImpossibleList = timeMachineListSelect.value === "impossible";
+    const sourceList = isImpossibleList ? impossibleLevels : levels;
+    const selectedDateLevels = buildTimeMachineSnapshot(sourceList, dateISO);
     const sortMode = timeMachineSortSelect.value;
 
-    timeMachineLevels = sortLevels(
-        selectedDateLevels,
-        sortMode
-    );
-
-    const selectedListName = isImpossibleList
-        ? "IMPOSSIBLE LIST"
-        : isXplusList
-            ? "LIST X+"
-            : "LIST";
-
+    timeMachineLevels = sortLevels(selectedDateLevels, sortMode);
     timeMachineSummary.textContent = dateISO
-        ? `${isoDateToKorean(dateISO)} 기준 · ${selectedListName} · ${timeMachineLevels.length}개 맵`
-        : `날짜를 선택해 주세요 · ${selectedListName}`;
+        ? `${isoDateToKorean(dateISO)} 기준 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"} · ${timeMachineLevels.length}개 맵`
+        : `날짜를 선택해 주세요 · ${isImpossibleList ? "IMPOSSIBLE LIST" : "LIST"}`;
 
-    renderLevelCards(
-        timeMachineGrid,
-        timeMachineLevels,
-        timeMachineLevels,
-        "",
-        animateTransition
-    );
+    renderLevelCards(timeMachineGrid, timeMachineLevels, timeMachineLevels, "", animateTransition);
 }
 
 
@@ -1729,10 +1251,6 @@ function showTimeMachine() {
     changePage(timeMachinePage);
 }
 
-
-/* =========================================================
-   THUMBNAIL LIGHTBOX
-   ========================================================= */
 
 function openThumbnailLightbox(level, trigger) {
     if (!thumbnailLightbox || !thumbnailLightboxImage) {
@@ -1745,34 +1263,25 @@ function openThumbnailLightbox(level, trigger) {
     }
 
     thumbnailLightboxTrigger = trigger || null;
-
     thumbnailLightboxImage.src = level.image;
     thumbnailLightboxImage.alt = level.name;
-
     thumbnailLightbox.classList.remove("hidden");
-
     document.body.classList.add("thumbnail-lightbox-open");
 
     window.requestAnimationFrame(() => {
         thumbnailLightbox.classList.add("is-open");
     });
 
-    thumbnailLightboxClose?.focus({
-        preventScroll: true
-    });
+    thumbnailLightboxClose?.focus({ preventScroll: true });
 }
 
 
 function closeThumbnailLightbox() {
-    if (
-        !thumbnailLightbox ||
-        thumbnailLightbox.classList.contains("hidden")
-    ) {
+    if (!thumbnailLightbox || thumbnailLightbox.classList.contains("hidden")) {
         return;
     }
 
     thumbnailLightbox.classList.remove("is-open");
-
     document.body.classList.remove("thumbnail-lightbox-open");
 
     if (thumbnailLightboxCloseTimeout) {
@@ -1781,27 +1290,23 @@ function closeThumbnailLightbox() {
 
     thumbnailLightboxCloseTimeout = window.setTimeout(() => {
         thumbnailLightbox.classList.add("hidden");
-
         thumbnailLightboxImage.removeAttribute("src");
 
         if (thumbnailLightboxTrigger?.isConnected) {
-            thumbnailLightboxTrigger.focus({
-                preventScroll: true
-            });
+            thumbnailLightboxTrigger.focus({ preventScroll: true });
         }
 
         thumbnailLightboxTrigger = null;
         thumbnailLightboxCloseTimeout = null;
-
     }, 360);
 }
-
 
 /* =========================================================
    OPEN LEVEL
    ========================================================= */
 
 function openLevel(rank, clickedCard, sourceLevels = levels) {
+
     if (isOpeningLevel || isChangingPage) {
         return;
     }
@@ -1814,55 +1319,24 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         return;
     }
 
-
-    /* Determine the page to return to. */
-
     if (sourceLevels === impossibleLevels) {
         lastListPage = impossibleRankingPage;
-
-    } else if (sourceLevels === xplusLevels) {
-        lastListPage = xplusRankingPage;
-
     } else if (sourceLevels === timeMachineLevels) {
         lastListPage = timeMachinePage;
-
     } else {
         lastListPage = rankingPage;
     }
-
-
-    detailPage.classList.toggle(
-        "rank-one-entry",
-        level.rank === 1
-    );
-
+    detailPage.classList.toggle("rank-one-entry", level.rank === 1);
     document.body.classList.toggle(
         "impossible-theme",
         lastListPage === impossibleRankingPage
     );
-
-    document.body.classList.toggle(
-        "list-theme",
-        lastListPage === rankingPage
-    );
-
-    document.body.classList.toggle(
-        "xplus-theme",
-        lastListPage === xplusRankingPage
-    );
-
-    document.body.classList.toggle(
-        "time-machine-theme",
-        lastListPage === timeMachinePage
-    );
-
-
+    document.body.classList.toggle("list-theme", lastListPage === rankingPage);
+    document.body.classList.toggle("time-machine-theme", lastListPage === timeMachinePage);
     showRankOneTransition(level.rank === 1);
 
     playCardClickSound();
-
     isOpeningLevel = true;
-
 
     if (clickedCard && !prefersReducedMotion) {
         clickedCard.classList.add("is-opening");
@@ -1872,23 +1346,18 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         }, 460);
     }
 
-
-    const flashDelay = prefersReducedMotion
-        ? 0
-        : 180;
-
+    const flashDelay = prefersReducedMotion ? 0 : 180;
 
     window.setTimeout(() => {
         changePage(detailPage);
 
-
         /* Image */
 
-        const detailImage = document.getElementById("detail-image");
+        const detailImage =
+            document.getElementById("detail-image");
 
         detailImage.src = level.image;
         detailImage.alt = level.name;
-
         applyThumbnailPalette(detailImage);
 
 
@@ -1900,16 +1369,9 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         document.getElementById("detail-name").textContent =
             level.name;
 
-        const detailDifficulty =
-            document.getElementById("detail-difficulty");
-
-        detailDifficulty.textContent =
-            level.difficulty || "";
-
-        detailDifficulty.classList.toggle(
-            "hidden",
-            !level.difficulty
-        );
+        const detailDifficulty = document.getElementById("detail-difficulty");
+        detailDifficulty.textContent = level.difficulty || "";
+        detailDifficulty.classList.toggle("hidden", !level.difficulty);
 
 
         /* Registration */
@@ -1931,7 +1393,6 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
 
         document.getElementById("detail-absolute").textContent =
             level.absoluteDifficulty || "";
-
         document.getElementById("detail-absolute-card").classList.toggle(
             "hidden",
             !level.absoluteDifficulty
@@ -1946,15 +1407,11 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
         document.getElementById("detail-design").textContent =
             level.designScale;
 
-        const detailSong =
-            document.getElementById("detail-song");
-
+        const detailSong = document.getElementById("detail-song");
         detailSong.textContent = level.song;
-
-        detailSong.style.textDecoration =
-            level.songStrikethrough
-                ? "line-through"
-                : "";
+        detailSong.style.textDecoration = level.songStrikethrough
+            ? "line-through"
+            : "";
 
 
         /* Rank History */
@@ -1964,24 +1421,31 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
 
         historyContainer.innerHTML = "";
 
-        (level.history || []).forEach(entry => {
+
+        level.history.forEach(entry => {
+
             const row = document.createElement("div");
 
             row.className = "rank-history-item";
 
-            row.innerHTML = `
-                <span>${escapeHTML(entry.date)}</span>
 
-                <span class="history-change ${escapeHTML(entry.type)}">
-                    ${escapeHTML(entry.change)}
+            row.innerHTML = `
+
+                <span>${entry.date}</span>
+
+                <span class="history-change ${entry.type}">
+                    ${entry.change}
                 </span>
 
-                <span>${escapeHTML(entry.rank)}</span>
+                <span>${entry.rank}</span>
 
-                <span>${escapeHTML(entry.reason)}</span>
+                <span>${entry.reason}</span>
+
             `;
 
+
             historyContainer.appendChild(row);
+
         });
 
 
@@ -1997,17 +1461,11 @@ function openLevel(rank, clickedCard, sourceLevels = levels) {
 
 
 /* =========================================================
-   NAVIGATION
+   GO HOME
    ========================================================= */
 
 function goHome() {
     changePage(rankingPage);
-}
-
-
-function showXplusList() {
-    displayXplusLevels();
-    changePage(xplusRankingPage);
 }
 
 
@@ -2031,75 +1489,35 @@ function showAbout() {
 
 
 /* =========================================================
-   SEARCH AND SORT EVENTS
+   SEARCH
    ========================================================= */
 
-searchInput?.addEventListener(
+searchInput.addEventListener(
     "input",
     displayLevels
 );
 
-xplusSearchInput?.addEventListener(
-    "input",
-    displayXplusLevels
-);
-
-impossibleSearchInput?.addEventListener(
+impossibleSearchInput.addEventListener(
     "input",
     displayImpossibleLevels
 );
 
+sortSelect.addEventListener("change", () => displayLevels(true));
+impossibleSortSelect.addEventListener("change", () => displayImpossibleLevels(true));
+timeMachineYearSelect.addEventListener("change", handleTimeMachineCalendarChange);
+timeMachineMonthSelect.addEventListener("change", handleTimeMachineCalendarChange);
+timeMachineDaySelect.addEventListener("change", () => displayTimeMachine(true));
+timeMachineListSelect.addEventListener("change", () => displayTimeMachine(true));
+timeMachineSortSelect.addEventListener("change", () => displayTimeMachine(true));
 
-sortSelect?.addEventListener(
+
+/* =========================================================
+   DIFFICULTY FILTER
+   ========================================================= */
+
+difficultyFilter.addEventListener(
     "change",
     () => displayLevels(true)
-);
-
-xplusSortSelect?.addEventListener(
-    "change",
-    () => displayXplusLevels(true)
-);
-
-impossibleSortSelect?.addEventListener(
-    "change",
-    () => displayImpossibleLevels(true)
-);
-
-
-difficultyFilter?.addEventListener(
-    "change",
-    () => displayLevels(true)
-);
-
-xplusDifficultyFilter?.addEventListener(
-    "change",
-    () => displayXplusLevels(true)
-);
-
-
-timeMachineYearSelect?.addEventListener(
-    "change",
-    handleTimeMachineCalendarChange
-);
-
-timeMachineMonthSelect?.addEventListener(
-    "change",
-    handleTimeMachineCalendarChange
-);
-
-timeMachineDaySelect?.addEventListener(
-    "change",
-    () => displayTimeMachine(true)
-);
-
-timeMachineListSelect?.addEventListener(
-    "change",
-    () => displayTimeMachine(true)
-);
-
-timeMachineSortSelect?.addEventListener(
-    "change",
-    () => displayTimeMachine(true)
 );
 
 
@@ -2107,54 +1525,25 @@ timeMachineSortSelect?.addEventListener(
    DETAIL BACK BUTTON SOUND
    ========================================================= */
 
-const detailBackButton =
-    detailPage?.querySelector(".back-button");
+const detailBackButton = detailPage.querySelector(".back-button");
 
 if (detailBackButton) {
-    detailBackButton.addEventListener(
-        "click",
-        playCardClickSound
-    );
+    detailBackButton.addEventListener("click", playCardClickSound);
 }
 
-
-/* =========================================================
-   THUMBNAIL LIGHTBOX EVENTS
-   ========================================================= */
-
-thumbnailLightboxClose?.addEventListener(
-    "click",
-    closeThumbnailLightbox
-);
-
-
+thumbnailLightboxClose?.addEventListener("click", closeThumbnailLightbox);
 thumbnailLightbox?.addEventListener("click", event => {
     if (event.target === thumbnailLightbox) {
         closeThumbnailLightbox();
     }
 });
-
-
 document.addEventListener("keydown", event => {
-    if (
-        event.key === "Escape" &&
-        thumbnailLightbox &&
-        !thumbnailLightbox.classList.contains("hidden")
-    ) {
+    if (event.key === "Escape" && thumbnailLightbox && !thumbnailLightbox.classList.contains("hidden")) {
         closeThumbnailLightbox();
     }
 });
-
-
-/* =========================================================
-   NAVIGATION BUTTON SOUND
-   ========================================================= */
-
 document.querySelectorAll(".nav button").forEach(button => {
-    button.addEventListener(
-        "click",
-        playCardClickSound
-    );
+    button.addEventListener("click", playCardClickSound);
 });
 
 
@@ -2163,17 +1552,9 @@ document.querySelectorAll(".nav button").forEach(button => {
    ========================================================= */
 
 initializeDisplayPreferences();
-
 initializeTimeMachineDates();
-
 initializeDetailParticles();
-
 displayLevels();
-
-displayXplusLevels();
-
 displayImpossibleLevels();
-
 displayTimeMachine();
-
 animateInitialPage();
