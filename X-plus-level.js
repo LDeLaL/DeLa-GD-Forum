@@ -174,6 +174,105 @@
 
 
     /* =====================================================
+       TIME MACHINE - LIST X+
+       ===================================================== */
+
+    function registerXPlusTimeMachine() {
+        const listSelect = document.getElementById(
+            "time-machine-list"
+        );
+
+        if (!listSelect) {
+            return;
+        }
+
+        // Add LIST X+ to the Time Machine dropdown.
+        if (
+            !Array.from(listSelect.options).some(
+                option => option.value === "x-plus"
+            )
+        ) {
+            const option = document.createElement("option");
+
+            option.value = "x-plus";
+            option.textContent = "LIST X+";
+
+            listSelect.appendChild(option);
+        }
+
+        // Preserve the original Time Machine function.
+        const originalDisplayTimeMachine = window.displayTimeMachine;
+
+        if (
+            typeof originalDisplayTimeMachine !== "function" ||
+            originalDisplayTimeMachine.__xPlusTimeMachineWrapper
+        ) {
+            return;
+        }
+
+        // Extend the original function.
+        const updatedDisplayTimeMachine = function (
+            animateTransition = false
+        ) {
+            const selectedList = document.getElementById(
+                "time-machine-list"
+            );
+
+            if (selectedList && selectedList.value === "x-plus") {
+
+                const year = document.getElementById(
+                    "time-machine-year"
+                )?.value;
+
+                const month = document.getElementById(
+                    "time-machine-month"
+                )?.value;
+
+                const day = document.getElementById(
+                    "time-machine-day"
+                )?.value;
+
+                const summary = document.getElementById(
+                    "time-machine-summary"
+                );
+
+                const grid = document.getElementById(
+                    "time-machine-grid"
+                );
+
+                const hasDate = Boolean(year && month && day);
+
+                const dateLabel = hasDate
+                    ? `${year}년 ${Number(month)}월 ${Number(day)}일 기준`
+                    : "날짜를 선택해 주세요";
+
+                if (summary) {
+                    summary.textContent = hasDate
+                        ? `${dateLabel} · LIST X+ · 0개 맵`
+                        : `${dateLabel} · LIST X+`;
+                }
+
+                if (grid) {
+                    grid.replaceChildren();
+                }
+
+                return;
+            }
+
+            // Keep LIST and IMPOSSIBLE LIST working normally.
+            return originalDisplayTimeMachine.call(
+                this,
+                animateTransition
+            );
+        };
+
+        updatedDisplayTimeMachine.__xPlusTimeMachineWrapper = true;
+
+        window.displayTimeMachine = updatedDisplayTimeMachine;
+    }
+
+
+    /* =====================================================
        NAVIGATION FUNCTION
        ===================================================== */
 
@@ -233,6 +332,8 @@
         registerXPlusPage(page);
 
         registerXPlusTheme(page);
+
+        registerXPlusTimeMachine();
 
         registerXPlusNavigation(page, button);
 
