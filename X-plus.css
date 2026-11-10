@@ -1,0 +1,131 @@
+/* =========================================================
+   DeLa GD Forum
+   LIST X+ - Navy Theme
+   ========================================================= */
+
+/* NAVIGATION BUTTON */
+#x-plus-list-nav:hover,
+body.x-plus-theme #x-plus-list-nav {
+    color: #dbe5ff;
+    background: rgba(71, 98, 173, 0.18);
+    box-shadow:
+        0 0 12px rgba(107, 140, 220, 0.36),
+        0 0 26px rgba(49, 75, 145, 0.25);
+    text-shadow: 0 0 10px rgba(190, 207, 255, 0.65);
+}
+
+/* PAGE TITLE */
+body.x-plus-theme #x-plus-ranking-page .hero-small {
+    background: linear-gradient(
+        100deg,
+        #829be0 0%,
+        #e1e9ff 48%,
+        #526db5 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter:
+        drop-shadow(0 0 8px rgba(111, 142, 219, 0.62))
+        drop-shadow(0 0 20px rgba(71, 98, 173, 0.38));
+}
+
+body.x-plus-theme #x-plus-ranking-page .hero h1 {
+    background: linear-gradient(
+        105deg,
+        #718bd5 0%,
+        #e5ecff 46%,
+        #38569e 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter:
+        drop-shadow(0 0 10px rgba(107, 140, 220, 0.60))
+        drop-shadow(0 0 28px rgba(49, 75, 145, 0.45))
+        drop-shadow(0 0 58px rgba(36, 56, 115, 0.25));
+}
+
+/* NAVY AMBIENT CUBES */
+body.x-plus-theme .orbit-square {
+    border-color: #829be0;
+
+    box-shadow:
+        0 0 var(--glow-core, 14px) rgba(107, 140, 220, 0.98),
+        0 0 var(--glow-mid, 34px) rgba(71, 98, 173, 0.88),
+        0 0 var(--glow-far, 62px) rgba(49, 75, 145, 0.68),
+        inset 0 0 var(--glow-inset, 9px) rgba(190, 207, 255, 0.72);
+}
+
+/* EMPTY LEVEL AREA */
+#x-plus-level-space {
+    width: 100%;
+    max-width: 1150px;
+
+    min-height: clamp(280px, 42vh, 500px);
+
+    margin: 0 auto;
+    padding: 0 30px 70px;
+}
+
+/* LIGHT THEME */
+body.light-theme.x-plus-theme .orbit-square {
+    border-color: #4967b2;
+
+    box-shadow:
+        0 0 var(--glow-core, 14px) rgba(73, 105, 184, 0.74),
+        0 0 var(--glow-mid, 34px) rgba(49, 75, 145, 0.48),
+        inset 0 0 var(--glow-inset, 9px) rgba(176, 195, 255, 0.65);
+}
+
+body.light-theme.x-plus-theme #x-plus-ranking-page .hero-small {
+    background: linear-gradient(
+        100deg,
+        #38569e 0%,
+        #718bd5 48%,
+        #29447f 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter: drop-shadow(0 2px 3px rgba(49, 75, 145, 0.16));
+}
+
+body.light-theme.x-plus-theme #x-plus-ranking-page .hero h1 {
+    background: linear-gradient(
+        105deg,
+        #294b91 0%,
+        #5274c3 48%,
+        #1e356d 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    filter: drop-shadow(0 2px 3px rgba(49, 75, 145, 0.16));
+}
+
+body.light-theme.x-plus-theme #x-plus-list-nav {
+    color: #294b91;
+    background: rgba(71, 98, 173, 0.11);
+
+    box-shadow:
+        0 0 10px rgba(49, 75, 145, 0.13);
+
+    text-shadow: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    #x-plus-level-space {
+        min-height: 300px;
+        padding: 0 20px 60px;
+    }
+}
