@@ -501,7 +501,7 @@
 
         }
 
-        // Preserve the original Time Machine function.
+        // Keep the original Time Machine flow for the other lists.
 
         const originalDisplayTimeMachine =
             window.displayTimeMachine;
@@ -526,17 +526,28 @@
                 selectedList.value === "x-plus"
             ) {
 
-                const year = document.getElementById(
-                    "time-machine-year"
-                )?.value;
+                const dateISO = getSelectedTimeMachineDate();
 
-                const month = document.getElementById(
-                    "time-machine-month"
-                )?.value;
+                const xPlusLevels = Array.isArray(window.X_PLUS_LEVELS)
+                    ? window.X_PLUS_LEVELS
+                    : [];
 
-                const day = document.getElementById(
-                    "time-machine-day"
-                )?.value;
+                // Use the same historical snapshot and sorting functions
+                // as LIST and IMPOSSIBLE LIST.
+
+                const selectedDateLevels = buildTimeMachineSnapshot(
+                    xPlusLevels,
+                    dateISO
+                );
+
+                const sortSelect = document.getElementById(
+                    "time-machine-sort"
+                );
+
+                timeMachineLevels = sortLevels(
+                    selectedDateLevels,
+                    sortSelect ? sortSelect.value : "rank"
+                );
 
                 const summary = document.getElementById(
                     "time-machine-summary"
@@ -546,24 +557,24 @@
                     "time-machine-grid"
                 );
 
-                const hasDate = Boolean(
-                    year && month && day
-                );
-
-                const dateLabel = hasDate
-                    ? `${year}년 ${Number(month)}월 ${Number(day)}일 기준`
-                    : "날짜를 선택해 주세요";
-
                 if (summary) {
 
-                    summary.textContent = hasDate
-                        ? `${dateLabel} · LIST X+ · 0개 맵`
-                        : `${dateLabel} · LIST X+`;
+                    summary.textContent = dateISO
+                        ? `${isoDateToKorean(dateISO)} 기준 · LIST X+ · ${timeMachineLevels.length}개 맵`
+                        : "날짜를 선택해 주세요 · LIST X+";
 
                 }
 
                 if (grid) {
-                    grid.replaceChildren();
+
+                    renderLevelCards(
+                        grid,
+                        timeMachineLevels,
+                        timeMachineLevels,
+                        "",
+                        animateTransition
+                    );
+
                 }
 
                 return;
