@@ -70,6 +70,36 @@
 
             </div>
 
+            <div class="controls">
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="x-plus-search-input"
+                        placeholder="Search levels..."
+                        autocomplete="off">
+                </div>
+
+                <div class="filter-box">
+                    <select id="x-plus-difficulty-filter" aria-label="난이도 필터">
+                        <option value="all">All Difficulties</option>
+                        <option value="Extreme Demon">Extreme Demon</option>
+                        <option value="Insane Demon">Insane Demon</option>
+                        <option value="Hard Demon">Hard Demon</option>
+                        <option value="Medium Demon">Medium Demon</option>
+                        <option value="Easy Demon">Easy Demon</option>
+                        <option value="Insane">Insane</option>
+                    </select>
+                </div>
+
+                <div class="filter-box sort-filter-box">
+                    <select id="x-plus-sort-select" aria-label="맵 정렬 기준">
+                        <option value="rank">랭킹 순</option>
+                        <option value="objects">오브젝트 수</option>
+                        <option value="designScale">디자인 척도</option>
+                    </select>
+                </div>
+            </div>
+
             <div
                 id="x-plus-level-space"
                 class="ranking-grid"
@@ -109,6 +139,128 @@
 
 
     /* =====================================================
+       SEARCH, DIFFICULTY FILTER, AND SORT
+       ===================================================== */
+
+    function displayXPlusLevels(page, animateTransition = false) {
+
+        const levelSpace = page.querySelector(
+            "#x-plus-level-space"
+        );
+
+        const searchInput = page.querySelector(
+            "#x-plus-search-input"
+        );
+
+        const difficultyFilter = page.querySelector(
+            "#x-plus-difficulty-filter"
+        );
+
+        const sortSelect = page.querySelector(
+            "#x-plus-sort-select"
+        );
+
+        if (!levelSpace || !searchInput || !difficultyFilter || !sortSelect) {
+
+            console.error(
+                "LIST X+: Search and filter controls could not be found."
+            );
+
+            return;
+        }
+
+        if (
+            typeof renderLevelCards !== "function" ||
+            typeof sortLevels !== "function"
+        ) {
+
+            console.error(
+                "LIST X+: Shared list functions could not be found."
+            );
+
+            return;
+        }
+
+        const xPlusLevels = Array.isArray(window.X_PLUS_LEVELS)
+            ? window.X_PLUS_LEVELS
+            : [];
+
+        const searchText = searchInput.value.trim();
+        const selectedDifficulty = difficultyFilter.value;
+
+        const filteredLevels = xPlusLevels.filter(level => {
+
+            const levelName = String(level.name || "");
+
+            const matchesSearch = levelName
+                .toLowerCase()
+                .includes(searchText.toLowerCase());
+
+            const matchesDifficulty =
+                selectedDifficulty === "all" ||
+                level.difficulty === selectedDifficulty;
+
+            return matchesSearch && matchesDifficulty;
+
+        });
+
+        renderLevelCards(
+            levelSpace,
+            sortLevels(filteredLevels, sortSelect.value),
+            xPlusLevels,
+            searchText,
+            animateTransition
+        );
+    }
+
+
+    function registerXPlusControls(page) {
+
+        if (page.dataset.xPlusControlsBound === "true") {
+            return;
+        }
+
+        const searchInput = page.querySelector(
+            "#x-plus-search-input"
+        );
+
+        const difficultyFilter = page.querySelector(
+            "#x-plus-difficulty-filter"
+        );
+
+        const sortSelect = page.querySelector(
+            "#x-plus-sort-select"
+        );
+
+        if (!searchInput || !difficultyFilter || !sortSelect) {
+
+            console.error(
+                "LIST X+: Search and filter controls could not be initialized."
+            );
+
+            return;
+        }
+
+        page.dataset.xPlusControlsBound = "true";
+
+        // Match the main LIST search behavior.
+        searchInput.addEventListener("input", () => {
+            displayXPlusLevels(page);
+        });
+
+        // Match the main LIST difficulty filter behavior.
+        difficultyFilter.addEventListener("change", () => {
+            displayXPlusLevels(page, true);
+        });
+
+        // Match the main LIST sorting behavior.
+        sortSelect.addEventListener("change", () => {
+            displayXPlusLevels(page, true);
+        });
+    }
+
+
+    /* =====================================================
        RENDER X+ LEVELS
        ===================================================== */
 
@@ -127,24 +279,12 @@
             return;
         }
 
+        registerXPlusControls(page);
+        displayXPlusLevels(page);
+
         const xPlusLevels = Array.isArray(window.X_PLUS_LEVELS)
             ? window.X_PLUS_LEVELS
             : [];
-
-        if (typeof renderLevelCards !== "function") {
-
-            console.error(
-                "LIST X+: renderLevelCards function could not be found."
-            );
-
-            return;
-        }
-
-        renderLevelCards(
-            levelSpace,
-            xPlusLevels,
-            xPlusLevels
-        );
 
         console.log(
             `LIST X+: ${xPlusLevels.length} levels rendered successfully.`
