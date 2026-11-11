@@ -72,6 +72,8 @@ let cardClickLimiter = null;
 let themeTransitionTimeout = null;
 let rankOneTransitionTimeout = null;
 let timeMachineLevels = [];
+let timeMachineInitializedDate = "";
+let timeMachineDateRefreshTimeout = null;
 let thumbnailLightboxTrigger = null;
 let thumbnailLightboxCloseTimeout = null;
 const gridRenderAnimations = new WeakMap();
@@ -1122,10 +1124,20 @@ function allRankingLists() {
 }
 
 
+/* =========================================================
+   TIME MACHINE DATE INITIALIZATION
+   ========================================================= */
+
 function initializeTimeMachineDates() {
     if (!timeMachineYearSelect || !timeMachineMonthSelect || !timeMachineDaySelect) {
         return;
     }
+
+    const today = new Date();
+    const todayYear = String(today.getFullYear());
+    const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+    const todayDay = String(today.getDate()).padStart(2, "0");
+    const todayISO = `${todayYear}-${todayMonth}-${todayDay}`;
 
     const eventDates = allRankingLists()
         .flatMap(list => list.flatMap(level => [
@@ -1133,8 +1145,12 @@ function initializeTimeMachineDates() {
             ...level.history.map(entry => koreanDateToISO(entry.date))
         ]))
         .filter(Boolean);
-    const uniqueDates = [...new Set(eventDates)].sort();
-    const years = [...new Set(uniqueDates.map(dateISO => dateISO.slice(0, 4)))];
+
+    // Keep every year containing a ranking event and always include the current year.
+    const years = [...new Set([
+        ...eventDates.map(dateISO => dateISO.slice(0, 4)),
+        todayYear
+    ])].sort();
 
     timeMachineYearSelect.innerHTML = years.map(year =>
         `<option value="${year}">${year}년</option>`
@@ -1145,13 +1161,77 @@ function initializeTimeMachineDates() {
         return `<option value="${month}">${index + 1}월</option>`;
     }).join("");
 
-    if (uniqueDates.length > 0) {
-        const [year, month, day] = uniqueDates[uniqueDates.length - 1].split("-");
-        timeMachineYearSelect.value = year;
-        timeMachineMonthSelect.value = month;
-        updateTimeMachineDayOptions(Number(day));
+    // Start Time Machine on today's local date, not the latest registration date.
+    timeMachineYearSelect.value = todayYear;
+    timeMachineMonthSelect.value = todayMonth;
+    updateTimeMachineDayOptions(Number(todayDay));
+
+    timeMachineInitializedDate = todayISO;
+}
+
+
+function getTimeMachineTodayISO() {
+    const today = new Date();
+
+    return [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+    ].join("-");
+}
+
+
+function refreshTimeMachineDateIfNeeded() {
+    const todayISO = getTimeMachineTodayISO();
+
+    // Do not overwrite a date manually selected by the visitor during the same day.
+    if (todayISO === timeMachineInitializedDate) {
+        return;
+    }
+
+    initializeTimeMachineDates();
+
+    // Call the public function so the LIST X+ wrapper is respected too.
+    if (typeof window.displayTimeMachine === "function") {
+        window.displayTimeMachine(true);
     }
 }
+
+
+function scheduleTimeMachineDateRefresh() {
+    if (timeMachineDateRefreshTimeout) {
+        window.clearTimeout(timeMachineDateRefreshTimeout);
+    }
+
+    const now = new Date();
+    const nextMidnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0, 0, 0, 100
+    );
+
+    const delay = Math.max(1000, nextMidnight.getTime() - now.getTime());
+
+    timeMachineDateRefreshTimeout = window.setTimeout(() => {
+        refreshTimeMachineDateIfNeeded();
+        scheduleTimeMachineDateRefresh();
+    }, delay);
+}
+
+
+// Re-check after returning to the tab in case the browser throttled the midnight timer.
+window.addEventListener("focus", () => {
+    refreshTimeMachineDateIfNeeded();
+    scheduleTimeMachineDateRefresh();
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+        refreshTimeMachineDateIfNeeded();
+        scheduleTimeMachineDateRefresh();
+    }
+});
 
 
 function updateTimeMachineDayOptions(preferredDay) {
@@ -1553,6 +1633,7 @@ document.querySelectorAll(".nav button").forEach(button => {
 
 initializeDisplayPreferences();
 initializeTimeMachineDates();
+scheduleTimeMachineDateRefresh();
 initializeDetailParticles();
 displayLevels();
 displayImpossibleLevels();
