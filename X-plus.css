@@ -70,6 +70,9 @@ body.x-plus-theme .orbit-square {
 
     margin: 0 auto;
     padding: 0 30px 70px;
+
+    /* Prevent a single level card from stretching vertically. */
+    align-items: start;
 }
 
 /* LIGHT THEME */
