@@ -72,7 +72,6 @@ body.x-plus-theme .orbit-square {
     margin: 0 auto;
     padding: 0 30px 70px;
 
-    /* Prevent a single level card from stretching vertically. */
     align-items: start;
 }
 
@@ -135,6 +134,92 @@ body.x-plus-theme {
     --rank-one-accent: #6b8cdc;
     --rank-one-accent-light: #dbe5ff;
     --rank-one-accent-bright: #a9bfff;
+}
+
+/* =========================================================
+   NAVY CARD BASE
+   ========================================================= */
+
+/* CARD */
+body.x-plus-theme #x-plus-level-space .level-card {
+    background: #101521;
+    border-color: rgba(107, 140, 220, 0.25);
+}
+
+/* THUMBNAIL AND INFO AREA */
+body.x-plus-theme #x-plus-level-space .level-thumbnail,
+body.x-plus-theme #x-plus-level-space .level-info {
+    background: #101521;
+}
+
+body.x-plus-theme #x-plus-level-space .level-info {
+    background: #101521 !important;
+    border-left-color: rgba(130, 155, 224, 0.12);
+}
+
+/* RANK BOX */
+body.x-plus-theme #x-plus-level-space .level-rank {
+    border-color: rgba(130, 155, 224, 0.48);
+
+    background: linear-gradient(
+        145deg,
+        rgba(71, 98, 173, 0.34),
+        rgba(25, 39, 75, 0.52)
+    );
+
+    color: #dbe5ff;
+
+    box-shadow:
+        inset 0 0 12px rgba(130, 155, 224, 0.12),
+        0 0 14px rgba(71, 98, 173, 0.20);
+}
+
+/* LEVEL NAME BOX */
+body.x-plus-theme #x-plus-level-space .level-name {
+    border-color: rgba(130, 155, 224, 0.34);
+
+    background: rgba(16, 25, 44, 0.94);
+
+    color: #f4f7ff;
+
+    box-shadow:
+        inset 0 0 14px rgba(107, 140, 220, 0.09),
+        0 0 14px rgba(71, 98, 173, 0.12);
+}
+
+/* REGISTRATION NUMBER AND DIFFICULTY */
+body.x-plus-theme #x-plus-level-space .level-registration-number,
+body.x-plus-theme #x-plus-level-space .level-difficulty-preview {
+    border-color: rgba(130, 155, 224, 0.42);
+
+    background: rgba(71, 98, 173, 0.16);
+
+    color: #dbe5ff;
+}
+
+/* GENERAL DIFFICULTY TEXT */
+body.x-plus-theme #x-plus-level-space .level-difficulty {
+    color: #a9bfff;
+}
+
+/* SEARCH HIGHLIGHT */
+body.x-plus-theme #x-plus-level-space .search-highlight {
+    background: rgba(107, 140, 220, 0.32);
+    color: #e5ecff;
+
+    box-shadow:
+        0 0 12px rgba(71, 98, 173, 0.24);
+}
+
+/* EMPTY MESSAGE */
+body.x-plus-theme #x-plus-level-space .empty-message {
+    color: #a9bfff;
+}
+
+/* THUMBNAIL FOCUS */
+body.x-plus-theme #x-plus-level-space .thumbnail-zoom-button:focus-visible {
+    outline: 2px solid rgba(130, 155, 224, 0.95);
+    outline-offset: -4px;
 }
 
 /* =========================================================
@@ -216,6 +301,86 @@ body.x-plus-theme #x-plus-level-space .level-card.is-opening::after {
             0 0 56px rgba(107, 140, 220, 0);
         opacity: 0;
     }
+}
+
+/* =========================================================
+   NAVY LIGHT THEME CARD COLORS
+   ========================================================= */
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-card {
+    background: #ffffff;
+    border-color: rgba(73, 103, 178, 0.28);
+    box-shadow: 0 12px 30px rgba(35, 57, 105, 0.09);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-card:hover {
+    border-color: rgba(73, 103, 178, 0.70);
+
+    box-shadow:
+        0 0 24px rgba(73, 103, 178, 0.22),
+        0 14px 30px rgba(35, 57, 105, 0.12);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-thumbnail,
+body.light-theme.x-plus-theme #x-plus-level-space .level-info {
+    background: #ffffff;
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-info {
+    background: #ffffff !important;
+    border-left-color: rgba(73, 103, 178, 0.12);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-rank {
+    border-color: rgba(73, 103, 178, 0.36);
+
+    background: linear-gradient(
+        145deg,
+        #e8eeff,
+        #dce6ff
+    );
+
+    color: #294b91;
+
+    box-shadow:
+        inset 0 0 12px rgba(73, 103, 178, 0.08),
+        0 0 12px rgba(73, 103, 178, 0.10);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-name {
+    border-color: rgba(73, 103, 178, 0.28);
+
+    background: #f1f5ff;
+
+    color: #243858;
+
+    box-shadow:
+        inset 0 0 14px rgba(73, 103, 178, 0.05);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-registration-number,
+body.light-theme.x-plus-theme #x-plus-level-space .level-difficulty-preview {
+    border-color: rgba(73, 103, 178, 0.30);
+    background: #edf2ff;
+    color: #38569e;
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .level-difficulty {
+    color: #38569e;
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .search-highlight {
+    background: #dbeafe;
+    color: #1e40af;
+    box-shadow: 0 0 10px rgba(73, 103, 178, 0.12);
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .empty-message {
+    color: #4967a8;
+}
+
+body.light-theme.x-plus-theme #x-plus-level-space .thumbnail-zoom-button:focus-visible {
+    outline-color: #4967b2;
 }
 
 /* =========================================================
